@@ -12,7 +12,7 @@ AppDir:
     name: OpenRA Launcher
     icon: icon-3x
     version: ${BUILD_NAME}
-    exec: openra_launcher
+    exec: OpenRA_Launcher
     exec_args: $@
   apt:
     arch:
