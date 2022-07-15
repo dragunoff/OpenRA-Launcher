@@ -168,6 +168,8 @@ _loadAllMods(Store<AppState> store, bool checkForUpdates) {
       if (mods.isEmpty) {
         store.dispatch(ModsEmptyAction());
         store.dispatch(UpdatesEmptyAction());
+
+        return;
       }
 
       var oldMods = Set.from(store.state.mods);
