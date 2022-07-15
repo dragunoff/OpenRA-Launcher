@@ -73,6 +73,16 @@ Middleware<AppState> _createLoadAppUpdate() {
 Middleware<AppState> _createLoadModUpdates() {
   // TODO: Break this up or reduce the length somehow
   return (Store<AppState> store, action, NextDispatcher next) {
+    if (store.state.mods.isEmpty) {
+      // NOTE: Add artificial delay to give the user feedback that something is going on
+      Timer(const Duration(milliseconds: 300), () {
+        store.dispatch(UpdatesEmptyAction());
+      });
+
+      next(action);
+      return;
+    }
+
     var uniqueModIds = selectUniqueModIds(store.state);
 
     ReleaseUtils.fetchLatestReleases(uniqueModIds).then((rawResponses) {
