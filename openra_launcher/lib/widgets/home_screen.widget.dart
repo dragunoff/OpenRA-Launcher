@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/models/app_release.dart';
+import 'package:openra_launcher/domain/entities/app_release.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/widgets/app_bar_popup_menu.widget.dart';
 import 'package:openra_launcher/widgets/app_update_dialog.widget.dart';

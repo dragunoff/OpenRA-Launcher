@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/constants.dart';
-import 'package:openra_launcher/models/mod.dart';
+import 'package:openra_launcher/domain/entities/mod.dart';
 import 'package:openra_launcher/store/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
 

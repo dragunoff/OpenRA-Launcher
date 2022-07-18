@@ -1,4 +1,4 @@
-import 'package:openra_launcher/models/release.dart';
+import 'package:openra_launcher/domain/entities/release.dart';
 import 'package:openra_launcher/store/actions.dart';
 import 'package:redux/redux.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openra_launcher/models/release.dart';
+import 'package:openra_launcher/domain/entities/release.dart';
 import 'package:openra_launcher/widgets/updates_list_tile.widget.dart';
 
 class UpdatesList extends StatelessWidget {

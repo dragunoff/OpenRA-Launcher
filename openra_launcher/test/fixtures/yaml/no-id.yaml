@@ -1,0 +1,5 @@
+Registration:
+	Version: release-20210321
+	Title: Red Alert
+	LaunchPath: /home/user/OpenRA/OpenRA-Red-Alert-x86_64.AppImage
+	LaunchArgs: Game.Mod=ra

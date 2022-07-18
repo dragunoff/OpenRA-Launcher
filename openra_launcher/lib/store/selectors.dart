@@ -1,5 +1,5 @@
-import 'package:openra_launcher/models/mod.dart';
-import 'package:openra_launcher/models/release.dart';
+import 'package:openra_launcher/domain/entities/mod.dart';
+import 'package:openra_launcher/domain/entities/release.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/utils/mod_utils.dart';
 

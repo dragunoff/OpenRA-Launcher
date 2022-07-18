@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:openra_launcher/constants/constants.dart';
-import 'package:openra_launcher/models/mod.dart';
+import 'package:openra_launcher/data/models/mod_model.dart';
+import 'package:openra_launcher/domain/entities/mod.dart';
 import 'package:openra_launcher/utils/platform_utils.dart';
 import 'package:openra_launcher/utils/release_utils.dart';
 import 'package:path/path.dart' as path;
@@ -45,7 +46,7 @@ class ModUtils {
   }
 
   static Future<Mod?> loadMod(File file) async {
-    var mod = Mod.fromFile(file);
+    var mod = ModModel.fromFile(file);
 
     // NOTE: Explicitly invalidate paths to OpenRA.dll to clean up bogus metadata files
     // that were created after the initial migration from .NET Framework to Core/5.
@@ -59,6 +60,7 @@ class ModUtils {
     return Future.value(null);
   }
 
+  // TODO: Extract this into a service
   static Future<Process> launchMod(Mod mod) async {
     // TODO: Handle errors on mod launch
     return Process.start(
@@ -74,7 +76,7 @@ class ModUtils {
   }
 
   static bool isDevMod(Mod mod) {
-    return mod.version == '{DEV_VERSION}';
+    return mod.version == Constants.devModVersion;
   }
 
   static bool isSupportedForUpdates(String modId) {

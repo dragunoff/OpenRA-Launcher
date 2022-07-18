@@ -1,0 +1,5 @@
+Registration:
+	Id: ra
+	Version: release-20210321
+	Title: Red Alert
+	LaunchArgs: Game.Mod=ra

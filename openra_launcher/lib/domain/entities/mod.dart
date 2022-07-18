@@ -1,9 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
-import 'package:openra_launcher/utils/mini_yaml_utils.dart';
 
 @immutable
 class Mod implements Comparable {
@@ -36,38 +33,6 @@ class Mod implements Comparable {
     this.hasRelease = false,
     this.hasPlaytest = false,
   });
-
-  factory Mod.fromFile(File file) {
-    var metadata = MiniYamlUtils.modMetadataFromFile(file);
-
-    var id = metadata['Id'] as String;
-    var version = metadata['Version'] as String;
-    var title = metadata['Title'] as String;
-    var launchPath = metadata['LaunchPath'] as String;
-    var launchArgs = metadata['LaunchArgs']?.split(', ') as List<String>;
-    var key = '$id-$version';
-    var icon = metadata['Icon'] != null
-        ? const Base64Decoder().convert(metadata['Icon'] as String)
-        : null;
-    var icon2x = metadata['Icon2x'] != null
-        ? const Base64Decoder().convert(metadata['Icon3x'] as String)
-        : null;
-    var icon3x = metadata['Icon3x'] != null
-        ? const Base64Decoder().convert(metadata['Icon3x'] as String)
-        : null;
-
-    return Mod(
-      key: key,
-      id: id,
-      version: version,
-      title: title,
-      launchPath: launchPath,
-      launchArgs: launchArgs,
-      icon: icon,
-      icon2x: icon2x,
-      icon3x: icon3x,
-    );
-  }
 
   Mod copyWith({
     String? key,

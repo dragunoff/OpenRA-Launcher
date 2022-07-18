@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/models/release.dart';
+import 'package:openra_launcher/domain/entities/release.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/selectors.dart';
 import 'package:openra_launcher/utils/platform_utils.dart';

@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:openra_launcher/models/app_release.dart';
-import 'package:openra_launcher/models/mod.dart';
-import 'package:openra_launcher/models/release.dart';
+import 'package:openra_launcher/data/models/app_release_model.dart';
+import 'package:openra_launcher/domain/entities/app_release.dart';
+import 'package:openra_launcher/domain/entities/mod.dart';
+import 'package:openra_launcher/domain/entities/release.dart';
 import 'package:openra_launcher/store/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/selectors.dart';
@@ -51,7 +52,7 @@ Middleware<AppState> _createLoadAppUpdate() {
       var responseBody = jsonDecode(rawResponse.body) as Map<String, dynamic>;
 
       if (!responseBody.containsKey('message')) {
-        AppRelease release = AppRelease.fromResponse(responseBody);
+        AppRelease release = AppReleaseModel.fromJson(responseBody);
 
         if (release.version != packageInfo.version) {
           store.dispatch(AppUpdateLoadedAction(release));

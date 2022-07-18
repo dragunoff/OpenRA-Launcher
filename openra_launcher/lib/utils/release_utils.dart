@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:openra_launcher/constants/constants.dart';
-import 'package:openra_launcher/models/release.dart';
+import 'package:openra_launcher/data/models/release_model.dart';
+import 'package:openra_launcher/domain/entities/release.dart';
 import 'package:openra_launcher/utils/mod_utils.dart';
 
 class ReleaseUtils {
@@ -75,7 +76,7 @@ class ReleaseUtils {
   }
 
   static Set<String> getSupportedMods() {
-    Set<String> supported = Set.from(_endpoints.keys);
+    Set<String> supported = Set.from(Constants.modRepos.keys);
 
     if (supported.contains('openra')) {
       supported
@@ -106,10 +107,10 @@ class ReleaseUtils {
     if (latestRelease != null) {
       if (modId == 'openra') {
         for (var officialModId in Constants.officialModIds) {
-          releases.add(Release.fromResponse(officialModId, latestRelease));
+          releases.add(ReleaseModel.fromJson(officialModId, latestRelease));
         }
       } else {
-        releases.add(Release.fromResponse(modId, latestRelease));
+        releases.add(ReleaseModel.fromJson(modId, latestRelease));
       }
     }
 
@@ -118,10 +119,10 @@ class ReleaseUtils {
 
       if (modId == 'openra') {
         for (var officialModId in Constants.officialModIds) {
-          releases.add(Release.fromResponse(officialModId, latestRelease));
+          releases.add(ReleaseModel.fromJson(officialModId, latestRelease));
         }
       } else {
-        releases.add(Release.fromResponse(modId, latestPlaytest));
+        releases.add(ReleaseModel.fromJson(modId, latestPlaytest));
       }
     }
 

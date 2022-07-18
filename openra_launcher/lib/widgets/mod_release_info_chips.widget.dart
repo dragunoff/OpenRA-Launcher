@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:openra_launcher/constants/constants.dart';
-import 'package:openra_launcher/models/mod.dart';
+import 'package:openra_launcher/domain/entities/mod.dart';
 import 'package:openra_launcher/utils/mod_utils.dart';
 
 class ModReleaseInfoChips extends StatelessWidget {

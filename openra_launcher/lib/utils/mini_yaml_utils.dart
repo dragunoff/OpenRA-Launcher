@@ -31,9 +31,9 @@ class MiniYamlUtils {
     var lines = file.readAsLinesSync().map((line) => line.trim()).toList();
 
     for (var line in lines) {
-      var split = line.split(': ');
+      var split = line.split(':');
       if (split.length == 2) {
-        metadata[split[0]] = split[1];
+        metadata[split[0].trim()] = split[1].trim();
       }
     }
 

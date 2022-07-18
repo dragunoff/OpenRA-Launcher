@@ -7,6 +7,7 @@ class Constants {
   static const spacing2x = 16.0;
   static const tooltipWaitDuration = Duration(milliseconds: 600);
   static const officialModIds = ['cnc', 'd2k', 'ra'];
+  static const devModVersion = '{DEV_VERSION}';
   static const modRepos = {
     'openra': '/OpenRA/OpenRA',
     'hv': '/OpenHV/OpenHV',

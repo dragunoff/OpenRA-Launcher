@@ -1,6 +1,6 @@
-import 'package:openra_launcher/models/app_release.dart';
-import 'package:openra_launcher/models/mod.dart';
-import 'package:openra_launcher/models/release.dart';
+import 'package:openra_launcher/domain/entities/app_release.dart';
+import 'package:openra_launcher/domain/entities/mod.dart';
+import 'package:openra_launcher/domain/entities/release.dart';
 
 class RemoveModFromFavoritesAction {
   final Mod mod;

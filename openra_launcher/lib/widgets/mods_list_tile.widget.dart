@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:openra_launcher/models/mod.dart';
+import 'package:openra_launcher/domain/entities/mod.dart';
 import 'package:openra_launcher/utils/mod_utils.dart';
 import 'package:openra_launcher/widgets/fav_button.widget.dart';
 import 'package:openra_launcher/widgets/loading_indicator.widget.dart';
