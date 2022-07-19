@@ -21,6 +21,7 @@ class Constants {
     'sa': '/Dzierzan/OpenSA',
     'cameo': '/Zeruel87/Cameo-mod',
     'tda': '/KOYK/OpenRA-Tiberian-Dawn-Apolyton',
+    'openkrush_gen1': '/IceReaper/OpenKrush',
   };
   static const githubApiUrl = 'https://api.github.com';
   static const githubReposEndpoint = '/repos';
