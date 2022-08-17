@@ -23,6 +23,7 @@ class Constants {
     'tda': '/KOYK/OpenRA-Tiberian-Dawn-Apolyton',
     'openkrush_gen1': '/IceReaper/OpenKrush',
     'raplus': '/MlemandPurrs/raplusmod',
+    'ta': '/EoralMilk/TiberianAurora'
   };
   static const githubApiUrl = 'https://api.github.com';
   static const githubReposEndpoint = '/repos';
