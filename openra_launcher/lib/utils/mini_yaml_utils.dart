@@ -13,12 +13,12 @@ class MiniYamlUtils {
 
     for (var field in mandatoryFields) {
       if (!metadata.containsKey(field)) {
-        throw Exception(
+        throw FormatException(
             'Invalid metadata file: "$file". Mandatory field "$field" is missing.');
       }
 
       if (metadata[field] == '') {
-        throw Exception(
+        throw FormatException(
             'Invalid metadata file: "$file". Field "$field" is empty.');
       }
     }

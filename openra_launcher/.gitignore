@@ -49,3 +49,6 @@ app.*.map.json
 /packaging/AppDir/
 /packaging/appimage-build/
 /packaging/*.AppImage
+
+# Generated mocks
+*.mocks.dart

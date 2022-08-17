@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:openra_launcher/constants/constants.dart';
 import 'package:openra_launcher/data/models/release_model.dart';
 import 'package:openra_launcher/domain/entities/release.dart';
+import 'package:openra_launcher/error/exceptions.dart';
 import 'package:openra_launcher/utils/mod_utils.dart';
 
 class ReleaseUtils {
@@ -20,8 +21,7 @@ class ReleaseUtils {
     }
   }
 
-  static Future<Map<String, http.Response>> fetchLatestReleases(
-      Set<String> mods) async {
+  static Future<Set<Release>> fetchLatestReleases(Set<String> mods) async {
     var client = http.Client();
     Map<String, http.Response> rawResponses = {};
 
@@ -45,7 +45,8 @@ class ReleaseUtils {
             (response.statusCode >= 300 && response.statusCode < 400)) {
           continue;
         } else if (response.statusCode >= 400) {
-          throw 'Error while fetching mod updates (${response.statusCode} ${response.reasonPhrase})';
+          throw ServerException(
+              'Error while fetching mod updates (${response.statusCode} ${response.reasonPhrase})');
         }
 
         rawResponses[modId] = response;
@@ -56,7 +57,13 @@ class ReleaseUtils {
       client.close();
     }
 
-    return rawResponses;
+    Set<Release> releases = {};
+
+    rawResponses.forEach((modId, response) {
+      releases.addAll(ReleaseUtils.getReleasesFromResponse(modId, response));
+    });
+
+    return releases;
   }
 
   static Set<Release> getLatestReleaseForMod(

@@ -86,13 +86,7 @@ Middleware<AppState> _createLoadModUpdates() {
 
     var uniqueModIds = selectUniqueModIds(store.state);
 
-    ReleaseUtils.fetchLatestReleases(uniqueModIds).then((rawResponses) {
-      Set<Release> releases = {};
-
-      rawResponses.forEach((modId, response) {
-        releases.addAll(ReleaseUtils.getReleasesFromResponse(modId, response));
-      });
-
+    ReleaseUtils.fetchLatestReleases(uniqueModIds).then((releases) {
       Map<String, Release> perModReleases = {};
       Map<String, Release> perModPlaytests = {};
 

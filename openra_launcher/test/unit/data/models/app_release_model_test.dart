@@ -23,15 +23,15 @@ void main() {
     );
 
     test('should construct object from decoded JSON', () {
-      // arrange
+      // given
       final Map<String, dynamic> jsonMap = json.decode(
           TestUtils.getJsonStringFromFile(
               'github_json/release-playtest.json'))[0];
 
-      // act
+      // when
       final result = AppReleaseModel.fromJson(jsonMap);
 
-      // assert
+      // then
       expect(result, isA<AppRelease>());
       expect(result.id, jsonMap['id']);
       expect(result.name, jsonMap['name']);

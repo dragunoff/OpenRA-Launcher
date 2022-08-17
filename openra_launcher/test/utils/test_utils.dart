@@ -5,8 +5,20 @@ import 'dart:typed_data';
 
 import 'package:openra_launcher/constants/constants.dart';
 import 'package:openra_launcher/domain/entities/mod.dart';
+import 'package:openra_launcher/domain/entities/release.dart';
 
 class TestUtils {
+  static Release generateRelease() {
+    return const Release(
+      modId: 'test-mod',
+      id: 1,
+      name: 'Test Release',
+      version: 'version',
+      isPlaytest: false,
+      htmlUrl: 'https://example.com',
+    );
+  }
+
   static Mod generateMod() {
     return const Mod(
       key: 'test-version',
