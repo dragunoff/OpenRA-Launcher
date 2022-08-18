@@ -27,7 +27,7 @@ class ModUtils {
         }
 
         try {
-          loadMod(file).then((mod) {
+          _loadMod(file).then((mod) {
             if (mod != null && !isDevMod(mod)) {
               mods.add(mod);
             }
@@ -45,7 +45,7 @@ class ModUtils {
     return sorted.toSet();
   }
 
-  static Future<Mod?> loadMod(File file) async {
+  static Future<Mod?> _loadMod(File file) async {
     var mod = ModModel.fromFile(file);
 
     // NOTE: Explicitly invalidate paths to OpenRA.dll to clean up bogus metadata files

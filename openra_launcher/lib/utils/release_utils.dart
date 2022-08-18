@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:openra_launcher/constants/constants.dart';
 import 'package:openra_launcher/data/models/release_model.dart';
 import 'package:openra_launcher/domain/entities/release.dart';
-import 'package:openra_launcher/error/exceptions.dart';
+import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/utils/mod_utils.dart';
 
 class ReleaseUtils {
