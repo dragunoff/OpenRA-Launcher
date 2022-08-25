@@ -8,13 +8,14 @@ import 'package:openra_launcher/utils/release_utils.dart';
 import 'package:path/path.dart' as path;
 
 class ModUtils {
+  // TODO: Move this to repository/data source
   static Future<Set<Mod>> loadAllMods() async {
     Set<Mod> mods = {};
 
     // Several types of support directory types are available, depending on
     // how the player has installed and launched the game.
     // Read registration metadata from all of them
-    for (var supportDir in await PlatformUtils.getAllSupportDirs()) {
+    for (final supportDir in await PlatformUtils.getAllSupportDirs()) {
       Directory metadataDir = Directory(path.join(supportDir, 'ModMetadata'));
 
       if (!await metadataDir.exists()) {
@@ -39,14 +40,14 @@ class ModUtils {
       }
     }
 
-    var sorted = mods.toList();
+    final sorted = mods.toList();
     sorted.sort();
 
     return sorted.toSet();
   }
 
   static Future<Mod?> _loadMod(File file) async {
-    var mod = ModModel.fromFile(file);
+    final mod = ModModel.fromFile(file);
 
     // NOTE: Explicitly invalidate paths to OpenRA.dll to clean up bogus metadata files
     // that were created after the initial migration from .NET Framework to Core/5.

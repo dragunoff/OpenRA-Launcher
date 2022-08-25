@@ -1,0 +1,6 @@
+Registration:
+	Id: ts
+	Version: {DEV_VERSION}
+	Title: Tiberian Sun
+	LaunchPath: /home/user/code/OpenRA/launch-game.sh
+	LaunchArgs: Game.Mod=ts

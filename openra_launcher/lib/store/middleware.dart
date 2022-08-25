@@ -48,8 +48,8 @@ Middleware<AppState> _createLoadAppUpdate() {
     }
 
     ReleaseUtils.fetchLatestAppRelease().then((rawResponse) async {
-      var packageInfo = await PlatformUtils.getPackageInfo();
-      var responseBody = jsonDecode(rawResponse.body) as Map<String, dynamic>;
+      final packageInfo = await PlatformUtils.getPackageInfo();
+      final responseBody = jsonDecode(rawResponse.body) as Map<String, dynamic>;
 
       if (!responseBody.containsKey('message')) {
         AppRelease release = AppReleaseModel.fromJson(responseBody);
@@ -84,21 +84,21 @@ Middleware<AppState> _createLoadModUpdates() {
       return;
     }
 
-    var uniqueModIds = selectUniqueModIds(store.state);
+    final uniqueModIds = selectUniqueModIds(store.state);
 
     ReleaseUtils.fetchLatestReleases(uniqueModIds).then((releases) {
       Map<String, Release> perModReleases = {};
       Map<String, Release> perModPlaytests = {};
 
-      for (var modId in uniqueModIds) {
-        var latestReleaseSet =
+      for (final modId in uniqueModIds) {
+        final latestReleaseSet =
             ReleaseUtils.getLatestReleaseForMod(modId, releases);
 
         if (latestReleaseSet.isNotEmpty) {
           perModReleases[modId] = latestReleaseSet.first;
         }
 
-        var latestPlaytestSet =
+        final latestPlaytestSet =
             ReleaseUtils.getLatestPlaytestForMod(modId, releases);
 
         if (latestPlaytestSet.isNotEmpty) {
@@ -177,7 +177,7 @@ _loadAllMods(Store<AppState> store, bool checkForUpdates) {
         return;
       }
 
-      var oldMods = Set.from(store.state.mods);
+      final oldMods = Set.from(store.state.mods);
 
       store.dispatch(ModsLoadedAction(mods));
 

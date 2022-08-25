@@ -1,0 +1,6 @@
+Registration:
+	Id: ra
+	Version: release-20210321
+	Title: Red Alert
+	LaunchPath: /home/user/OpenRA/OpenRA.dll
+	LaunchArgs: Game.Mod=ra

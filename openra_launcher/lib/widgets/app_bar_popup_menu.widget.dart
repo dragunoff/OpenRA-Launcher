@@ -18,7 +18,7 @@ class AppBarPopupMenu extends StatelessWidget {
           switch (value) {
             case Menu.showAboutDialog:
               {
-                var packageInfo = await PlatformUtils.getPackageInfo();
+                final packageInfo = await PlatformUtils.getPackageInfo();
                 return showAboutDialog(
                   context: context,
                   applicationName: Constants.appName,

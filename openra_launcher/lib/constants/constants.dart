@@ -1,3 +1,4 @@
+// TODO: Split constants into several classes/files/groups
 class Constants {
   static const appName = 'OpenRA Launcher';
   static const iconSize = 32.0;

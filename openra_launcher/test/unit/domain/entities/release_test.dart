@@ -30,15 +30,15 @@ void main() {
 
     group('Identity', () {
       test('should tell if objects are identical', () {
-        var a = testObj.copyWith();
-        var b = testObj.copyWith();
+        final a = testObj.copyWith();
+        final b = testObj.copyWith();
 
         expect(a == b, true);
       });
 
       test('should tell if objects are not identical', () {
-        var a = testObj.copyWith();
-        var b = testObj.copyWith(id: 2);
+        final a = testObj.copyWith();
+        final b = testObj.copyWith(id: 2);
 
         expect(a == b, false);
       });

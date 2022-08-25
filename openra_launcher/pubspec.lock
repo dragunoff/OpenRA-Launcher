@@ -184,12 +184,12 @@ packages:
     source: hosted
     version: "1.2.1"
   file:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.4"
   fixnum:
     dependency: transitive
     description:
@@ -458,7 +458,7 @@ packages:
     source: hosted
     version: "2.0.7"
   platform:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: platform
       url: "https://pub.dartlang.org"
@@ -479,7 +479,7 @@ packages:
     source: hosted
     version: "1.5.1"
   process:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: process
       url: "https://pub.dartlang.org"

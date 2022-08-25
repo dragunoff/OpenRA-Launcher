@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:openra_launcher/core/error/exceptions.dart';
+
 class MiniYamlUtils {
   static Map<String, String> modMetadataFromFile(File file) {
-    var metadata = _getFieldsMapFromFile(file);
-    var mandatoryFields = [
+    final metadata = _getFieldsMapFromFile(file);
+    final mandatoryFields = [
       'Id',
       'Version',
       'Title',
@@ -11,27 +13,35 @@ class MiniYamlUtils {
       'LaunchArgs'
     ];
 
-    for (var field in mandatoryFields) {
+    for (final field in mandatoryFields) {
       if (!metadata.containsKey(field)) {
-        throw FormatException(
+        throw MiniYamlFormatException(
             'Invalid metadata file: "$file". Mandatory field "$field" is missing.');
       }
 
       if (metadata[field] == '') {
-        throw FormatException(
+        throw MiniYamlFormatException(
             'Invalid metadata file: "$file". Field "$field" is empty.');
       }
+    }
+
+    // NOTE: Explicitly invalidate paths to OpenRA.dll to clean up bogus metadata files
+    // that were created after the initial migration from .NET Framework to Core/5
+    if (metadata.containsKey('LaunchPath') &&
+        metadata['LaunchPath']!.endsWith('.dll')) {
+      throw MiniYamlFormatException(
+          'Invalid metadata file: "$file". Field "LaunchPath" is invalid because it points to a DLL.');
     }
 
     return metadata;
   }
 
   static Map<String, String> _getFieldsMapFromFile(File file) {
-    var metadata = <String, String>{};
-    var lines = file.readAsLinesSync().map((line) => line.trim()).toList();
+    final metadata = <String, String>{};
+    final lines = file.readAsLinesSync().map((line) => line.trim()).toList();
 
-    for (var line in lines) {
-      var split = line.split(':');
+    for (final line in lines) {
+      final split = line.split(':');
       if (split.length == 2) {
         metadata[split[0].trim()] = split[1].trim();
       }

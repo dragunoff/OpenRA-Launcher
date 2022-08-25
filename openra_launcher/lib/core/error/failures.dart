@@ -8,3 +8,5 @@ abstract class Failure extends Equatable {
 class ServerFailure extends Failure {}
 
 class FileSystemFailure extends Failure {}
+
+class MiniYamlFormatFailure extends Failure {}

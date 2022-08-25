@@ -8,7 +8,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 enum SupportDirType { system, modernUser, legacyUser, user }
 
 class PlatformUtils {
-  static Future<String> getSupportDir(SupportDirType type) async {
+  static Future<String> _getSupportDir(SupportDirType type) async {
     String systemSupportPath;
     String legacyUserSupportPath;
     String modernUserSupportPath;
@@ -19,12 +19,12 @@ class PlatformUtils {
           path.join(Platform.environment['HOME'] as String, '.openra');
 
       modernUserSupportPath = path.join(xdg.configHome.path, 'openra');
-      systemSupportPath = '/var/games/openra/';
+      systemSupportPath = '/final /games/openra/';
     } else if (Platform.isWindows) {
       modernUserSupportPath =
           path.join(Platform.environment['APPDATA'] as String, 'OpenRA');
 
-      var docsDir = await getApplicationDocumentsDirectory();
+      final docsDir = await getApplicationDocumentsDirectory();
       legacyUserSupportPath = path.join(docsDir.path, 'OpenRA');
 
       systemSupportPath = path.join(
@@ -54,22 +54,24 @@ class PlatformUtils {
     }
   }
 
+  // TODO: EXtract to a service
   static Future<Set<String>> getAllSupportDirs() async {
     final sources = <String>{};
 
-    sources.add(await getSupportDir(SupportDirType.system));
+    sources.add(await _getSupportDir(SupportDirType.system));
 
     // User support dir may be using the modern or legacy value, or overridden by the user
     // Add all the possibilities and let the Set ignore the duplicates
-    sources.add(await getSupportDir(SupportDirType.user));
-    sources.add(await getSupportDir(SupportDirType.modernUser));
-    sources.add(await getSupportDir(SupportDirType.legacyUser));
+    sources.add(await _getSupportDir(SupportDirType.user));
+    sources.add(await _getSupportDir(SupportDirType.modernUser));
+    sources.add(await _getSupportDir(SupportDirType.legacyUser));
 
     return sources;
   }
 
+  // TODO: EXtract to a service
   static Future<bool> launchUrlInExternalBrowser(url) async {
-    var parsedUrl = Uri.parse(url);
+    final parsedUrl = Uri.parse(url);
 
     if (await canLaunchUrl(parsedUrl)) {
       return launchUrl(parsedUrl, mode: LaunchMode.externalApplication);
@@ -78,6 +80,7 @@ class PlatformUtils {
     }
   }
 
+  // TODO: EXtract to a service
   static Future<PackageInfo> getPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo;

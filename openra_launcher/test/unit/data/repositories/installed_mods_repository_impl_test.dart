@@ -4,7 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/core/error/failures.dart';
-import 'package:openra_launcher/data/data_sources/installed_mods_data_source.abstract.dart';
+import 'package:openra_launcher/data/data_sources/installed_mods_data_source.dart';
 import 'package:openra_launcher/data/models/mod_model.dart';
 import 'package:openra_launcher/data/repositories/installed_mods_repository_impl.dart';
 import 'package:openra_launcher/domain/entities/mod.dart';
@@ -20,10 +20,7 @@ void main() {
   );
 
   setUp(() {
-    mockDataSource = MockInstalledModsDataSource();
-    repository = InstalledModsRepositoryImpl(
-      dataSource: mockDataSource,
-    );
+    reset(mockDataSource);
   });
 
   group('InstalledModsRepositoryImpl', () {

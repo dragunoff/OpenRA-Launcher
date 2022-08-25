@@ -25,7 +25,7 @@ class EmptyState extends StatelessWidget {
     ];
 
     if (buttonText.isNotEmpty) {
-      var button = buttonIcon != null
+      final button = buttonIcon != null
           ? OutlinedButton.icon(
               label: Text(buttonText),
               icon: Icon(buttonIcon),

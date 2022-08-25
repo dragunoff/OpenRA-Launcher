@@ -50,18 +50,18 @@ void main() {
 
     group('Identity', () {
       test('should tell if objects are identical', () {
-        var a = testObj.copyWith();
-        var b = testObj.copyWith();
+        final a = testObj.copyWith();
+        final b = testObj.copyWith();
 
         expect(a == b, true);
       });
 
       test('should tell if objects are not identical', () {
-        var a = testObj.copyWith();
-        var b = testObj.copyWith(id: 'testB');
-        var c = testObj.copyWith(version: 'testC');
-        var d = testObj.copyWith(title: 'testD');
-        var e = testObj.copyWith(launchPath: 'testE');
+        final a = testObj.copyWith();
+        final b = testObj.copyWith(id: 'testB');
+        final c = testObj.copyWith(version: 'testC');
+        final d = testObj.copyWith(title: 'testD');
+        final e = testObj.copyWith(launchPath: 'testE');
 
         expect(a == b, false);
         expect(a == c, false);
@@ -72,11 +72,11 @@ void main() {
 
     group('Comparable', () {
       test('should sort objects by title ASC', () {
-        var a = testObj.copyWith(title: 'A');
-        var b = testObj.copyWith(title: 'B');
-        var zero = testObj.copyWith(title: '0');
+        final a = testObj.copyWith(title: 'A');
+        final b = testObj.copyWith(title: 'B');
+        final zero = testObj.copyWith(title: '0');
 
-        var mods = [a, b, zero];
+        final mods = [a, b, zero];
 
         mods.sort();
 
@@ -86,11 +86,11 @@ void main() {
       });
 
       test('should sort objects by title ASC and then by version DESC', () {
-        var a = testObj.copyWith(title: 'A', version: '1.0.0');
-        var a2 = testObj.copyWith(title: 'A', version: '2.0.0');
-        var zero = testObj.copyWith(title: '0');
+        final a = testObj.copyWith(title: 'A', version: '1.0.0');
+        final a2 = testObj.copyWith(title: 'A', version: '2.0.0');
+        final zero = testObj.copyWith(title: '0');
 
-        var mods = [a, a2, zero];
+        final mods = [a, a2, zero];
 
         mods.sort();
 

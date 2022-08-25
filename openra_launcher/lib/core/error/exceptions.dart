@@ -5,3 +5,9 @@ class ServerException implements Exception {
 }
 
 class FileSystemException implements Exception {}
+
+class MiniYamlFormatException implements Exception {
+  final String message;
+
+  const MiniYamlFormatException([this.message = ""]);
+}

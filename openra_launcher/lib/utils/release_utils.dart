@@ -22,7 +22,7 @@ class ReleaseUtils {
   }
 
   static Future<Set<Release>> fetchLatestReleases(Set<String> mods) async {
-    var client = http.Client();
+    final client = http.Client();
     Map<String, http.Response> rawResponses = {};
 
     Set<String> endpointIdsToFetch = mods.fold({}, (previousValue, modId) {
@@ -30,16 +30,17 @@ class ReleaseUtils {
         return previousValue;
       }
 
-      var modIdToAdd =
+      final modIdToAdd =
           Constants.officialModIds.contains(modId) ? 'openra' : modId;
 
       return previousValue..add(modIdToAdd);
     });
 
     try {
-      for (var modId in _endpoints.keys
+      for (final modId in _endpoints.keys
           .where((endpointId) => endpointIdsToFetch.contains(endpointId))) {
-        var response = await client.get(Uri.parse(_endpoints[modId] as String));
+        final response =
+            await client.get(Uri.parse(_endpoints[modId] as String));
 
         if ((response.statusCode < 200) ||
             (response.statusCode >= 300 && response.statusCode < 400)) {
@@ -107,13 +108,13 @@ class ReleaseUtils {
       return {};
     }
 
-    var latestRelease = decodedResponse.firstWhere(
+    final latestRelease = decodedResponse.firstWhere(
         (element) => element['prerelease'] == false,
         orElse: () => null);
 
     if (latestRelease != null) {
       if (modId == 'openra') {
-        for (var officialModId in Constants.officialModIds) {
+        for (final officialModId in Constants.officialModIds) {
           releases.add(ReleaseModel.fromJson(officialModId, latestRelease));
         }
       } else {
@@ -122,10 +123,10 @@ class ReleaseUtils {
     }
 
     if (decodedResponse.first['prerelease'] == true) {
-      var latestPlaytest = decodedResponse.first;
+      final latestPlaytest = decodedResponse.first;
 
       if (modId == 'openra') {
-        for (var officialModId in Constants.officialModIds) {
+        for (final officialModId in Constants.officialModIds) {
           releases.add(ReleaseModel.fromJson(officialModId, latestRelease));
         }
       } else {
