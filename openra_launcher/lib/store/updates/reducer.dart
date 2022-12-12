@@ -1,5 +1,5 @@
 import 'package:openra_launcher/domain/entities/release.dart';
-import 'package:openra_launcher/store/actions.dart';
+import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:redux/redux.dart';
 
 final Reducer<Set<Release>> updatesReducer = combineReducers([

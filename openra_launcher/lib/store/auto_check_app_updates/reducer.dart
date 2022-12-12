@@ -1,4 +1,4 @@
-import 'package:openra_launcher/store/actions.dart';
+import 'package:openra_launcher/store/auto_check_app_updates/actions.dart';
 import 'package:redux/redux.dart';
 
 final autoCheckAppUpdatesReducer = combineReducers<bool>([

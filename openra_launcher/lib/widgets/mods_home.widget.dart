@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/domain/entities/mod.dart';
 import 'package:openra_launcher/store/app_state.dart';
-import 'package:openra_launcher/store/selectors.dart';
+import 'package:openra_launcher/store/mods/selectors.dart';
+import 'package:openra_launcher/widgets/list_divider.widget.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:openra_launcher/widgets/mods_list.widget.dart';
 import 'package:openra_launcher/widgets/mods_list_empty_state.widget.dart';
-import 'package:openra_launcher/widgets/list_divider.widget.dart';
 import 'package:redux/redux.dart';
 
 class ModsHome extends StatelessWidget {

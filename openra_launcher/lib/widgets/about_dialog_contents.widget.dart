@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/store/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/auto_check_app_updates/actions.dart';
 import 'package:redux/redux.dart';
 
 class AboutDialogContents extends StatelessWidget {

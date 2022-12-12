@@ -1,4 +1,4 @@
-import 'package:openra_launcher/store/actions.dart';
+import 'package:openra_launcher/store/favorite_mods/actions.dart';
 import 'package:redux/redux.dart';
 
 final Reducer<Set<String>> favoriteModsReducer = combineReducers([

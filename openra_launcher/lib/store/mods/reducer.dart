@@ -1,5 +1,5 @@
 import 'package:openra_launcher/domain/entities/mod.dart';
-import 'package:openra_launcher/store/actions.dart';
+import 'package:openra_launcher/store/mods/actions.dart';
 import 'package:redux/redux.dart';
 
 final Reducer<Set<Mod>> modsReducer = combineReducers([

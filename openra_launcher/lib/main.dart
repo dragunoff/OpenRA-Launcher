@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:openra_launcher/injection_container.dart' as di;
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/middleware.dart';
-import 'package:openra_launcher/store/reducers/app_state.reducer.dart';
+import 'package:openra_launcher/store/reducer.dart';
 import 'package:openra_launcher/widgets/app.widget.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_persist/redux_persist.dart';

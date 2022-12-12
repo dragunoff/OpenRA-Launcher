@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/store/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:openra_launcher/widgets/empty_state.widget.dart';
 
 class UpdatesListEmptyState extends StatelessWidget {

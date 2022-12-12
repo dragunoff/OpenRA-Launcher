@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/domain/entities/release.dart';
 import 'package:openra_launcher/store/app_state.dart';
-import 'package:openra_launcher/store/selectors.dart';
-import 'package:openra_launcher/widgets/loading_state.widget.dart';
-import 'package:openra_launcher/widgets/updates_list_empty_state.widget.dart';
+import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/list_divider.widget.dart';
+import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:openra_launcher/widgets/updates_list.widget.dart';
+import 'package:openra_launcher/widgets/updates_list_empty_state.widget.dart';
 import 'package:redux/redux.dart';
 
 class UpdatesHome extends StatelessWidget {

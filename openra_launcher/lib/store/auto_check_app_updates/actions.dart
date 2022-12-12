@@ -1,0 +1,3 @@
+class AutoCheckForAppUpdatesOn {}
+
+class AutoCheckForAppUpdatesOff {}

@@ -1,5 +1,4 @@
 import 'package:openra_launcher/domain/entities/mod.dart';
-import 'package:openra_launcher/domain/entities/release.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/utils/mod_utils.dart';
 
@@ -21,14 +20,6 @@ Set<Mod> selectFavoriteMods(AppState state) {
   return state.mods
       .where((mod) => state.favoriteMods.contains(mod.key))
       .toSet();
-}
-
-Set<Release> selectReleaseUpdates(AppState state) {
-  return state.releases.where((release) => !release.isPlaytest).toSet();
-}
-
-Set<Release> selectPlaytestUpdates(AppState state) {
-  return state.releases.where((release) => release.isPlaytest).toSet();
 }
 
 Set<String> selectUniqueModIds(AppState state) {
