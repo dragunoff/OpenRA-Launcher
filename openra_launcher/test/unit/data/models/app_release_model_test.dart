@@ -26,7 +26,7 @@ void main() {
       // given
       final Map<String, dynamic> jsonMap = json.decode(
           TestUtils.getJsonStringFromFile(
-              'github_json/release-playtest.json'))[0];
+              'github_json/release-is-latest.json'))[0];
 
       // when
       final result = AppReleaseModel.fromJson(jsonMap);

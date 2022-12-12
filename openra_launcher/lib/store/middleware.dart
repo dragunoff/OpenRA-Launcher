@@ -9,32 +9,35 @@ import 'package:openra_launcher/domain/entities/release.dart';
 import 'package:openra_launcher/store/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/selectors.dart';
+import 'package:openra_launcher/usecases/get_installed_mods.dart';
+import 'package:openra_launcher/usecases/use_case.abstract.dart';
 import 'package:openra_launcher/utils/platform_utils.dart';
 import 'package:openra_launcher/utils/release_utils.dart';
-import 'package:openra_launcher/utils/mod_utils.dart';
 import 'package:redux/redux.dart';
 
-List<Middleware<AppState>> createMiddleware() {
+List<Middleware<AppState>> createMiddleware(GetInstalledMods getInstalledMods) {
   return [
-    TypedMiddleware<AppState, LoadModsAction>(_createLoadMods()),
-    TypedMiddleware<AppState, ReloadModsAction>(_createReloadMods()),
+    TypedMiddleware<AppState, LoadModsAction>(
+        _createLoadMods(getInstalledMods)),
+    TypedMiddleware<AppState, ReloadModsAction>(
+        _createReloadMods(getInstalledMods)),
     TypedMiddleware<AppState, LoadUpdatesAction>(_createLoadModUpdates()),
     TypedMiddleware<AppState, LoadAppUpdateAction>(_createLoadAppUpdate()),
   ];
 }
 
-Middleware<AppState> _createLoadMods() {
+Middleware<AppState> _createLoadMods(GetInstalledMods getInstalledMods) {
   return (Store<AppState> store, action, NextDispatcher next) {
-    _loadAllMods(store, true);
+    _loadAllMods(getInstalledMods, store, true);
     next(action);
   };
 }
 
-Middleware<AppState> _createReloadMods() {
+Middleware<AppState> _createReloadMods(GetInstalledMods getInstalledMods) {
   return (Store<AppState> store, action, NextDispatcher next) {
     // NOTE: Add artificial delay to give the user feedback that something is going on
     Timer(const Duration(milliseconds: 300), () {
-      _loadAllMods(store, false);
+      _loadAllMods(getInstalledMods, store, false);
     });
 
     next(action);
@@ -167,26 +170,32 @@ Middleware<AppState> _createLoadModUpdates() {
   };
 }
 
-_loadAllMods(Store<AppState> store, bool checkForUpdates) {
-  ModUtils.loadAllMods().then(
+_loadAllMods(GetInstalledMods getInstalledMods, Store<AppState> store,
+    bool checkForUpdates) {
+  getInstalledMods(NoParams()).then(
     (mods) {
-      if (mods.isEmpty) {
-        store.dispatch(ModsEmptyAction());
-        store.dispatch(UpdatesEmptyAction());
+      mods.fold(
+        (failure) {
+          store.dispatch(ModsErrorAction());
+          store.dispatch(UpdatesEmptyAction());
+        },
+        (mods) {
+          if (mods.isEmpty) {
+            store.dispatch(ModsEmptyAction());
+            store.dispatch(UpdatesEmptyAction());
 
-        return;
-      }
+            return;
+          }
 
-      final oldMods = Set.from(store.state.mods);
+          final oldMods = Set.from(store.state.mods);
 
-      store.dispatch(ModsLoadedAction(mods));
+          store.dispatch(ModsLoadedAction(mods));
 
-      if (checkForUpdates || !setEquals(mods, oldMods)) {
-        store.dispatch(LoadUpdatesAction());
-      }
+          if (checkForUpdates || !setEquals(mods, oldMods)) {
+            store.dispatch(LoadUpdatesAction());
+          }
+        },
+      );
     },
-  ).catchError((_) {
-    store.dispatch(ModsErrorAction());
-    store.dispatch(UpdatesEmptyAction());
-  });
+  );
 }
