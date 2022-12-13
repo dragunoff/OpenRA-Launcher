@@ -1,5 +1,6 @@
 import 'package:file/file.dart';
 import 'package:flutter/foundation.dart';
+import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/core/platform/support_dir_service.dart';
 import 'package:openra_launcher/data/models/mod_model.dart';
@@ -14,6 +15,7 @@ abstract class InstalledModsDataSource {
   Future<Set<ModModel>> getInstalledMods();
 }
 
+@LazySingleton(as: InstalledModsDataSource)
 class InstalledModsDataSourceImpl implements InstalledModsDataSource {
   final FileSystem fileSystem;
   final SupportDirService supportDirService;

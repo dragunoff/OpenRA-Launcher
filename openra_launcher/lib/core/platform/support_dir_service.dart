@@ -1,4 +1,5 @@
 import 'package:file/file.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:platform/platform.dart';
@@ -9,6 +10,7 @@ abstract class SupportDirService {
   Future<Set<Directory>> getAllSupportDirs();
 }
 
+@LazySingleton(as: SupportDirService)
 class SupportDirServiceImpl implements SupportDirService {
   final Platform platform;
   final FileSystem fileSystem;
