@@ -39,7 +39,7 @@ void main() {
           .toSet();
       final Set<Mod> tInstalledMods = tInstalledModsModels;
 
-      test('should get installed mods from the repository', () async {
+      test('should get installed mods from the data source', () async {
         // given
         when(mockDataSource.getInstalledMods())
             .thenAnswer((_) async => tInstalledModsModels);
