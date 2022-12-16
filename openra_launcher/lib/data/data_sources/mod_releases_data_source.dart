@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/constants/constants.dart';
 import 'package:openra_launcher/core/error/exceptions.dart';
+import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/data/models/release_model.dart';
 import 'package:openra_launcher/utils/release_utils.dart';
 
@@ -17,13 +17,13 @@ abstract class ModReleasesDataSource {
 
 @LazySingleton(as: ModReleasesDataSource)
 class ModReleasesDataSourceImpl implements ModReleasesDataSource {
-  final http.Client client;
+  final HttpClientService httpClientService;
   static final Map<String, String> endpoints = Constants.modRepos.map((key,
           repoEndpoint) =>
       MapEntry(key, ReleaseUtils.buildGitHubReleasesEndpoint(repoEndpoint)));
 
   ModReleasesDataSourceImpl({
-    required this.client,
+    required this.httpClientService,
   });
 
   @override
@@ -42,7 +42,7 @@ class ModReleasesDataSourceImpl implements ModReleasesDataSource {
           continue;
         }
 
-        final response = await client.read(Uri.parse(endpoint));
+        final response = await httpClientService.read(Uri.parse(endpoint));
 
         rawResponses[modId] = response;
         alreadyFetched[endpoint] = response;
@@ -50,7 +50,7 @@ class ModReleasesDataSourceImpl implements ModReleasesDataSource {
     } catch (e) {
       throw ServerException(e.toString());
     } finally {
-      client.close();
+      httpClientService.close();
     }
 
     Set<ReleaseModel> releases = {};

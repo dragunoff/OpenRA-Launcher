@@ -5,13 +5,13 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:file/file.dart' as _i4;
+import 'package:file/file.dart' as _i3;
 import 'package:file/local.dart' as _i18;
 import 'package:get_it/get_it.dart' as _i1;
-import 'package:http/http.dart' as _i3;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i5;
+import 'package:openra_launcher/core/network/http_client_service.dart' as _i4;
 import 'package:openra_launcher/core/network/network_info_service.dart' as _i9;
 import 'package:openra_launcher/core/platform/support_dir_service.dart' as _i11;
 import 'package:openra_launcher/data/data_sources/installed_mods_data_source.dart'
@@ -39,12 +39,13 @@ extension GetItInjectableX on _i1.GetIt {
       {String? environment, _i2.EnvironmentFilter? environmentFilter}) {
     final gh = _i2.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
-    gh.lazySingleton<_i3.Client>(() => registerModule.httpClient);
-    gh.lazySingleton<_i4.FileSystem>(() => registerModule.fileSystem);
+    gh.lazySingleton<_i3.FileSystem>(() => registerModule.fileSystem);
+    gh.lazySingleton<_i4.HttpClientService>(() => _i4.HttpClientServiceImpl());
     gh.lazySingleton<_i5.InternetConnectionChecker>(
         () => registerModule.internetConnectionChecker);
-    gh.lazySingleton<_i6.ModReleasesDataSource>(
-        () => _i6.ModReleasesDataSourceImpl(client: gh<_i3.Client>()));
+    gh.lazySingleton<_i6.ModReleasesDataSource>(() =>
+        _i6.ModReleasesDataSourceImpl(
+            httpClientService: gh<_i4.HttpClientService>()));
     gh.lazySingleton<_i7.ModReleasesRepository>(() =>
         _i8.ModReleasesRepositoryImpl(
             dataSource: gh<_i6.ModReleasesDataSource>()));
@@ -52,12 +53,12 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i9.NetworkInfoServiceImpl(gh<_i5.InternetConnectionChecker>()));
     gh.lazySingleton<_i10.Platform>(() => registerModule.platform);
     gh.lazySingleton<_i11.SupportDirService>(() => _i11.SupportDirServiceImpl(
-        platform: gh<_i10.Platform>(), fileSystem: gh<_i4.FileSystem>()));
+        platform: gh<_i10.Platform>(), fileSystem: gh<_i3.FileSystem>()));
     gh.lazySingleton<_i12.GetLatestModReleases>(
         () => _i12.GetLatestModReleases(gh<_i7.ModReleasesRepository>()));
     gh.lazySingleton<_i13.InstalledModsDataSource>(() =>
         _i13.InstalledModsDataSourceImpl(
-            fileSystem: gh<_i4.FileSystem>(),
+            fileSystem: gh<_i3.FileSystem>(),
             supportDirService: gh<_i11.SupportDirService>()));
     gh.lazySingleton<_i14.InstalledModsRepository>(() =>
         _i15.InstalledModsRepositoryImpl(

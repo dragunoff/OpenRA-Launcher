@@ -4,17 +4,18 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:openra_launcher/constants/constants.dart';
 import 'package:openra_launcher/core/error/exceptions.dart';
+import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/data/data_sources/mod_releases_data_source.dart';
 import 'package:openra_launcher/data/models/release_model.dart';
 
 import '../../../utils/test_utils.dart';
-@GenerateMocks([http.Client])
+@GenerateMocks([HttpClientService])
 import 'mod_releases_data_source_impl_test.mocks.dart';
 
 void main() {
-  final mockClient = MockClient();
+  final mockClient = MockHttpClientService();
   ModReleasesDataSourceImpl dataSource = ModReleasesDataSourceImpl(
-    client: mockClient,
+    httpClientService: mockClient,
   );
 
   final tResponse =
@@ -28,7 +29,7 @@ void main() {
   const tOfficialMods = Constants.officialModIds;
 
   setUp(() {
-    dataSource = ModReleasesDataSourceImpl(client: mockClient);
+    dataSource = ModReleasesDataSourceImpl(httpClientService: mockClient);
 
     reset(mockClient);
     when(mockClient.read(any, headers: anyNamed('headers')))
