@@ -40,29 +40,31 @@ void main() {
 
       final Set<Release> tModReleases = tModRelesesModels;
 
+      final tMods = {'test'};
+
       test('should get mod releases from the data source', () async {
         // given
-        when(mockDataSource.getModReleases())
+        when(mockDataSource.getModReleases(any))
             .thenAnswer((_) async => tModRelesesModels);
 
         // when
-        final result = await repository.getModReleases();
+        final result = await repository.getModReleases(tMods);
 
         // then
-        verify(mockDataSource.getModReleases());
+        verify(mockDataSource.getModReleases(tMods));
         expect(result, equals(Right(tModReleases)));
       });
 
       test('should return a failure when an exception is thrown', () async {
         // given
-        when(mockDataSource.getModReleases())
+        when(mockDataSource.getModReleases(any))
             .thenThrow(const ServerException());
 
         // when
-        final result = await repository.getModReleases();
+        final result = await repository.getModReleases(tMods);
 
         // then
-        verify(mockDataSource.getModReleases());
+        verify(mockDataSource.getModReleases(tMods));
         expect(result, equals(Left(ServerFailure())));
       });
     });

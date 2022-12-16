@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:openra_launcher/constants/constants.dart';
 import 'package:openra_launcher/domain/entities/mod.dart';
-import 'package:openra_launcher/utils/release_utils.dart';
 
 class ModUtils {
   // TODO: Extract this into a service
@@ -25,6 +24,10 @@ class ModUtils {
   }
 
   static bool isSupportedForUpdates(String modId) {
-    return ReleaseUtils.getSupportedMods().contains(modId);
+    final supported = Set.from(Constants.modRepos.keys)
+      ..addAll(Constants.officialModIds)
+      ..remove('openra');
+
+    return supported.contains(modId);
   }
 }

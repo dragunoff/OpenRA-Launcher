@@ -3,6 +3,7 @@ import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/middleware.dart';
 import 'package:openra_launcher/store/reducer.dart';
 import 'package:openra_launcher/usecases/get_installed_mods.dart';
+import 'package:openra_launcher/usecases/get_latest_mod_releases.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_persist/redux_persist.dart';
 import 'package:redux_persist_flutter/redux_persist_flutter.dart';
@@ -21,7 +22,10 @@ Future<Store<AppState>> createStore() async {
     appReducer,
     initialState: initialState ?? AppState.initial(),
     middleware: [
-      ...createMiddleware(getIt.get<GetInstalledMods>()),
+      ...createMiddleware(
+        getInstalledMods: getIt.get<GetInstalledMods>(),
+        getLatestModReleases: getIt.get<GetLatestModReleases>(),
+      ),
       persistor.createMiddleware()
     ],
   );

@@ -43,9 +43,10 @@ class TestUtils {
   }
 
   static Mod generateRandomOfficialMod() {
-    return generateMod().copyWith(
-        id: Constants
-            .officialModIds[Random().nextInt(Constants.officialModIds.length)]);
+    final randomId = Constants.officialModIds
+        .toList()[Random().nextInt(Constants.officialModIds.length)];
+
+    return generateMod().copyWith(id: randomId);
   }
 
   static String getTestPngBase64() {

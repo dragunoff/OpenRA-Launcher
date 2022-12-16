@@ -17,7 +17,8 @@ Middleware<AppState> createLoadMods(GetInstalledMods getInstalledMods) {
 
 Middleware<AppState> createReloadMods(GetInstalledMods getInstalledMods) {
   return (Store<AppState> store, action, NextDispatcher next) {
-    // NOTE: Add artificial delay to give the user feedback that something is going on
+    // NOTE: Add artificial delay to give the user
+    // feedback that something is going on
     Timer(const Duration(milliseconds: 300), () {
       _loadAllMods(getInstalledMods, store, false);
     });
@@ -26,8 +27,11 @@ Middleware<AppState> createReloadMods(GetInstalledMods getInstalledMods) {
   };
 }
 
-_loadAllMods(GetInstalledMods getInstalledMods, Store<AppState> store,
-    bool checkForUpdates) {
+_loadAllMods(
+  GetInstalledMods getInstalledMods,
+  Store<AppState> store,
+  bool checkForUpdates,
+) {
   getInstalledMods(NoParams()).then(
     (mods) {
       mods.fold(

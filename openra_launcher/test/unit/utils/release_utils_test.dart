@@ -1,18 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openra_launcher/constants/constants.dart';
 import 'package:openra_launcher/utils/release_utils.dart';
 
 void main() {
-  group('Supported for release', () {
-    test('should return all mods that are supported', () {
-      final supported = Constants.modRepos.keys.toSet();
-      if (supported.contains('openra')) {
-        supported
-          ..remove('openra')
-          ..addAll(Constants.officialModIds);
-      }
+  group('GitHub release endpoint', () {
+    test('should build release endpoint from repo ID', () {
+      expect(ReleaseUtils.buildGitHubReleasesEndpoint('owner/repo'),
+          'https://api.github.com/repos/owner/repo/releases');
+    });
 
-      expect(ReleaseUtils.getSupportedMods(), supported);
+    test('should build latest release endpoint from repo ID', () {
+      expect(ReleaseUtils.buildGitHubLatestReleaseEndpoint('owner/repo'),
+          'https://api.github.com/repos/owner/repo/releases/latest');
     });
   });
 }

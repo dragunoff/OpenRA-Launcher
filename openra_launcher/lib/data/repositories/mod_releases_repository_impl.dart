@@ -13,9 +13,9 @@ class ModReleasesRepositoryImpl implements ModReleasesRepository {
   ModReleasesRepositoryImpl({required this.dataSource});
 
   @override
-  Future<Either<Failure, Set<Release>>> getModReleases() async {
+  Future<Either<Failure, Set<Release>>> getModReleases(Set<String> mods) async {
     try {
-      return Right(await dataSource.getModReleases());
+      return Right(await dataSource.getModReleases(mods));
     } on ServerException {
       return Left(ServerFailure());
     }

@@ -22,7 +22,7 @@ Set<Mod> selectFavoriteMods(AppState state) {
       .toSet();
 }
 
-Set<String> selectUniqueModIds(AppState state) {
+Set<String> selectUniqueInstalledModIds(AppState state) {
   return state.mods.fold({}, (previousValue, element) {
     previousValue.add(element.id);
     return previousValue;

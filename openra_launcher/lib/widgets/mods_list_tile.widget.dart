@@ -58,7 +58,8 @@ class _ModsListTileState extends State<ModsListTile> {
         onTap: () {
           _setIsLaunching(true);
           ModUtils.launchMod(widget.mod).whenComplete(() =>
-              // NOTE: Add artificial delay to give the user feedback that something is going on
+              // NOTE: Add artificial delay to give the user
+              // feedback that something is going on
               Timer(const Duration(seconds: 1), () => _setIsLaunching(false)));
         },
         onHover: (hovering) {

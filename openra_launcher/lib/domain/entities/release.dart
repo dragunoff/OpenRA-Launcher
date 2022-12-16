@@ -37,9 +37,13 @@ class Release {
   }
 
   @override
-  int get hashCode => id.hashCode;
+  int get hashCode => Object.hash(id, version, modId);
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is Release && id == other.id;
+      identical(this, other) ||
+      other is Release &&
+          id == other.id &&
+          version == other.version &&
+          modId == other.modId;
 }
