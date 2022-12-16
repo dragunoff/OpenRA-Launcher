@@ -61,7 +61,8 @@ Middleware<AppState> createLoadModUpdates(
           }
         }
 
-        // Add update-related info to mods
+        // Add update-related info to mods and
+        // remove already installed updates
         Set<Mod> mods = store.state.mods.map((mod) {
           var isRelease = false;
           var isPlaytest = false;
@@ -78,11 +79,17 @@ Middleware<AppState> createLoadModUpdates(
           }
 
           if (perModPlaytests.containsKey(mod.id)) {
-            if (perModPlaytests[mod.id]?.version == mod.version) {
+            final playtestVersion = perModPlaytests[mod.id]?.version;
+
+            if (playtestVersion == mod.version) {
               perModPlaytests.remove(mod.id);
               isPlaytest = true;
             } else {
-              hasPlaytest = true;
+              final isPlaytestInstalled = store.state.mods.any((installed) =>
+                  installed.id == mod.id &&
+                  installed.version == playtestVersion);
+
+              hasPlaytest = !isPlaytestInstalled;
             }
           }
 
@@ -94,6 +101,7 @@ Middleware<AppState> createLoadModUpdates(
           );
         }).toSet();
 
+        // Update the store
         store.dispatch(ModsLoadedAction(mods));
 
         Set<Release> allPerModReleases =
