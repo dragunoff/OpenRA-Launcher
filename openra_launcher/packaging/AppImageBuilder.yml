@@ -4,13 +4,13 @@ script:
   - rm -rf ./AppDir || true
   - cp -r ./../build/linux/x64/release/bundle AppDir
   - mkdir -p ./AppDir/usr/share/icons/hicolor/64x64/apps/
-  - cp ./../icon-3x.png ./AppDir/usr/share/icons/hicolor/64x64/apps/
+  - cp ./../assets/icon-64.png ./AppDir/usr/share/icons/hicolor/64x64/apps/
 AppDir:
   path: ./AppDir
   app_info:
     id: com.github.dragunoff.openra_launcher
     name: OpenRA Launcher
-    icon: icon-3x
+    icon: icon-64
     version: ${BUILD_NAME}
     exec: OpenRA_Launcher
     exec_args: $@
