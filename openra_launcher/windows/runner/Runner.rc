@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.github.dragunoff" "\0"
+            VALUE "CompanyName", "io.github.dragunoff" "\0"
             VALUE "FileDescription", "OpenRA Launcher" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "OpenRA_Launcher" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.github.dragunoff. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 io.github.dragunoff. All rights reserved." "\0"
             VALUE "OriginalFilename", "OpenRA_Launcher.exe" "\0"
             VALUE "ProductName", "OpenRA Launcher" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
