@@ -23,12 +23,15 @@ class SupportDirServiceImpl implements SupportDirService {
     String modernUserSupportPath;
     String legacyUserSupportPath;
 
+    // Linux
     if (platform.isLinux) {
       systemSupportPath = '/var/games/openra';
       modernUserSupportPath = path.join(xdg.configHome.path, 'openra');
       legacyUserSupportPath =
           path.join(platform.environment['HOME'] as String, '.openra');
-    } else if (platform.isWindows) {
+    }
+    // Windows
+    else if (platform.isWindows) {
       systemSupportPath = path.join(
           platform.environment['ALLUSERSPROFILE'] as String, 'OpenRA');
       modernUserSupportPath =
@@ -36,7 +39,16 @@ class SupportDirServiceImpl implements SupportDirService {
 
       final docsDir = await getApplicationDocumentsDirectory();
       legacyUserSupportPath = path.join(docsDir.path, 'OpenRA');
-    } else {
+    }
+    // MacOS
+    else if (platform.isMacOS) {
+      systemSupportPath = '/Library/Application Support/OpenRA/';
+      final appSupportDir = await getApplicationSupportDirectory();
+      modernUserSupportPath = legacyUserSupportPath =
+          path.join(appSupportDir.parent.path, 'OpenRA');
+    }
+    // Others not supported
+    else {
       throw Exception(
           'Platform "${platform.operatingSystem}" is not supported');
     }
