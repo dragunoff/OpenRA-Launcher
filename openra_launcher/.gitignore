@@ -50,5 +50,6 @@ app.*.map.json
 /packaging/appimage-build/
 /packaging/*.AppImage
 
-# Generated mocks
+# Generated code
+/lib/injection.config.dart
 *.mocks.dart
