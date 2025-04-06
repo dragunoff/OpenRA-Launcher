@@ -16,8 +16,11 @@ echo "Building version ${BUILD_NAME}+${BUILD_NUMBER}"
 export BUILD_NAME="$BUILD_NAME"
 export BUILD_NUMBER="$BUILD_NUMBER"
 
-# Build app and package AppImage
+# Build app
+flutter pub run build_runner build
 flutter build linux
+
+# Package AppImage
 appimage-builder --recipe AppImageBuilder.yml --skip-tests
 
 echo "Successfuly built and packaged version ${BUILD_NAME}+${BUILD_NUMBER}"
