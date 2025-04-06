@@ -16,6 +16,10 @@ The application is portable - download the zip, extract to a convenient location
 
 The application is as a portable AppImage - download it, make it executable and start it.
 
+### MacOS
+
+The application is portable - download the zip, extract the app and copy it to the applications folder.
+
 ## Development
 
 Feeback is welcome so you can [submit a bug report or feature request](https://github.com/dragunoff/OpenRA-Launcher/issues) on the issue tracker.
