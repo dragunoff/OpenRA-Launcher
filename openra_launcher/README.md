@@ -4,7 +4,7 @@ A desktop application for launching OpenRA mods.
 
 ## Getting Started
 
-Install the Flutter SDK. Then run flutter commands in this directory:
+Install the Flutter SDK or use provided devcontainer. Then you can run flutter commands:
 
 ```sh
 # Install dependencies
