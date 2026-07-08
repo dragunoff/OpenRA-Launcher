@@ -4,40 +4,4 @@ A desktop application for launching OpenRA mods.
 
 ## Getting Started
 
-Install the Flutter SDK or use provided devcontainer. Then you can run flutter commands:
-
-```sh
-# Install dependencies
-flutter pub get
-
-# Generate code
-dart run build_runner build
-
-# Run the app directly
-flutter run
-```
-
-To produce build artifacts:
-```sh
-# Produce Linux build artifacts
-flutter build linux
-
-# Produce Windows build artifacts
-flutter build windows
-
-# Produce MacOS build artifacts
-flutter build macos
-```
-
-To run tests:
-```sh
-flutter test
-```
-
-## Packaging
-
-On Linux the app is packaged as an AppImage. Use the provided scripts to achieve that.
-
-On Windows the app is manually packaged as a portable executable in a zip archive.
-
-On MacOS the app is manually packaged as an app archive.
+Consult [BUILD.md](BUILD.md) for prerequisites and instructions.
