@@ -11,7 +11,7 @@ Install the Flutter SDK or use provided devcontainer. Then you can run flutter c
 flutter pub get
 
 # Generate code
-flutter pub run build_runner build
+dart run build_runner build
 
 # Run the app directly
 flutter run

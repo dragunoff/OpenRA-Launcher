@@ -17,7 +17,7 @@ class ModReleaseInfoChips extends StatelessWidget {
     );
 
     if (!isSupported) {
-      return Row(children: const [
+      return const Row(children: [
         Chip(
           label: Text('UPDATES NOT SUPPORTED'),
           labelStyle: style,

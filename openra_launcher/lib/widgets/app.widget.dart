@@ -18,14 +18,6 @@ class OpenRALauncher extends StatelessWidget {
         store: store,
         child: MaterialApp(
             title: title,
-            // TODO: Change focus backgound color
-            theme: ThemeData(
-              indicatorColor: Colors.redAccent,
-              colorScheme: const ColorScheme.dark(
-                primary: Colors.red,
-              ),
-              toggleableActiveColor: Colors.redAccent,
-            ),
             initialRoute: '/',
             routes: {
               '/': (context) => StoreConnector<AppState, _ViewModel>(

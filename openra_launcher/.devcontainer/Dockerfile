@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu
 
 ENV FLUTTER_SDK_ROOT=/usr/lib/flutter
-ENV FLUTTER_SDK_VERSION=3.7.0-stable
+ENV FLUTTER_SDK_VERSION=3.44.6-stable
 ENV PATH="${PATH}:${FLUTTER_SDK_ROOT}/bin"
 ENV DEBIAN_FRONTEND=noninteractive
 
