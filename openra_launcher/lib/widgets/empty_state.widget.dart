@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 
 class EmptyState extends StatelessWidget {
   const EmptyState(
@@ -19,7 +19,7 @@ class EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> children = [
       Container(
-        margin: const EdgeInsets.only(bottom: Constants.spacing2x),
+        margin: const EdgeInsets.only(bottom: AppConstants.spacing2x),
         child: Text(text),
       ),
     ];

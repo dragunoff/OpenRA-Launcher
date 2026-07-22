@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
@@ -22,7 +22,7 @@ class AppBarPopupMenu extends StatelessWidget {
                 final packageInfo = await PlatformUtils.getPackageInfo();
                 return showAboutDialog(
                   context: context,
-                  applicationName: Constants.appName,
+                  applicationName: AppConstants.appName,
                   applicationVersion: packageInfo.version,
                   applicationLegalese: 'glhf by dragunoff',
                   children: [

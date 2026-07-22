@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 
 class ListDivider extends StatelessWidget {
   const ListDivider(
@@ -13,7 +13,7 @@ class ListDivider extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(color: ThemeData.dark().dividerColor),
         padding: const EdgeInsets.symmetric(
-            vertical: Constants.spacing, horizontal: Constants.spacing2x),
+            vertical: AppConstants.spacing, horizontal: AppConstants.spacing2x),
         child: Text(text));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/app_update/actions.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
@@ -10,7 +10,7 @@ import 'package:redux/redux.dart';
 class OpenRALauncher extends StatelessWidget {
   const OpenRALauncher({Key? key, required this.store}) : super(key: key);
   final Store<AppState> store;
-  final String title = Constants.appName;
+  final String title = AppConstants.appName;
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/mod_constants.dart';
 import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/features/updates/data/data_sources/mod_releases_data_source.dart';
@@ -24,9 +24,9 @@ void main() {
   final tPlaytestIsLatest =
       TestUtils.getJsonStringFromFile('github_json/playtest-is-latest.json');
 
-  final tMod = Constants.modRepos.entries.first.key;
-  final tModRepo = Constants.modRepos.entries.first.value;
-  const tOfficialMods = Constants.officialModIds;
+  final tMod = ModConstants.modRepos.entries.first.key;
+  final tModRepo = ModConstants.modRepos.entries.first.value;
+  const tOfficialMods = ModConstants.officialModIds;
 
   setUp(() {
     dataSource = ModReleasesDataSourceImpl(httpClientService: mockClient);

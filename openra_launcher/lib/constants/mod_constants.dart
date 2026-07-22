@@ -1,12 +1,4 @@
-// TODO: Split constants into several classes/files/groups
-class Constants {
-  static const appName = 'OpenRA Launcher';
-  static const iconSize = 32.0;
-  static const iconSize2x = 64.0;
-  static const iconSize3x = 96.0;
-  static const spacing = 8.0;
-  static const spacing2x = 16.0;
-  static const tooltipWaitDuration = Duration(milliseconds: 600);
+class ModConstants {
   static const officialModIds = {'cnc', 'd2k', 'ra'};
   static const devModVersion = '{DEV_VERSION}';
   static const modRepos = {
@@ -27,10 +19,6 @@ class Constants {
     'tda': 'KOYK/OpenRA-Tiberian-Dawn-Apolyton',
     'openkrush_gen1': 'IceReaper/OpenKrush',
     'raplus': 'MlemandPurrs/raplusmod',
-    'ta': 'EoralMilk/TiberianAurora'
+    'ta': 'EoralMilk/TiberianAurora',
   };
-  static const githubApiUrl = 'https://api.github.com';
-  static const githubReposEndpoint = '/repos';
-  static const githubReleasesEndpoint = '/releases';
-  static const appRepo = '/dragunoff/OpenRA-Launcher';
 }

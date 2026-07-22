@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:injectable/injectable.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/mod_constants.dart';
 import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/features/updates/data/models/release_model.dart';
@@ -18,7 +18,7 @@ abstract class ModReleasesDataSource {
 @LazySingleton(as: ModReleasesDataSource)
 class ModReleasesDataSourceImpl implements ModReleasesDataSource {
   final HttpClientService httpClientService;
-  static final Map<String, String> endpoints = Constants.modRepos.map((key,
+  static final Map<String, String> endpoints = ModConstants.modRepos.map((key,
           repoEndpoint) =>
       MapEntry(key, ReleaseUtils.buildGitHubReleasesEndpoint(repoEndpoint)));
 

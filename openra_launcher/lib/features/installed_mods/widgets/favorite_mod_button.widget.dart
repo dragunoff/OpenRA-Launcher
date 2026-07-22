@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/store/favorite_mods/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -21,7 +21,7 @@ class FavoriteModButton extends StatelessWidget {
     }), builder: (context, toggleFavoriteCallback) {
       return Tooltip(
           message: isFavorite ? 'Remove from Favorites' : 'Add to Favorites',
-          waitDuration: Constants.tooltipWaitDuration,
+          waitDuration: AppConstants.tooltipWaitDuration,
           child: IconButton(
             iconSize: 16,
             icon: isFavorite

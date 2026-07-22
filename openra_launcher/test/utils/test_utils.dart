@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/mod_constants.dart';
 import 'package:openra_launcher/features/updates/data/models/release_model.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
@@ -43,8 +43,8 @@ class TestUtils {
   }
 
   static Mod generateRandomOfficialMod() {
-    final randomId = Constants.officialModIds
-        .toList()[Random().nextInt(Constants.officialModIds.length)];
+    final randomId = ModConstants.officialModIds
+        .toList()[Random().nextInt(ModConstants.officialModIds.length)];
 
     return generateMod().copyWith(id: randomId);
   }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/utils/mod_utils.dart';
 
@@ -55,7 +55,7 @@ class ModReleaseInfoChips extends StatelessWidget {
 
     final List<Container> wrappedChips = chips
         .map((chip) => Container(
-              margin: const EdgeInsets.only(left: Constants.spacing),
+              margin: const EdgeInsets.only(left: AppConstants.spacing),
               child: chip,
             ))
         .toList();

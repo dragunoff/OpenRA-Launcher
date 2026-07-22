@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/utils/platform_utils.dart';
@@ -16,7 +16,7 @@ class AppUpdateDialog extends StatelessWidget {
         StoreProvider.of<AppState>(context).state.appRelease;
 
     return AlertDialog(
-      title: const Text('${Constants.appName} Update'),
+      title: const Text('${AppConstants.appName} Update'),
       content: SingleChildScrollView(
           child: Text(
               'A new version (${appRelease?.version}) of this app is available.')),

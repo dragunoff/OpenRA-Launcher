@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openra_launcher/constants/constants.dart';
+import 'package:openra_launcher/constants/mod_constants.dart';
 import 'package:openra_launcher/features/installed_mods/utils/mod_utils.dart';
 
 import '../../../../utils/test_utils.dart';
@@ -8,7 +8,7 @@ void main() {
   group('Dev mod check', () {
     test('should return true if mod has the dev version string', () {
       final mod =
-          TestUtils.generateMod().copyWith(version: Constants.devModVersion);
+          TestUtils.generateMod().copyWith(version: ModConstants.devModVersion);
 
       expect(ModUtils.isDevMod(mod), true);
     });
