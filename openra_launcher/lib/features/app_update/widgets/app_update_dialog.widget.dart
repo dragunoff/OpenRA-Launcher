@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
-import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/utils/platform_utils.dart';
 
 class AppUpdateDialog extends StatelessWidget {
   const AppUpdateDialog({
     Key? key,
+    required this.appRelease,
   }) : super(key: key);
+
+  final AppRelease appRelease;
 
   @override
   Widget build(BuildContext context) {
-    AppRelease? appRelease =
-        StoreProvider.of<AppState>(context).state.appRelease;
-
     return AlertDialog(
       title: const Text('${AppConstants.appName} Update'),
       content: SingleChildScrollView(
           child: Text(
-              'A new version (${appRelease?.version}) of this app is available.')),
+              'A new version (${appRelease.version}) of this app is available.')),
       actions: [
         TextButton(
             onPressed: (() {
-              PlatformUtils.launchUrlInExternalBrowser(appRelease?.htmlUrl)
+              PlatformUtils.launchUrlInExternalBrowser(appRelease.htmlUrl)
                   .whenComplete(() => Navigator.pop(context));
             }),
             child: const Text('Go to Download')),

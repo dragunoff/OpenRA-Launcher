@@ -4,12 +4,12 @@ import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 @immutable
 class ReleaseModel extends Release {
   const ReleaseModel({
-    required modId,
-    required id,
-    required name,
-    required version,
-    required isPlaytest,
-    required htmlUrl,
+    required String modId,
+    required int id,
+    required String name,
+    required String version,
+    required bool isPlaytest,
+    required String htmlUrl,
   }) : super(
           modId: modId,
           id: id,

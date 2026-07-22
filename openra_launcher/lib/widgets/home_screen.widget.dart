@@ -43,7 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
     Future.delayed(Duration.zero, () {
       if (shoudlOpenUpdateDialog && checkFoUpdates && appRelease != null) {
         showDialog(
-            context: context, builder: (context) => const AppUpdateDialog());
+            context: context,
+            builder: (context) => AppUpdateDialog(appRelease: appRelease));
       }
       setState(() {
         shoudlOpenUpdateDialog = false;

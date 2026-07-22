@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PlatformUtils {
   // TODO: Extract to a service
-  static Future<bool> launchUrlInExternalBrowser(url) async {
+  static Future<bool> launchUrlInExternalBrowser(String url) async {
     final parsedUrl = Uri.parse(url);
 
     if (await canLaunchUrl(parsedUrl)) {
