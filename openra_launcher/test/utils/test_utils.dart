@@ -4,9 +4,9 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:openra_launcher/constants/constants.dart';
-import 'package:openra_launcher/data/models/release_model.dart';
-import 'package:openra_launcher/domain/entities/mod.dart';
-import 'package:openra_launcher/domain/entities/release.dart';
+import 'package:openra_launcher/features/updates/data/models/release_model.dart';
+import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
+import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 
 class TestUtils {
   static Release generateRelease() {

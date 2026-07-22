@@ -1,6 +1,6 @@
-import 'package:openra_launcher/domain/entities/app_release.dart';
-import 'package:openra_launcher/domain/entities/mod.dart';
-import 'package:openra_launcher/domain/entities/release.dart';
+import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
+import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
+import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 
 enum ListStatus {
   initial,

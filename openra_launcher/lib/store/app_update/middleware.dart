@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:openra_launcher/data/models/app_release_model.dart';
-import 'package:openra_launcher/domain/entities/app_release.dart';
+import 'package:openra_launcher/features/app_update/data/models/app_release_model.dart';
+import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/app_update/actions.dart';
 import 'package:openra_launcher/utils/platform_utils.dart';
-import 'package:openra_launcher/utils/release_utils.dart';
+import 'package:openra_launcher/features/updates/utils/release_utils.dart';
 import 'package:redux/redux.dart';
 
 Middleware<AppState> createLoadAppUpdate() {

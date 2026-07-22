@@ -1,4 +1,4 @@
-import 'package:openra_launcher/domain/entities/mod.dart';
+import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 
 class RemoveModFromFavoritesAction {
   final Mod mod;

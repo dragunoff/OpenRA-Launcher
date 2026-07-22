@@ -1,0 +1,7 @@
+import 'package:dartz/dartz.dart';
+import 'package:openra_launcher/features/updates/domain/entities/release.dart';
+import 'package:openra_launcher/core/error/failures.dart';
+
+abstract class ModReleasesRepository {
+  Future<Either<Failure, Set<Release>>> getModReleases(Set<String> mods);
+}

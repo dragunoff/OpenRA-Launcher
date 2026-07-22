@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:openra_launcher/domain/entities/mod.dart';
-import 'package:openra_launcher/domain/entities/release.dart';
+import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
+import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/store/app_state.dart';
-import 'package:openra_launcher/store/mods/actions.dart';
-import 'package:openra_launcher/store/mods/selectors.dart';
+import 'package:openra_launcher/store/installed_mods/actions.dart';
+import 'package:openra_launcher/store/installed_mods/selectors.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
-import 'package:openra_launcher/usecases/get_latest_mod_releases.dart';
+import 'package:openra_launcher/features/updates/use_cases/get_latest_mod_releases.dart';
 import 'package:redux/redux.dart';
 
 Middleware<AppState> createLoadModUpdates(

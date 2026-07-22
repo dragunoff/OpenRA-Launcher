@@ -1,4 +1,4 @@
-import 'package:openra_launcher/domain/entities/release.dart';
+import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/store/app_state.dart';
 
 Set<Release> selectReleaseUpdates(AppState state) {

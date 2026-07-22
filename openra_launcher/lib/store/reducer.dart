@@ -1,6 +1,6 @@
 // We create the State reducer by combining many smaller reducers into one!
 import 'package:openra_launcher/store/app_state.dart';
-import 'package:openra_launcher/store/mods/reducer.dart';
+import 'package:openra_launcher/store/installed_mods/reducer.dart';
 import 'package:openra_launcher/store/app_update/reducer.dart';
 import 'package:openra_launcher/store/auto_check_app_updates/reducer.dart';
 import 'package:openra_launcher/store/favorite_mods/reducer.dart';
