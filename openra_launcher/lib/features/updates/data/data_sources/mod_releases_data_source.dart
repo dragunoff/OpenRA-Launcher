@@ -5,7 +5,7 @@ import 'package:openra_launcher/constants/mod_constants.dart';
 import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/features/updates/data/models/release_model.dart';
-import 'package:openra_launcher/features/updates/utils/release_utils.dart';
+import 'package:openra_launcher/utils/github_utils.dart';
 
 abstract class ModReleasesDataSource {
   /// Queries the GitHub API for releases
@@ -18,9 +18,9 @@ abstract class ModReleasesDataSource {
 @LazySingleton(as: ModReleasesDataSource)
 class ModReleasesDataSourceImpl implements ModReleasesDataSource {
   final HttpClientService httpClientService;
-  static final Map<String, String> endpoints = ModConstants.modRepos.map((key,
-          repoEndpoint) =>
-      MapEntry(key, ReleaseUtils.buildGitHubReleasesEndpoint(repoEndpoint)));
+  static final Map<String, String> endpoints = ModConstants.modRepos.map(
+      (key, repoEndpoint) =>
+          MapEntry(key, GitHubUtils.buildReleasesEndpoint(repoEndpoint)));
 
   ModReleasesDataSourceImpl({
     required this.httpClientService,
