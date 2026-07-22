@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
-import 'package:openra_launcher/features/installed_mods/widgets/mods_list_tile.widget.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list_tile.widget.dart';
 
-class ModsList extends StatelessWidget {
-  const ModsList({Key? key, required this.mods, this.isFavoritesList = false})
+class InstalledModsList extends StatelessWidget {
+  const InstalledModsList({Key? key, required this.mods, this.isFavoritesList = false})
       : super(key: key);
 
   final Set<Mod> mods;
@@ -17,7 +17,7 @@ class ModsList extends StatelessWidget {
         itemCount: mods.length,
         itemBuilder: (BuildContext context, int index) {
           final Mod mod = mods.elementAt(index);
-          return ModsListTile(mod: mod, isFavorite: isFavoritesList);
+          return InstalledModsListTile(mod: mod, isFavorite: isFavoritesList);
         });
   }
 }

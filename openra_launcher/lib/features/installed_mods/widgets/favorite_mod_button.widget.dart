@@ -5,8 +5,8 @@ import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart
 import 'package:openra_launcher/store/favorite_mods/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
 
-class FavButton extends StatelessWidget {
-  const FavButton({Key? key, required this.mod, required this.isFavorite})
+class FavoriteModButton extends StatelessWidget {
+  const FavoriteModButton({Key? key, required this.mod, required this.isFavorite})
       : super(key: key);
 
   final Mod mod;

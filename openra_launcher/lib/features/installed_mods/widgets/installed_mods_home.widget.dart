@@ -5,12 +5,12 @@ import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
 import 'package:openra_launcher/widgets/list_divider.widget.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
-import 'package:openra_launcher/features/installed_mods/widgets/mods_list.widget.dart';
-import 'package:openra_launcher/features/installed_mods/widgets/mods_list_empty_state.widget.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list.widget.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list_empty_state.widget.dart';
 import 'package:redux/redux.dart';
 
-class ModsHome extends StatelessWidget {
-  const ModsHome({Key? key}) : super(key: key);
+class InstalledModsHome extends StatelessWidget {
+  const InstalledModsHome({Key? key}) : super(key: key);
 
   @override
   Widget build(context) {
@@ -27,24 +27,24 @@ class ModsHome extends StatelessWidget {
 
           if (vm.modsListStatus == ListStatus.empty ||
               vm.modsListStatus == ListStatus.error) {
-            return ModsListEmptyState(listStatus: vm.modsListStatus);
+            return InstalledModsListEmptyState(listStatus: vm.modsListStatus);
           }
 
           final List<Widget> children = [];
 
           if (favoriteMods.isNotEmpty) {
             children.add(const ListDivider('Favorite mods'));
-            children.add(ModsList(mods: favoriteMods, isFavoritesList: true));
+            children.add(InstalledModsList(mods: favoriteMods, isFavoritesList: true));
           }
 
           if (officialMods.isNotEmpty) {
             children.add(const ListDivider('Official mods'));
-            children.add(ModsList(mods: officialMods));
+            children.add(InstalledModsList(mods: officialMods));
           }
 
           if (communityMods.isNotEmpty) {
             children.add(const ListDivider('Community mods'));
-            children.add(ModsList(mods: communityMods));
+            children.add(InstalledModsList(mods: communityMods));
           }
 
           return SingleChildScrollView(

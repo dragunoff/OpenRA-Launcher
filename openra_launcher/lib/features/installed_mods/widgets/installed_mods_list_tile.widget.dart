@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/utils/mod_utils.dart';
-import 'package:openra_launcher/features/installed_mods/widgets/fav_button.widget.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/favorite_mod_button.widget.dart';
 import 'package:openra_launcher/widgets/loading_indicator.widget.dart';
 import 'package:openra_launcher/widgets/mod_icon.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/mod_release_info_chips.widget.dart';
 
-class ModsListTile extends StatefulWidget {
-  const ModsListTile({
+class InstalledModsListTile extends StatefulWidget {
+  const InstalledModsListTile({
     Key? key,
     required this.mod,
     this.isFavorite = false,
@@ -19,10 +19,10 @@ class ModsListTile extends StatefulWidget {
   final bool isFavorite;
 
   @override
-  State<ModsListTile> createState() => _ModsListTileState();
+  State<InstalledModsListTile> createState() => _InstalledModsListTileState();
 }
 
-class _ModsListTileState extends State<ModsListTile> {
+class _InstalledModsListTileState extends State<InstalledModsListTile> {
   bool _isLaunching = false;
   bool _isHovered = false;
 
@@ -36,7 +36,7 @@ class _ModsListTileState extends State<ModsListTile> {
   Widget build(BuildContext context) {
     final leading = ModIcon(mod: widget.mod);
 
-    final favButtonWidget = FavButton(
+    final favButtonWidget = FavoriteModButton(
       mod: widget.mod,
       isFavorite: widget.isFavorite,
     );

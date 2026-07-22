@@ -5,7 +5,7 @@ import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/widgets/app_bar_popup_menu.widget.dart';
 import 'package:openra_launcher/features/app_update/widgets/app_update_dialog.widget.dart';
 import 'package:openra_launcher/widgets/label_with_icon.widget.dart';
-import 'package:openra_launcher/features/installed_mods/widgets/mods_home.widget.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_home.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_home.widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: TabBar(tabs: widget.mainTabs)),
           body: const TabBarView(
             children: [
-              ModsHome(),
+              InstalledModsHome(),
               UpdatesHome(),
             ],
           ),
