@@ -2,9 +2,10 @@ import 'package:openra_launcher/store/favorite_mods/actions.dart';
 import 'package:redux/redux.dart';
 
 final Reducer<Set<String>> favoriteModsReducer = combineReducers([
-  TypedReducer<Set<String>, AddModToFavoritesAction>(_addModToFavorites),
+  TypedReducer<Set<String>, AddModToFavoritesAction>(_addModToFavorites).call,
   TypedReducer<Set<String>, RemoveModFromFavoritesAction>(
-      _removeModFromFavorites),
+          _removeModFromFavorites)
+      .call,
 ]);
 
 Set<String> _removeModFromFavorites(

@@ -3,9 +3,9 @@ import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:redux/redux.dart';
 
 final Reducer<Set<Mod>> modsReducer = combineReducers([
-  TypedReducer<Set<Mod>, ModsLoadedAction>(_setLoadedMods),
-  TypedReducer<Set<Mod>, ModsEmptyAction>(_setEmptyMods),
-  TypedReducer<Set<Mod>, ModsErrorAction>(_setEmptyMods),
+  TypedReducer<Set<Mod>, ModsLoadedAction>(_setLoadedMods).call,
+  TypedReducer<Set<Mod>, ModsEmptyAction>(_setEmptyMods).call,
+  TypedReducer<Set<Mod>, ModsErrorAction>(_setEmptyMods).call,
 ]);
 
 Set<Mod> _setLoadedMods(Set<Mod> mods, ModsLoadedAction action) {

@@ -27,7 +27,7 @@ Middleware<AppState> createReloadMods(GetInstalledMods getInstalledMods) {
   };
 }
 
-_loadAllMods(
+void _loadAllMods(
   GetInstalledMods getInstalledMods,
   Store<AppState> store,
   bool checkForUpdates,

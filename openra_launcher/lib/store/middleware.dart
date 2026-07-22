@@ -14,11 +14,14 @@ List<Middleware<AppState>> createMiddleware({
   required GetLatestModReleases getLatestModReleases,
 }) {
   return [
-    TypedMiddleware<AppState, LoadModsAction>(createLoadMods(getInstalledMods)),
+    TypedMiddleware<AppState, LoadModsAction>(createLoadMods(getInstalledMods))
+        .call,
     TypedMiddleware<AppState, ReloadModsAction>(
-        createReloadMods(getInstalledMods)),
+            createReloadMods(getInstalledMods))
+        .call,
     TypedMiddleware<AppState, LoadUpdatesAction>(
-        createLoadModUpdates(getLatestModReleases)),
-    TypedMiddleware<AppState, LoadAppUpdateAction>(createLoadAppUpdate()),
+            createLoadModUpdates(getLatestModReleases))
+        .call,
+    TypedMiddleware<AppState, LoadAppUpdateAction>(createLoadAppUpdate()).call,
   ];
 }

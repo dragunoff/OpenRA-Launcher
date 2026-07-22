@@ -3,9 +3,9 @@ import 'package:openra_launcher/store/app_update/actions.dart';
 import 'package:redux/redux.dart';
 
 final Reducer<AppRelease?> appUpdateReducer = combineReducers([
-  TypedReducer<AppRelease?, AppUpdateLoadedAction>(_setLoadedUpdate),
-  TypedReducer<AppRelease?, AppUpdateEmptyAction>(_setEpmtyUpdate),
-  TypedReducer<AppRelease?, AppUpdateErrorAction>(_setEpmtyUpdate),
+  TypedReducer<AppRelease?, AppUpdateLoadedAction>(_setLoadedUpdate).call,
+  TypedReducer<AppRelease?, AppUpdateEmptyAction>(_setEpmtyUpdate).call,
+  TypedReducer<AppRelease?, AppUpdateErrorAction>(_setEpmtyUpdate).call,
 ]);
 
 AppRelease _setLoadedUpdate(AppRelease? release, AppUpdateLoadedAction action) {
