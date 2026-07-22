@@ -22,7 +22,11 @@ class AppUpdateDialog extends StatelessWidget {
         TextButton(
             onPressed: (() {
               PlatformUtils.launchUrlInExternalBrowser(appRelease.htmlUrl)
-                  .whenComplete(() => Navigator.pop(context));
+                  .whenComplete(() {
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+              });
             }),
             child: const Text('Go to Download')),
         TextButton(
