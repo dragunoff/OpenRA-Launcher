@@ -9,7 +9,7 @@ import 'package:openra_launcher/features/installed_mods/data/models/mod_model.da
 import 'package:openra_launcher/features/installed_mods/data/repositories/installed_mods_repository_impl.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 
-import '../../../../../utils/test_utils.dart';
+import '../../../../../testing/utils/test_utils.dart';
 @GenerateMocks([InstalledModsDataSource])
 import 'installed_mods_repository_impl_test.mocks.dart';
 

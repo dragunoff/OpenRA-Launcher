@@ -58,10 +58,10 @@ class TestUtils {
   }
 
   static File getYamlFile(String filename) {
-    return File('./test/fixtures/yaml/$filename');
+    return File('./testing/fixtures/yaml/$filename');
   }
 
   static String getJsonStringFromFile(String filename) {
-    return File('./test/fixtures/$filename').readAsStringSync();
+    return File('./testing/fixtures/$filename').readAsStringSync();
   }
 }

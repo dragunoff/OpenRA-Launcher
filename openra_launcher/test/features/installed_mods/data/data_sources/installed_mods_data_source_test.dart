@@ -6,9 +6,9 @@ import 'package:mockito/mockito.dart';
 import 'package:openra_launcher/core/platform/support_dir_service.dart';
 import 'package:openra_launcher/features/installed_mods/data/data_sources/installed_mods_data_source.dart';
 
-import '../../../../../utils/test_utils.dart';
+import '../../../../../testing/utils/test_utils.dart';
 @GenerateMocks([SupportDirService])
-import 'installed_mods_data_source_impl_test.mocks.dart';
+import 'installed_mods_data_source_test.mocks.dart';
 
 void main() {
   MemoryFileSystem mockFileSystem = MemoryFileSystem();

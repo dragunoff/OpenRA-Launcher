@@ -8,9 +8,9 @@ import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/features/updates/data/data_sources/mod_releases_data_source.dart';
 import 'package:openra_launcher/features/updates/data/models/release_model.dart';
 
-import '../../../../../utils/test_utils.dart';
+import '../../../../../testing/utils/test_utils.dart';
 @GenerateMocks([HttpClientService])
-import 'mod_releases_data_source_impl_test.mocks.dart';
+import 'mod_releases_data_source_test.mocks.dart';
 
 void main() {
   final mockClient = MockHttpClientService();

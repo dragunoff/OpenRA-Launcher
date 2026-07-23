@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/utils/mini_yaml_utils.dart';
 
-import '../../utils/test_utils.dart';
+import '../../testing/utils/test_utils.dart';
 
 void main() {
   group('MiniYaml utilities', () {

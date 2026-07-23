@@ -6,7 +6,7 @@ import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/features/updates/domain/repositories/mod_releases_repository.abstract.dart';
 import 'package:openra_launcher/features/updates/domain/use_cases/get_latest_mod_releases.dart';
 
-import '../../../../utils/test_utils.dart';
+import '../../../../testing/utils/test_utils.dart';
 @GenerateMocks([ModReleasesRepository])
 import 'get_latest_mod_releases_test.mocks.dart';
 

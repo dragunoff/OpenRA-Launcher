@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:openra_launcher/features/installed_mods/data/models/mod_model.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 
-import '../../../../../utils/test_utils.dart';
+import '../../../../../testing/utils/test_utils.dart';
 
 void main() {
   const testObj = ModModel(

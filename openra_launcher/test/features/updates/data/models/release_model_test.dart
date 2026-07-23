@@ -1,24 +1,26 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:openra_launcher/features/app_update/data/models/app_release_model.dart';
-import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
+import 'package:openra_launcher/features/updates/data/models/release_model.dart';
+import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 
-import '../../../../../utils/test_utils.dart';
+import '../../../../../testing/utils/test_utils.dart';
 
 void main() {
-  group('App Release model', () {
-    const testObj = AppReleaseModel(
+  group('Release model', () {
+    const testObj = ReleaseModel(
+      modId: 'test',
       id: 1,
       version: 'version',
-      name: 'Test App Release',
+      name: 'Test Release',
       htmlUrl: 'https://example.com',
+      isPlaytest: false,
     );
 
     test(
-      'should be a subclass of App Release entity',
+      'should be a subclass of Release entity',
       () {
-        expect(testObj, isA<AppRelease>());
+        expect(testObj, isA<Release>());
       },
     );
 
@@ -29,10 +31,11 @@ void main() {
               'github_json/release-is-latest.json'))[0];
 
       // when
-      final result = AppReleaseModel.fromJson(jsonMap);
+      final result = ReleaseModel.fromJson('test', jsonMap);
 
       // then
-      expect(result, isA<AppRelease>());
+      expect(result, isA<Release>());
+      expect(result.modId, 'test');
       expect(result.id, jsonMap['id']);
       expect(result.name, jsonMap['name']);
       expect(result.version, jsonMap['tag_name']);

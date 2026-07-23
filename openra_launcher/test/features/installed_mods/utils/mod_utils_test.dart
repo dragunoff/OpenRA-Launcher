@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:openra_launcher/constants/mod_constants.dart';
 import 'package:openra_launcher/features/installed_mods/utils/mod_utils.dart';
 
-import '../../../../utils/test_utils.dart';
+import '../../../../testing/utils/test_utils.dart';
 
 void main() {
   group('Dev mod check', () {

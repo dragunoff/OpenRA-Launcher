@@ -7,7 +7,7 @@ import 'package:openra_launcher/features/installed_mods/domain/repositories/inst
 import 'package:openra_launcher/features/installed_mods/domain/use_cases/get_installed_mods.dart';
 import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
 
-import '../../../../utils/test_utils.dart';
+import '../../../../testing/utils/test_utils.dart';
 
 @GenerateMocks([InstalledModsRepository])
 import 'get_installed_mods_test.mocks.dart';

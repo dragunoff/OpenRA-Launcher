@@ -9,7 +9,7 @@ import 'package:openra_launcher/features/updates/data/models/release_model.dart'
 import 'package:openra_launcher/features/updates/data/repositories/mod_releases_repository_impl.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 
-import '../../../../../utils/test_utils.dart';
+import '../../../../../testing/utils/test_utils.dart';
 @GenerateMocks([ModReleasesDataSource])
 import 'mod_releases_repository_impl_test.mocks.dart';
 
