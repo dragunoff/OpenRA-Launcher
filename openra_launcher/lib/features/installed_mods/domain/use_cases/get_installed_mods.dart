@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/domain/repositories/installed_mods_repository.abstract.dart';
 import 'package:openra_launcher/core/error/failures.dart';
-import 'package:openra_launcher/usecases/use_case.abstract.dart';
+import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
 
 @lazySingleton
 class GetInstalledMods implements UseCase<Set<Mod>, NoParams> {

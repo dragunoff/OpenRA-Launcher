@@ -4,8 +4,8 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/domain/repositories/installed_mods_repository.abstract.dart';
-import 'package:openra_launcher/features/installed_mods/use_cases/get_installed_mods.dart';
-import 'package:openra_launcher/usecases/use_case.abstract.dart';
+import 'package:openra_launcher/features/installed_mods/domain/use_cases/get_installed_mods.dart';
+import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
 
 import '../../../../utils/test_utils.dart';
 

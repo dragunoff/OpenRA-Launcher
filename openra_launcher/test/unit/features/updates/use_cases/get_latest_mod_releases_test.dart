@@ -4,7 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/features/updates/domain/repositories/mod_releases_repository.abstract.dart';
-import 'package:openra_launcher/features/updates/use_cases/get_latest_mod_releases.dart';
+import 'package:openra_launcher/features/updates/domain/use_cases/get_latest_mod_releases.dart';
 
 import '../../../../utils/test_utils.dart';
 @GenerateMocks([ModReleasesRepository])

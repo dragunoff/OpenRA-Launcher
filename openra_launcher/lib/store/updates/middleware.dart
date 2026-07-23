@@ -6,7 +6,7 @@ import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
-import 'package:openra_launcher/features/updates/use_cases/get_latest_mod_releases.dart';
+import 'package:openra_launcher/features/updates/domain/use_cases/get_latest_mod_releases.dart';
 import 'package:redux/redux.dart';
 
 Middleware<AppState> createLoadModUpdates(

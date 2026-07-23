@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
-import 'package:openra_launcher/features/installed_mods/use_cases/get_installed_mods.dart';
-import 'package:openra_launcher/usecases/use_case.abstract.dart';
+import 'package:openra_launcher/features/installed_mods/domain/use_cases/get_installed_mods.dart';
+import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
 import 'package:redux/redux.dart';
 
 Middleware<AppState> createLoadMods(GetInstalledMods getInstalledMods) {

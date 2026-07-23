@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/features/updates/domain/repositories/mod_releases_repository.abstract.dart';
 import 'package:openra_launcher/core/error/failures.dart';
-import 'package:openra_launcher/usecases/use_case.abstract.dart';
+import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
 
 @lazySingleton
 class GetLatestModReleases implements UseCase<Set<Release>, Params> {
