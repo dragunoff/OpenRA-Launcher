@@ -1,3 +1,4 @@
+import 'package:openra_launcher/features/app_update/use_cases/get_latest_app_release.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/app_update/actions.dart';
 import 'package:openra_launcher/store/app_update/middleware.dart';
@@ -12,6 +13,7 @@ import 'package:redux/redux.dart';
 List<Middleware<AppState>> createMiddleware({
   required GetInstalledMods getInstalledMods,
   required GetLatestModReleases getLatestModReleases,
+  required GetLatestAppRelease getLatestAppRelease,
 }) {
   return [
     TypedMiddleware<AppState, LoadModsAction>(createLoadMods(getInstalledMods))
@@ -22,6 +24,8 @@ List<Middleware<AppState>> createMiddleware({
     TypedMiddleware<AppState, LoadUpdatesAction>(
             createLoadModUpdates(getLatestModReleases))
         .call,
-    TypedMiddleware<AppState, LoadAppUpdateAction>(createLoadAppUpdate()).call,
+    TypedMiddleware<AppState, LoadAppUpdateAction>(
+            createLoadAppUpdate(getLatestAppRelease))
+        .call,
   ];
 }
