@@ -17,8 +17,7 @@ class ModModel extends Mod {
     Uint8List? icon,
     Uint8List? icon2x,
     Uint8List? icon3x,
-    bool isRelease = false,
-    bool isPlaytest = false,
+    ModReleaseType currentReleaseType = ModReleaseType.none,
     bool hasRelease = false,
     bool hasPlaytest = false,
   }) : super(
@@ -31,8 +30,7 @@ class ModModel extends Mod {
           icon: icon,
           icon2x: icon2x,
           icon3x: icon3x,
-          isRelease: isRelease,
-          isPlaytest: isPlaytest,
+          currentReleaseType: currentReleaseType,
           hasRelease: hasRelease,
           hasPlaytest: hasPlaytest,
         );

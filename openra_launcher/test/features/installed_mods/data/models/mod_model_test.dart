@@ -36,8 +36,7 @@ void main() {
       expect(mod.icon, png);
       expect(mod.icon2x, png);
       expect(mod.icon3x, png);
-      expect(mod.isRelease, false);
-      expect(mod.isPlaytest, false);
+      expect(mod.currentReleaseType, ModReleaseType.none);
       expect(mod.hasRelease, false);
       expect(mod.hasPlaytest, false);
     });

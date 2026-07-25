@@ -26,8 +26,7 @@ void main() {
           icon: Uint8List.fromList([0]),
           icon2x: Uint8List.fromList([0, 1]),
           icon3x: Uint8List.fromList([0, 1, 2]),
-          isRelease: true,
-          isPlaytest: true,
+          currentReleaseType: ModReleaseType.playtest,
           hasRelease: true,
           hasPlaytest: true,
         );
@@ -41,8 +40,7 @@ void main() {
         expect(mod.icon, Uint8List.fromList([0]));
         expect(mod.icon2x, Uint8List.fromList([0, 1]));
         expect(mod.icon3x, Uint8List.fromList([0, 1, 2]));
-        expect(mod.isRelease, true);
-        expect(mod.isPlaytest, true);
+        expect(mod.currentReleaseType, ModReleaseType.playtest);
         expect(mod.hasRelease, true);
         expect(mod.hasPlaytest, true);
       });

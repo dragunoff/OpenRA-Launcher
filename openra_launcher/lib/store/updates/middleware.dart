@@ -33,8 +33,7 @@ Middleware<AppState> createLoadModUpdates(
         // Discard all update-related info from mods
         store.dispatch(ModsLoadedAction(store.state.mods.map((mod) {
           return mod.copyWith(
-            isRelease: false,
-            isPlaytest: false,
+            currentReleaseType: ModReleaseType.none,
             hasRelease: false,
             hasPlaytest: false,
           );
@@ -64,15 +63,14 @@ Middleware<AppState> createLoadModUpdates(
         // Add update-related info to mods and
         // remove already installed updates
         Set<Mod> mods = store.state.mods.map((mod) {
-          var isRelease = false;
-          var isPlaytest = false;
+          var currentReleaseType = ModReleaseType.none;
           var hasRelease = false;
           var hasPlaytest = false;
 
           if (perModReleases.containsKey(mod.id)) {
             if (perModReleases[mod.id]?.version == mod.version) {
               perModReleases.remove(mod.id);
-              isRelease = true;
+              currentReleaseType = ModReleaseType.release;
             } else {
               hasRelease = true;
             }
@@ -83,7 +81,7 @@ Middleware<AppState> createLoadModUpdates(
 
             if (playtestVersion == mod.version) {
               perModPlaytests.remove(mod.id);
-              isPlaytest = true;
+              currentReleaseType = ModReleaseType.playtest;
             } else {
               final isPlaytestInstalled = store.state.mods.any((installed) =>
                   installed.id == mod.id &&
@@ -94,8 +92,7 @@ Middleware<AppState> createLoadModUpdates(
           }
 
           return mod.copyWith(
-            isRelease: isRelease,
-            isPlaytest: isPlaytest,
+            currentReleaseType: currentReleaseType,
             hasRelease: hasRelease,
             hasPlaytest: hasPlaytest,
           );

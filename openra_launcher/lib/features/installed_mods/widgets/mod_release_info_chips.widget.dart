@@ -41,16 +41,21 @@ class ModReleaseInfoChips extends StatelessWidget {
       ));
     }
 
-    if (mod.isRelease) {
-      chips.add(const Chip(
-        label: Text('CURRENT RELEASE'),
-        labelStyle: style,
-      ));
-    } else if (mod.isPlaytest) {
-      chips.add(const Chip(
-        label: Text('CURRENT PLAYTEST'),
-        labelStyle: style,
-      ));
+    switch (mod.currentReleaseType) {
+      case ModReleaseType.release:
+        chips.add(const Chip(
+          label: Text('CURRENT RELEASE'),
+          labelStyle: style,
+        ));
+        break;
+      case ModReleaseType.playtest:
+        chips.add(const Chip(
+          label: Text('CURRENT PLAYTEST'),
+          labelStyle: style,
+        ));
+        break;
+      case ModReleaseType.none:
+        break;
     }
 
     final List<Container> wrappedChips = chips
