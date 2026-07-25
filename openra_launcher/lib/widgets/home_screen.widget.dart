@@ -46,11 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
           showDialog(
               context: context,
               builder: (context) => AppUpdateDialog(appRelease: appRelease));
+          setState(() {
+            shoudlOpenUpdateDialog = false;
+          });
         }
       }
-      setState(() {
-        shoudlOpenUpdateDialog = false;
-      });
     });
 
     return DefaultTabController(
