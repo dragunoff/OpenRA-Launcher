@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/store/app_state.dart';
-import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:openra_launcher/features/updates/domain/use_cases/get_latest_mod_releases.dart';
@@ -30,15 +28,6 @@ Middleware<AppState> createLoadModUpdates(
 
     getLatestModReleases(Params(mods: uniqueInstalledModIds)).then((releases) {
       releases.fold((failure) {
-        // Discard all update-related info from mods
-        store.dispatch(ModsLoadedAction(store.state.mods.map((mod) {
-          return mod.copyWith(
-            currentReleaseType: ModReleaseType.none,
-            hasRelease: false,
-            hasPlaytest: false,
-          );
-        }).toSet()));
-
         store.dispatch(UpdatesEmptyAction());
         store.dispatch(UpdatesErrorAction());
       }, (releases) {
@@ -59,47 +48,6 @@ Middleware<AppState> createLoadModUpdates(
             perModPlaytests[modId] = latestPlaytestSet.first;
           }
         }
-
-        // Add update-related info to mods and
-        // remove already installed updates
-        Set<Mod> mods = store.state.mods.map((mod) {
-          var currentReleaseType = ModReleaseType.none;
-          var hasRelease = false;
-          var hasPlaytest = false;
-
-          if (perModReleases.containsKey(mod.id)) {
-            if (perModReleases[mod.id]?.version == mod.version) {
-              perModReleases.remove(mod.id);
-              currentReleaseType = ModReleaseType.release;
-            } else {
-              hasRelease = true;
-            }
-          }
-
-          if (perModPlaytests.containsKey(mod.id)) {
-            final playtestVersion = perModPlaytests[mod.id]?.version;
-
-            if (playtestVersion == mod.version) {
-              perModPlaytests.remove(mod.id);
-              currentReleaseType = ModReleaseType.playtest;
-            } else {
-              final isPlaytestInstalled = store.state.mods.any((installed) =>
-                  installed.id == mod.id &&
-                  installed.version == playtestVersion);
-
-              hasPlaytest = !isPlaytestInstalled;
-            }
-          }
-
-          return mod.copyWith(
-            currentReleaseType: currentReleaseType,
-            hasRelease: hasRelease,
-            hasPlaytest: hasPlaytest,
-          );
-        }).toSet();
-
-        // Update the store
-        store.dispatch(ModsLoadedAction(mods));
 
         Set<Release> allPerModReleases =
             perModReleases.values.toSet().union(perModPlaytests.values.toSet());

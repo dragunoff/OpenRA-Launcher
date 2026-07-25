@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/utils/mod_utils.dart';
+import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/updates/selectors.dart';
 
 class ModReleaseInfoChips extends StatelessWidget {
   const ModReleaseInfoChips({Key? key, required this.mod}) : super(key: key);
@@ -25,48 +28,69 @@ class ModReleaseInfoChips extends StatelessWidget {
       ]);
     }
 
-    final List<Chip> chips = [];
+    return StoreConnector<AppState, _ViewModel>(
+      converter: (store) => _ViewModel(
+        hasRelease: selectHasReleaseUpdate(store.state, mod),
+        hasPlaytest: selectHasPlaytestUpdate(store.state, mod),
+        currentReleaseType: selectCurrentModReleaseType(store.state, mod),
+      ),
+      builder: (context, vm) {
+        final List<Chip> chips = [];
 
-    if (mod.hasRelease) {
-      chips.add(const Chip(
-        label: Text('RELEASE AVAILABLE'),
-        labelStyle: style,
-      ));
-    }
+        if (vm.hasRelease) {
+          chips.add(const Chip(
+            label: Text('RELEASE AVAILABLE'),
+            labelStyle: style,
+          ));
+        }
 
-    if (mod.hasPlaytest) {
-      chips.add(const Chip(
-        label: Text('PLAYTEST AVAILABLE'),
-        labelStyle: style,
-      ));
-    }
+        if (vm.hasPlaytest) {
+          chips.add(const Chip(
+            label: Text('PLAYTEST AVAILABLE'),
+            labelStyle: style,
+          ));
+        }
 
-    switch (mod.currentReleaseType) {
-      case ModReleaseType.release:
-        chips.add(const Chip(
-          label: Text('CURRENT RELEASE'),
-          labelStyle: style,
-        ));
-        break;
-      case ModReleaseType.playtest:
-        chips.add(const Chip(
-          label: Text('CURRENT PLAYTEST'),
-          labelStyle: style,
-        ));
-        break;
-      case ModReleaseType.none:
-        break;
-    }
+        switch (vm.currentReleaseType) {
+          case ModReleaseType.release:
+            chips.add(const Chip(
+              label: Text('CURRENT RELEASE'),
+              labelStyle: style,
+            ));
+            break;
+          case ModReleaseType.playtest:
+            chips.add(const Chip(
+              label: Text('CURRENT PLAYTEST'),
+              labelStyle: style,
+            ));
+            break;
+          case ModReleaseType.none:
+            break;
+        }
 
-    final List<Container> wrappedChips = chips
-        .map((chip) => Container(
-              margin: const EdgeInsets.only(left: AppConstants.spacing),
-              child: chip,
-            ))
-        .toList();
+        final List<Container> wrappedChips = chips
+            .map((chip) => Container(
+                  margin: const EdgeInsets.only(left: AppConstants.spacing),
+                  child: chip,
+                ))
+            .toList();
 
-    return Row(
-      children: wrappedChips,
+        return Row(
+          children: wrappedChips,
+        );
+      },
     );
   }
+}
+
+class _ViewModel {
+  final bool hasRelease;
+  final bool hasPlaytest;
+  final ModReleaseType currentReleaseType;
+
+  _ViewModel({
+    required this.hasRelease,
+    required this.hasPlaytest,
+    required this.currentReleaseType,
+  });
 }

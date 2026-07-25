@@ -13,9 +13,6 @@ class Mod implements Comparable {
   final Uint8List? icon;
   final Uint8List? icon2x;
   final Uint8List? icon3x;
-  final ModReleaseType currentReleaseType;
-  final bool hasRelease;
-  final bool hasPlaytest;
 
   const Mod({
     required this.key,
@@ -27,9 +24,6 @@ class Mod implements Comparable {
     this.icon,
     this.icon2x,
     this.icon3x,
-    this.currentReleaseType = ModReleaseType.none,
-    this.hasRelease = false,
-    this.hasPlaytest = false,
   });
 
   Mod copyWith({
@@ -42,9 +36,6 @@ class Mod implements Comparable {
     Uint8List? icon,
     Uint8List? icon2x,
     Uint8List? icon3x,
-    ModReleaseType? currentReleaseType,
-    bool? hasRelease,
-    bool? hasPlaytest,
   }) {
     return Mod(
       key: key ?? this.key,
@@ -56,9 +47,6 @@ class Mod implements Comparable {
       icon: icon ?? this.icon,
       icon2x: icon2x ?? this.icon2x,
       icon3x: icon3x ?? this.icon3x,
-      currentReleaseType: currentReleaseType ?? this.currentReleaseType,
-      hasRelease: hasRelease ?? this.hasRelease,
-      hasPlaytest: hasPlaytest ?? this.hasPlaytest,
     );
   }
 

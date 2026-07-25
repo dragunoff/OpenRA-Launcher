@@ -17,9 +17,6 @@ class ModModel extends Mod {
     Uint8List? icon,
     Uint8List? icon2x,
     Uint8List? icon3x,
-    ModReleaseType currentReleaseType = ModReleaseType.none,
-    bool hasRelease = false,
-    bool hasPlaytest = false,
   }) : super(
           key: key,
           id: id,
@@ -30,9 +27,6 @@ class ModModel extends Mod {
           icon: icon,
           icon2x: icon2x,
           icon3x: icon3x,
-          currentReleaseType: currentReleaseType,
-          hasRelease: hasRelease,
-          hasPlaytest: hasPlaytest,
         );
 
   factory ModModel.fromFile(File file) {
