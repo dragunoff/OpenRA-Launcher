@@ -40,6 +40,22 @@ flutter build macos
 flutter test
 ```
 
+## Simulating installed mods for testing
+
+A small CLI helper is available to generate sample installed-mod metadata in the Linux support directory used by the app.
+
+```sh
+dart run tool/generate_installed_mods_fixtures.dart create
+```
+
+This creates a mix of valid mods, dev-version mods, and intentionally invalid entries so the installed-mods filtering logic can be exercised. To remove the generated files and return to the empty-state behavior, run:
+
+```sh
+dart run tool/generate_installed_mods_fixtures.dart cleanup
+```
+
+You can optionally target a custom support directory with `--support-dir <path>`.
+
 ## Packaging notes
 
 ### Linux
