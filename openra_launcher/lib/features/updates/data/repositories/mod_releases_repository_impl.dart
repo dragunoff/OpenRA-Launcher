@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/features/updates/data/data_sources/mod_releases_data_source.dart';

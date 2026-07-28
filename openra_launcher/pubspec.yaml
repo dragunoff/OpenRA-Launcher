@@ -8,12 +8,12 @@ environment:
 
 dependencies:
   build_runner: ^2.2.0
-  dartz: ^0.10.1
   equatable: ^2.0.3
   file: ^7.0.1
   flutter:
     sdk: flutter
   flutter_redux: ^0.10.0
+  fpdart: ^1.2.0
   get_it: ^9.2.1
   http: ^1.6.0
   injectable: ^3.0.0
