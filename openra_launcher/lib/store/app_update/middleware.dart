@@ -3,6 +3,7 @@ import 'package:openra_launcher/features/app_update/use_cases/get_latest_app_rel
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/app_update/actions.dart';
 import 'package:openra_launcher/utils/platform_utils.dart';
+import 'package:openra_launcher/utils/version_utils.dart';
 import 'package:redux/redux.dart';
 
 Middleware<AppState> createLoadAppUpdate(
@@ -20,7 +21,8 @@ Middleware<AppState> createLoadAppUpdate(
         (release) async {
           final packageInfo = await PlatformUtils.getPackageInfo();
 
-          if (release.version != packageInfo.version) {
+          if (VersionUtils.isNewerVersion(
+              release.version, packageInfo.version)) {
             store.dispatch(AppUpdateLoadedAction(release));
           } else {
             store.dispatch(AppUpdateEmptyAction());
