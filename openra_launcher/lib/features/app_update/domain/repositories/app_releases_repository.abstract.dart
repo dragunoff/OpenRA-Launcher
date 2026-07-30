@@ -3,5 +3,5 @@ import 'package:openra_launcher/features/app_update/domain/entities/app_release.
 import 'package:openra_launcher/core/error/failures.dart';
 
 abstract class AppReleasesRepository {
-  Future<Either<Failure, AppRelease>> getLatestRelease();
+  TaskEither<Failure, AppRelease> getLatestRelease();
 }

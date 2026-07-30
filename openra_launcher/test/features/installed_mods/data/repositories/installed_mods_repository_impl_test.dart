@@ -2,7 +2,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/features/installed_mods/data/data_sources/installed_mods_data_source.dart';
 import 'package:openra_launcher/features/installed_mods/data/models/mod_model.dart';
@@ -14,6 +13,9 @@ import '../../../../../testing/utils/test_utils.dart';
 import 'installed_mods_repository_impl_test.mocks.dart';
 
 void main() {
+  provideDummy<TaskEither<FileSystemFailure, Set<ModModel>>>(
+    TaskEither.left(const FileSystemFailure()),
+  );
   MockInstalledModsDataSource mockDataSource = MockInstalledModsDataSource();
   InstalledModsRepositoryImpl repository = InstalledModsRepositoryImpl(
     dataSource: mockDataSource,
@@ -42,27 +44,36 @@ void main() {
       test('should get installed mods from the data source', () async {
         // given
         when(mockDataSource.getInstalledMods())
-            .thenAnswer((_) async => tInstalledModsModels);
+            .thenAnswer((_) => TaskEither.right(tInstalledModsModels));
 
         // when
-        final result = await repository.getInstalledMods();
+        final result = await repository.getInstalledMods().run();
 
         // then
         verify(mockDataSource.getInstalledMods());
-        expect(result, equals(Right(tInstalledMods)));
+        result.fold(
+          (failure) => fail('Expected Either.Right'),
+          (result) {
+            expect(result, equals(tInstalledMods));
+          },
+        );
       });
 
       test('should return a failure when the scan is unsuccessful', () async {
         // given
         when(mockDataSource.getInstalledMods())
-            .thenThrow(FileSystemException());
+            .thenAnswer((_) => TaskEither.left(const FileSystemFailure()));
 
         // when
-        final result = await repository.getInstalledMods();
+        final result = await repository.getInstalledMods().run();
 
         // then
         verify(mockDataSource.getInstalledMods());
-        expect(result, equals(Left(FileSystemFailure())));
+
+        result.match(
+          (left) => expect(left, isA<FileSystemFailure>()),
+          (_) => fail('Expected Either.Left'),
+        );
       });
     });
   });

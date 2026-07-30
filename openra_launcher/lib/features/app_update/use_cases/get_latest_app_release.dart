@@ -6,13 +6,13 @@ import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
 
 @lazySingleton
-class GetLatestAppRelease implements UseCase<AppRelease, NoParams> {
+class GetLatestAppRelease implements TaskEitherUseCase<AppRelease, NoParams> {
   final AppReleasesRepository repository;
 
   GetLatestAppRelease(this.repository);
 
   @override
-  Future<Either<Failure, AppRelease>> call(NoParams params) async {
-    return await repository.getLatestRelease();
+  TaskEither<Failure, AppRelease> call(NoParams params) {
+    return repository.getLatestRelease();
   }
 }

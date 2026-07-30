@@ -1,6 +1,5 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/features/updates/data/data_sources/mod_releases_data_source.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/core/error/failures.dart';
@@ -13,11 +12,7 @@ class ModReleasesRepositoryImpl implements ModReleasesRepository {
   ModReleasesRepositoryImpl({required this.dataSource});
 
   @override
-  Future<Either<Failure, Set<Release>>> getModReleases(Set<String> mods) async {
-    try {
-      return Right(await dataSource.getModReleases(mods));
-    } on ServerException {
-      return Left(ServerFailure());
-    }
+  TaskEither<ServerFailure, Set<Release>> getModReleases(Set<String> mods) {
+    return dataSource.getModReleases(mods);
   }
 }

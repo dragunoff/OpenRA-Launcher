@@ -13,8 +13,8 @@ class GetLatestModReleases implements UseCase<Set<Release>, Params> {
   GetLatestModReleases(this.repository);
 
   @override
-  Future<Either<Failure, Set<Release>>> call(Params params) async {
-    return await repository.getModReleases(params.mods);
+  TaskEither<ServerFailure, Set<Release>> call(Params params) {
+    return repository.getModReleases(params.mods);
   }
 }
 

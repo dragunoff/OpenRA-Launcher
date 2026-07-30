@@ -24,7 +24,7 @@ void main() {
 
     test('should construct object from MiniYaml file', () {
       final png = TestUtils.getTestPng();
-      final mod = ModModel.fromFile(TestUtils.getYamlFile('valid.yaml'));
+      final mod = ModModel.fromFile(TestUtils.getYamlFile('valid-ra.yaml'));
 
       expect(mod.key, 'ra-release-20210321');
       expect(mod.id, 'ra');

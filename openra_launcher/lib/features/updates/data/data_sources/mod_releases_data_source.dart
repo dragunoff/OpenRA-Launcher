@@ -1,18 +1,15 @@
 import 'dart:convert';
 
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/constants/mod_constants.dart';
-import 'package:openra_launcher/core/error/exceptions.dart';
+import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/features/updates/data/models/release_model.dart';
 import 'package:openra_launcher/utils/github_utils.dart';
 
 abstract class ModReleasesDataSource {
-  /// Queries the GitHub API for releases
-  /// and creates models from them.
-  ///
-  /// Throws a [ServerException] on error.
-  Future<Set<ReleaseModel>> getModReleases(Set<String> mods);
+  TaskEither<ServerFailure, Set<ReleaseModel>> getModReleases(Set<String> mods);
 }
 
 @LazySingleton(as: ModReleasesDataSource)
@@ -27,39 +24,40 @@ class ModReleasesDataSourceImpl implements ModReleasesDataSource {
   });
 
   @override
-  Future<Set<ReleaseModel>> getModReleases(Set<String> mods) async {
-    Map<String, String> rawResponses = {};
-    Map<String, String> alreadyFetched = {};
-    final endpointsToFetch = Map.from(endpoints);
-    endpointsToFetch.removeWhere((key, value) => !mods.contains(key));
+  TaskEither<ServerFailure, Set<ReleaseModel>> getModReleases(
+      Set<String> mods) {
+    return TaskEither.tryCatch(() async {
+      Map<String, String> rawResponses = {};
+      Map<String, String> alreadyFetched = {};
+      final endpointsToFetch = Map.from(endpoints);
+      endpointsToFetch.removeWhere((key, value) => !mods.contains(key));
 
-    try {
-      for (final modId in endpointsToFetch.keys) {
-        final endpoint = endpointsToFetch[modId];
+      try {
+        for (final modId in endpointsToFetch.keys) {
+          final endpoint = endpointsToFetch[modId];
 
-        if (alreadyFetched.containsKey(endpoint)) {
-          rawResponses[modId] = alreadyFetched[endpoint] as String;
-          continue;
+          if (alreadyFetched.containsKey(endpoint)) {
+            rawResponses[modId] = alreadyFetched[endpoint] as String;
+            continue;
+          }
+
+          final response = await httpClientService.read(Uri.parse(endpoint));
+
+          rawResponses[modId] = response;
+          alreadyFetched[endpoint] = response;
         }
-
-        final response = await httpClientService.read(Uri.parse(endpoint));
-
-        rawResponses[modId] = response;
-        alreadyFetched[endpoint] = response;
+      } finally {
+        httpClientService.close();
       }
-    } catch (e) {
-      throw ServerException(e.toString());
-    } finally {
-      httpClientService.close();
-    }
 
-    Set<ReleaseModel> releases = {};
+      Set<ReleaseModel> releases = {};
 
-    rawResponses.forEach((modId, response) {
-      releases.addAll(_getReleasesFromResponse(modId, response));
-    });
+      rawResponses.forEach((modId, response) {
+        releases.addAll(_getReleasesFromResponse(modId, response));
+      });
 
-    return Future.value(releases);
+      return Future.value(releases);
+    }, (error, stackTrace) => ServerFailure(error.toString()));
   }
 
   static Set<ReleaseModel> _getReleasesFromResponse(

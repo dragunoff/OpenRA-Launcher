@@ -2,7 +2,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/features/updates/data/data_sources/mod_releases_data_source.dart';
 import 'package:openra_launcher/features/updates/data/models/release_model.dart';
@@ -14,6 +13,9 @@ import '../../../../../testing/utils/test_utils.dart';
 import 'mod_releases_repository_impl_test.mocks.dart';
 
 void main() {
+  provideDummy<TaskEither<ServerFailure, Set<ReleaseModel>>>(
+    TaskEither.left(const ServerFailure()),
+  );
   MockModReleasesDataSource mockDataSource = MockModReleasesDataSource();
   ModReleasesRepositoryImpl repository = ModReleasesRepositoryImpl(
     dataSource: mockDataSource,
@@ -45,27 +47,30 @@ void main() {
       test('should get mod releases from the data source', () async {
         // given
         when(mockDataSource.getModReleases(any))
-            .thenAnswer((_) async => tModRelesesModels);
+            .thenAnswer((_) => TaskEither.right(tModRelesesModels));
 
         // when
-        final result = await repository.getModReleases(tMods);
+        final result = await repository.getModReleases(tMods).run();
 
         // then
         verify(mockDataSource.getModReleases(tMods));
-        expect(result, equals(Right(tModReleases)));
+        expect(result, Right(tModReleases));
       });
 
       test('should return a failure when an exception is thrown', () async {
         // given
         when(mockDataSource.getModReleases(any))
-            .thenThrow(const ServerException());
+            .thenAnswer((_) => TaskEither.left(const ServerFailure()));
 
         // when
-        final result = await repository.getModReleases(tMods);
+        final result = await repository.getModReleases(tMods).run();
 
         // then
         verify(mockDataSource.getModReleases(tMods));
-        expect(result, equals(Left(ServerFailure())));
+        result.match(
+          (left) => expect(left, isA<ServerFailure>()),
+          (_) => fail('Expected Either.Left'),
+        );
       });
     });
   });

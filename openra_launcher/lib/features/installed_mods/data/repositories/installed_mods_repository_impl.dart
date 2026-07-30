@@ -1,6 +1,5 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:openra_launcher/core/error/exceptions.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/features/installed_mods/data/data_sources/installed_mods_data_source.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
@@ -13,11 +12,7 @@ class InstalledModsRepositoryImpl implements InstalledModsRepository {
   InstalledModsRepositoryImpl({required this.dataSource});
 
   @override
-  Future<Either<Failure, Set<Mod>>> getInstalledMods() async {
-    try {
-      return Right(await dataSource.getInstalledMods());
-    } on FileSystemException {
-      return Left(FileSystemFailure());
-    }
+  TaskEither<FileSystemFailure, Set<Mod>> getInstalledMods() {
+    return dataSource.getInstalledMods();
   }
 }

@@ -32,7 +32,7 @@ void _loadAllMods(
   Store<AppState> store,
   bool checkForUpdates,
 ) {
-  getInstalledMods(NoParams()).then(
+  getInstalledMods(NoParams()).run().then(
     (mods) {
       mods.fold(
         (failure) {

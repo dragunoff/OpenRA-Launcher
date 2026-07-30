@@ -12,7 +12,7 @@ class GetInstalledMods implements UseCase<Set<Mod>, NoParams> {
   GetInstalledMods(this.repository);
 
   @override
-  Future<Either<Failure, Set<Mod>>> call(NoParams params) async {
-    return await repository.getInstalledMods();
+  TaskEither<FileSystemFailure, Set<Mod>> call(NoParams params) {
+    return repository.getInstalledMods();
   }
 }

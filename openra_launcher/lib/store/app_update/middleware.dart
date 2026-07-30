@@ -13,7 +13,7 @@ Middleware<AppState> createLoadAppUpdate(
       return;
     }
 
-    getLatestAppRelease(NoParams()).then((result) {
+    getLatestAppRelease(NoParams()).run().then((result) {
       result.fold(
         (failure) {
           store.dispatch(AppUpdateErrorAction());

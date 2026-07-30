@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:openra_launcher/constants/mod_constants.dart';
-import 'package:openra_launcher/core/error/exceptions.dart';
+import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/features/updates/data/data_sources/mod_releases_data_source.dart';
 import 'package:openra_launcher/features/updates/data/models/release_model.dart';
@@ -40,7 +40,7 @@ void main() {
     group('getModReleases', () {
       test('should close connection when done', () async {
         // when
-        await dataSource.getModReleases({tMod});
+        await dataSource.getModReleases({tMod}).run();
 
         // then
         verify(mockClient.read(
@@ -55,18 +55,21 @@ void main() {
         when(mockClient.read(any, headers: anyNamed('headers')))
             .thenThrow(http.ClientException('reason'));
 
-        // then, when
-        expect(
-            () async => await dataSource.getModReleases({tMod}),
-            throwsA(const TypeMatcher<ServerException>()
-                .having((e) => e.message, 'message', contains('reason'))));
+        // when
+        final result = await dataSource.getModReleases({tMod}).run();
+
+        // then
+        result.fold(
+          (failure) => expect(failure, isA<ServerFailure>()),
+          (result) => fail('Expected Either.Left'),
+        );
       });
 
       test(
           'should perform a GET requet against the release endpoint of queried mods',
           () async {
         // when
-        await dataSource.getModReleases({tMod});
+        await dataSource.getModReleases({tMod}).run();
 
         // then
         verify(mockClient.read(
@@ -80,7 +83,7 @@ void main() {
         const tModRepo = 'unsupportedMod/unsupportedMod';
 
         // when
-        await dataSource.getModReleases({tMod});
+        await dataSource.getModReleases({tMod}).run();
 
         // then
         verifyNever(mockClient.read(
@@ -92,7 +95,7 @@ void main() {
           'should perform a single GET requet against OpenRA repo for official mods (TD, D2k, RA)',
           () async {
         // when
-        await dataSource.getModReleases(tOfficialMods);
+        await dataSource.getModReleases(tOfficialMods).run();
 
         // then
         verify(mockClient.read(
@@ -106,10 +109,15 @@ void main() {
             .thenAnswer((_) async => '[]');
 
         // when
-        final result = await dataSource.getModReleases({tMod});
+        final result = await dataSource.getModReleases({tMod}).run();
 
         // then
-        expect(result, <ReleaseModel>{});
+        result.fold(
+          (failure) => fail('Expected Either.Right'),
+          (result) {
+            expect(result, <ReleaseModel>{});
+          },
+        );
       });
 
       test('should return latest releases for official mods', () async {
@@ -118,10 +126,15 @@ void main() {
             .thenAnswer((_) async => tResponse);
 
         // when
-        final result = await dataSource.getModReleases(tOfficialMods);
+        final result = await dataSource.getModReleases(tOfficialMods).run();
 
         // then
-        expect(result, hasLength(3));
+        result.fold(
+          (failure) => fail('Expected Either.Right'),
+          (result) {
+            expect(result, hasLength(3));
+          },
+        );
       });
 
       test(
@@ -131,12 +144,17 @@ void main() {
             .thenAnswer((_) async => tPlaytestIsLatest);
 
         // when
-        final result = await dataSource.getModReleases({'ca'});
+        final result = await dataSource.getModReleases({'ca'}).run();
 
         // then
-        expect(result.where((r) => r.modId == 'ca'), hasLength(2));
-        expect(result.where((r) => !r.isPlaytest), hasLength(1));
-        expect(result.where((r) => r.isPlaytest), hasLength(1));
+        result.fold(
+          (failure) => fail('Expected Either.Right'),
+          (result) {
+            expect(result.where((r) => r.modId == 'ca'), hasLength(2));
+            expect(result.where((r) => !r.isPlaytest), hasLength(1));
+            expect(result.where((r) => r.isPlaytest), hasLength(1));
+          },
+        );
       });
 
       test('should return only release for mods where playtest is older',
@@ -145,12 +163,17 @@ void main() {
             .thenAnswer((_) async => tReleaseIsLatest);
 
         // when
-        final result = await dataSource.getModReleases({'cnc'});
+        final result = await dataSource.getModReleases({'cnc'}).run();
 
         // then
-        expect(result.where((r) => r.modId == 'cnc'), hasLength(1));
-        expect(result.where((r) => !r.isPlaytest), hasLength(1));
-        expect(result.where((r) => r.isPlaytest), hasLength(0));
+        result.fold(
+          (failure) => fail('Expected Either.Right'),
+          (result) {
+            expect(result.where((r) => r.modId == 'cnc'), hasLength(1));
+            expect(result.where((r) => !r.isPlaytest), hasLength(1));
+            expect(result.where((r) => r.isPlaytest), hasLength(0));
+          },
+        );
       });
     });
   });

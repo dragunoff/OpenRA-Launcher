@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/features/updates/domain/repositories/mod_releases_repository.abstract.dart';
 import 'package:openra_launcher/features/updates/domain/use_cases/get_latest_mod_releases.dart';
@@ -11,6 +12,10 @@ import '../../../../testing/utils/test_utils.dart';
 import 'get_latest_mod_releases_test.mocks.dart';
 
 void main() {
+  provideDummy<TaskEither<ServerFailure, Set<Release>>>(
+    TaskEither.left(const ServerFailure()),
+  );
+
   MockModReleasesRepository mockModReleasesRepository =
       MockModReleasesRepository();
   GetLatestModReleases usecase =
@@ -34,15 +39,13 @@ void main() {
     test('should get mod releases from the repository', () async {
       // given
       when(mockModReleasesRepository.getModReleases(any))
-          .thenAnswer((_) async => Right(tReleases));
+          .thenAnswer((_) => TaskEither.right(tReleases));
 
       // when
-      final response = await usecase(Params(mods: tMods));
-      final result =
-          response.foldRight<Set<Release>>(<Release>{}, ((r, previous) => r));
+      final response = await usecase(Params(mods: tMods)).run();
 
       // then
-      expect(result, tReleases);
+      expect(response, Right(tReleases));
       verify(mockModReleasesRepository.getModReleases(tMods));
       verifyNoMoreInteractions(mockModReleasesRepository);
     });

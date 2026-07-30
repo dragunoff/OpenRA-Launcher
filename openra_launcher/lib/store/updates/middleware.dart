@@ -26,7 +26,9 @@ Middleware<AppState> createLoadModUpdates(
 
     final uniqueInstalledModIds = selectUniqueInstalledModIds(store.state);
 
-    getLatestModReleases(Params(mods: uniqueInstalledModIds)).then((releases) {
+    getLatestModReleases(Params(mods: uniqueInstalledModIds))
+        .run()
+        .then((releases) {
       releases.fold((failure) {
         store.dispatch(UpdatesEmptyAction());
         store.dispatch(UpdatesErrorAction());

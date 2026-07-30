@@ -15,7 +15,7 @@ void main() {
         'LaunchArgs'
       ];
       final metadata = MiniYamlUtils.modMetadataFromFile(
-          TestUtils.getYamlFile('valid.yaml'));
+          TestUtils.getYamlFile('valid-ra.yaml'));
 
       expect(metadata.keys, containsAll(mandatoryFields));
       expect(metadata['Id'], 'ra');
@@ -48,7 +48,7 @@ void main() {
 
     test('should parse valid files with icons', () {
       final metadata = MiniYamlUtils.modMetadataFromFile(
-          TestUtils.getYamlFile('valid.yaml'));
+          TestUtils.getYamlFile('valid-ra.yaml'));
       final base64Png = TestUtils.getTestPngBase64();
 
       expect(metadata['Icon'], base64Png);
