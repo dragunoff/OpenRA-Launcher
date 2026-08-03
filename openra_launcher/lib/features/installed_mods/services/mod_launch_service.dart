@@ -26,15 +26,14 @@ class ProcessStarter implements LaunchProcessStarter {
 
 @LazySingleton(as: ModLaunchService)
 class ProcessModLaunchService implements ModLaunchService {
-  ProcessModLaunchService({LaunchProcessStarter? starter})
-      : _starter = starter ?? ProcessStarter();
+  final LaunchProcessStarter starter;
 
-  final LaunchProcessStarter _starter;
+  ProcessModLaunchService({required this.starter});
 
   @override
   Future<void> launch(Mod mod) async {
     try {
-      await _starter.start(mod.launchPath, mod.launchArgs);
+      await starter.start(mod.launchPath, mod.launchArgs);
     } on Object catch (error, stackTrace) {
       Error.throwWithStackTrace(
         ModLaunchException(mod: mod, cause: error),
