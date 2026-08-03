@@ -32,22 +32,18 @@ class ModReleasesDataSourceImpl implements ModReleasesDataSource {
       final endpointsToFetch = Map.from(endpoints);
       endpointsToFetch.removeWhere((key, value) => !mods.contains(key));
 
-      try {
-        for (final modId in endpointsToFetch.keys) {
-          final endpoint = endpointsToFetch[modId];
+      for (final modId in endpointsToFetch.keys) {
+        final endpoint = endpointsToFetch[modId];
 
-          if (alreadyFetched.containsKey(endpoint)) {
-            rawResponses[modId] = alreadyFetched[endpoint] as String;
-            continue;
-          }
-
-          final response = await httpClientService.read(Uri.parse(endpoint));
-
-          rawResponses[modId] = response;
-          alreadyFetched[endpoint] = response;
+        if (alreadyFetched.containsKey(endpoint)) {
+          rawResponses[modId] = alreadyFetched[endpoint] as String;
+          continue;
         }
-      } finally {
-        httpClientService.close();
+
+        final response = await httpClientService.read(Uri.parse(endpoint));
+
+        rawResponses[modId] = response;
+        alreadyFetched[endpoint] = response;
       }
 
       Set<ReleaseModel> releases = {};
@@ -56,8 +52,12 @@ class ModReleasesDataSourceImpl implements ModReleasesDataSource {
         releases.addAll(_getReleasesFromResponse(modId, response));
       });
 
+      httpClientService.close();
       return Future.value(releases);
-    }, (error, stackTrace) => ServerFailure(error.toString()));
+    }, (error, stackTrace) {
+      httpClientService.close();
+      return ServerFailure(error.toString());
+    });
   }
 
   static Set<ReleaseModel> _getReleasesFromResponse(
