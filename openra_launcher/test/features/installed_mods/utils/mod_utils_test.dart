@@ -19,18 +19,4 @@ void main() {
       expect(ModUtils.isDevMod(mod), false);
     });
   });
-
-  group('Official mod check', () {
-    test('should return true if mod is an official one', () {
-      final mod = TestUtils.generateRandomOfficialMod();
-
-      expect(ModUtils.isOfficialMod(mod), true);
-    });
-
-    test('should return false if mod is not an official one', () {
-      final mod = TestUtils.generateMod();
-
-      expect(ModUtils.isOfficialMod(mod), false);
-    });
-  });
 }

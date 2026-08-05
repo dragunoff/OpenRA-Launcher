@@ -17,8 +17,7 @@ class InstalledModsHome extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
         converter: _ViewModel.fromStore,
         builder: (context, vm) {
-          final officialMods = vm.officialMods;
-          final communityMods = vm.communityMods;
+          final installedMods = vm.installedMods;
           final favoriteMods = vm.favoriteMods;
 
           if (vm.modsListStatus == ListStatus.loading) {
@@ -34,17 +33,13 @@ class InstalledModsHome extends StatelessWidget {
 
           if (favoriteMods.isNotEmpty) {
             children.add(const ListDivider('Favorite mods'));
-            children.add(InstalledModsList(mods: favoriteMods, isFavoritesList: true));
+            children.add(
+                InstalledModsList(mods: favoriteMods, isFavoritesList: true));
           }
 
-          if (officialMods.isNotEmpty) {
-            children.add(const ListDivider('Official mods'));
-            children.add(InstalledModsList(mods: officialMods));
-          }
-
-          if (communityMods.isNotEmpty) {
-            children.add(const ListDivider('Community mods'));
-            children.add(InstalledModsList(mods: communityMods));
+          if (installedMods.isNotEmpty) {
+            children.add(const ListDivider('Installed mods'));
+            children.add(InstalledModsList(mods: installedMods));
           }
 
           return SingleChildScrollView(
@@ -56,22 +51,19 @@ class InstalledModsHome extends StatelessWidget {
 }
 
 class _ViewModel {
-  final Set<Mod> officialMods;
-  final Set<Mod> communityMods;
+  final Set<Mod> installedMods;
   final Set<Mod> favoriteMods;
   final ListStatus modsListStatus;
 
   _ViewModel({
-    required this.officialMods,
-    required this.communityMods,
+    required this.installedMods,
     required this.favoriteMods,
     required this.modsListStatus,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      officialMods: selectOfficialMods(store.state),
-      communityMods: selectCommunityMods(store.state),
+      installedMods: selectInstalledMods(store.state),
       favoriteMods: selectFavoriteMods(store.state),
       modsListStatus: store.state.modsListStatus,
     );

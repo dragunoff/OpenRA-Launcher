@@ -1,17 +1,8 @@
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/store/app_state.dart';
-import 'package:openra_launcher/features/installed_mods/utils/mod_utils.dart';
 
-Set<Mod> selectOfficialMods(AppState state) {
+Set<Mod> selectInstalledMods(AppState state) {
   return state.mods
-      .where((mod) => ModUtils.isOfficialMod(mod))
-      .where((mod) => !state.favoriteMods.contains(mod.key))
-      .toSet();
-}
-
-Set<Mod> selectCommunityMods(AppState state) {
-  return state.mods
-      .where((mod) => !ModUtils.isOfficialMod(mod))
       .where((mod) => !state.favoriteMods.contains(mod.key))
       .toSet();
 }
