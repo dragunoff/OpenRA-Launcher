@@ -11,7 +11,6 @@ class ListDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(color: ThemeData.dark().dividerColor),
         padding: const EdgeInsets.symmetric(
             vertical: AppConstants.spacing, horizontal: AppConstants.spacing2x),
         child: Text(text));

@@ -32,13 +32,13 @@ class InstalledModsHome extends StatelessWidget {
           final List<Widget> children = [];
 
           if (favoriteMods.isNotEmpty) {
-            children.add(const ListDivider('Favorite mods'));
+            children.add(const ListDivider('Favorites'));
             children.add(
                 InstalledModsList(mods: favoriteMods, isFavoritesList: true));
           }
 
           if (installedMods.isNotEmpty) {
-            children.add(const ListDivider('Installed mods'));
+            children.add(const ListDivider('Installed'));
             children.add(InstalledModsList(mods: installedMods));
           }
 

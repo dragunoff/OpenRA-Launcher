@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
-import 'package:openra_launcher/store/app_state.dart';
-import 'package:openra_launcher/widgets/app_bar_popup_menu.widget.dart';
 import 'package:openra_launcher/features/app_update/widgets/app_update_dialog.widget.dart';
-import 'package:openra_launcher/widgets/label_with_icon.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_home.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_home.widget.dart';
+import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/widgets/app_bar_popup_menu.widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key, required this.title, required this.onInit})
+  const HomeScreen({Key? key, required this.title, required this.onInit})
       : super(key: key);
 
   final String title;
@@ -17,15 +16,11 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-
-  final List<Tab> mainTabs = [
-    const Tab(child: LabelWithIcon(icon: Icons.list, text: 'Mods')),
-    const Tab(child: LabelWithIcon(icon: Icons.update, text: 'Updates')),
-  ];
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool shoudlOpenUpdateDialog = true;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -44,8 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
       if (shoudlOpenUpdateDialog && checkFoUpdates && appRelease != null) {
         if (context.mounted) {
           showDialog(
-              context: context,
-              builder: (context) => AppUpdateDialog(appRelease: appRelease));
+            context: context,
+            builder: (context) => AppUpdateDialog(appRelease: appRelease),
+          );
           setState(() {
             shoudlOpenUpdateDialog = false;
           });
@@ -53,19 +49,79 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
 
-    return DefaultTabController(
-        length: widget.mainTabs.length,
-        child: Scaffold(
-          appBar: AppBar(
-              title: Text(widget.title),
-              actions: const [AppBarPopupMenu()],
-              bottom: TabBar(tabs: widget.mainTabs)),
-          body: const TabBarView(
-            children: [
-              InstalledModsHome(),
-              UpdatesHome(),
-            ],
+    final destinations = <_HomeDestination>[
+      _HomeDestination(
+        label: 'Mods',
+        icon: Icons.list,
+        selectedIcon: Icons.list,
+        content: const InstalledModsHome(),
+      ),
+      _HomeDestination(
+        label: 'Updates',
+        icon: Icons.update,
+        selectedIcon: Icons.update,
+        content: const UpdatesHome(),
+      ),
+    ];
+
+    final selectedDestination = destinations[_selectedIndex];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: const [AppBarPopupMenu()],
+      ),
+      body: Row(
+        children: [
+          NavigationRail(
+            selectedIndex: _selectedIndex,
+            onDestinationSelected: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            minExtendedWidth: 220,
+            extended: true,
+            useIndicator: true,
+            destinations: destinations
+                .map(
+                  (destination) => NavigationRailDestination(
+                    icon: Icon(destination.icon),
+                    selectedIcon: Icon(destination.selectedIcon),
+                    label: Text(destination.label),
+                  ),
+                )
+                .toList(),
           ),
-        ));
+          Expanded(
+            child: Material(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              elevation: 2,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: selectedDestination.content,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
+}
+
+class _HomeDestination {
+  const _HomeDestination({
+    required this.label,
+    required this.icon,
+    required this.selectedIcon,
+    required this.content,
+  });
+
+  final String label;
+  final IconData icon;
+  final IconData selectedIcon;
+  final Widget content;
 }
