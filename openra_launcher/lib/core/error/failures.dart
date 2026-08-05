@@ -7,6 +7,10 @@ class ServerFailure extends Failure {
   const ServerFailure([String? message]) : super(message);
 }
 
+class PlatformFailure extends Failure {
+  const PlatformFailure([String? message]) : super(message);
+}
+
 class FileSystemFailure extends Failure {
   const FileSystemFailure([String? message]) : super(message);
 }

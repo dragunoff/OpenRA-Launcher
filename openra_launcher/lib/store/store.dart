@@ -1,3 +1,4 @@
+import 'package:openra_launcher/core/platform/get_package_info.dart';
 import 'package:openra_launcher/features/app_update/use_cases/get_latest_app_release.dart';
 import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -27,6 +28,7 @@ Future<Store<AppState>> createStore() async {
         getInstalledMods: getIt.get<GetInstalledMods>(),
         getLatestModReleases: getIt.get<GetLatestModReleases>(),
         getLatestAppRelease: getIt.get<GetLatestAppRelease>(),
+        getPackageInfo: getIt.get<GetPackageInfo>(),
       ),
       persistor.createMiddleware()
     ],

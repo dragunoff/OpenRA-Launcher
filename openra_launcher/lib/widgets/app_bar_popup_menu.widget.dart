@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
+import 'package:openra_launcher/core/platform/get_package_info.dart';
+import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
+import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
-import 'package:openra_launcher/utils/platform_utils.dart';
 import 'package:openra_launcher/widgets/about_dialog_contents.widget.dart';
 
 enum Menu { refreshMods, checkForUpdates, showAboutDialog }
@@ -19,7 +21,9 @@ class AppBarPopupMenu extends StatelessWidget {
           switch (value) {
             case Menu.showAboutDialog:
               {
-                final packageInfo = await PlatformUtils.getPackageInfo();
+                final packageInfo =
+                    await getIt<GetPackageInfo>()(NoParams()).run();
+
                 if (context.mounted) {
                   return showAboutDialog(
                     context: context,

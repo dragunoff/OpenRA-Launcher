@@ -6,7 +6,7 @@ import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
 
 @lazySingleton
-class GetInstalledMods implements UseCase<Set<Mod>, NoParams> {
+class GetInstalledMods implements TaskEitherUseCase<Set<Mod>, NoParams> {
   final InstalledModsRepository repository;
 
   GetInstalledMods(this.repository);

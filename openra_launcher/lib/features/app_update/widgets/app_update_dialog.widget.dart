@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
+import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
-import 'package:openra_launcher/utils/platform_utils.dart';
+import 'package:openra_launcher/injection.dart';
 
 class AppUpdateDialog extends StatelessWidget {
   const AppUpdateDialog({
@@ -20,13 +21,12 @@ class AppUpdateDialog extends StatelessWidget {
               'A new version (${appRelease.version}) of this app is available.')),
       actions: [
         TextButton(
-            onPressed: (() {
-              PlatformUtils.launchUrlInExternalBrowser(appRelease.htmlUrl)
-                  .whenComplete(() {
-                if (context.mounted) {
-                  Navigator.pop(context);
-                }
-              });
+            onPressed: (() async {
+              await getIt<OpenExternalUrl>()(appRelease.htmlUrl).run();
+
+              if (context.mounted) {
+                Navigator.pop(context);
+              }
             }),
             child: const Text('Go to Download')),
         TextButton(

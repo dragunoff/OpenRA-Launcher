@@ -7,7 +7,7 @@ import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
 
 @lazySingleton
-class GetLatestModReleases implements UseCase<Set<Release>, Params> {
+class GetLatestModReleases implements TaskEitherUseCase<Set<Release>, Params> {
   final ModReleasesRepository repository;
 
   GetLatestModReleases(this.repository);
