@@ -68,15 +68,9 @@ class ModReleaseInfoChips extends StatelessWidget {
             break;
         }
 
-        final List<Container> wrappedChips = chips
-            .map((chip) => Container(
-                  margin: const EdgeInsets.only(left: AppConstants.spacing),
-                  child: chip,
-                ))
-            .toList();
-
         return Row(
-          children: wrappedChips,
+          spacing: AppConstants.spacing,
+          children: chips,
         );
       },
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/injection.dart';
@@ -31,18 +32,18 @@ class _UpdatesListTileState extends State<UpdatesListTile> {
     final leading = ModIcon(mod: mod);
     final openExternalUrl = getIt<OpenExternalUrl>();
 
-    final List<Widget> trailingChildren = [];
-    trailingChildren.add(OutlinedButton.icon(
+    final List<Widget> trailingChildren = [
+      FilledButton.icon(
         icon: const Icon(Icons.download),
         onPressed: () async {
           await openExternalUrl(widget.release.htmlUrl).run();
         },
-        label: const Text('Go to Download')));
+        label: const Text('Download'),
+      )
+    ];
 
     return InkWell(
-        onTap: () async {
-          await openExternalUrl(widget.release.htmlUrl).run();
-        },
+        onTap: () {},
         onHover: (hovering) {
           setState(() {
             _isHovered = hovering;
@@ -54,12 +55,15 @@ class _UpdatesListTileState extends State<UpdatesListTile> {
           });
         },
         child: ListTile(
-          mouseCursor: SystemMouseCursors.click,
           leading: leading,
           title: Text(mod.title),
           subtitle: Text(widget.release.version),
           trailing: _isHovered
-              ? FittedBox(child: Row(children: trailingChildren))
+              ? FittedBox(
+                  child: Row(
+                  spacing: AppConstants.spacing,
+                  children: trailingChildren,
+                ))
               : null,
         ));
   }

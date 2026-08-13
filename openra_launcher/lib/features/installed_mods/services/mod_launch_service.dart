@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 
@@ -35,6 +36,15 @@ class ProcessModLaunchService implements ModLaunchService {
     try {
       await starter.start(mod.launchPath, mod.launchArgs);
     } on Object catch (error, stackTrace) {
+      FlutterError.reportError(
+        FlutterErrorDetails(
+          exception: error,
+          stack: stackTrace,
+          library: 'installed_mods',
+          context: ErrorDescription('launching mod ${mod.title}'),
+        ),
+      );
+
       Error.throwWithStackTrace(
         ModLaunchException(mod: mod, cause: error),
         stackTrace,

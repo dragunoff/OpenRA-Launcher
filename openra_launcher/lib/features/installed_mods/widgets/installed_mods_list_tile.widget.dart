@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/services/mod_launch_service.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/favorite_mod_button.widget.dart';
-import 'package:openra_launcher/widgets/loading_indicator.widget.dart';
 import 'package:openra_launcher/widgets/mod_icon.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/mod_release_info_chips.widget.dart';
 import 'package:openra_launcher/injection.dart';
@@ -30,7 +30,7 @@ class _InstalledModsListTileState extends State<InstalledModsListTile> {
   Future<void> _launchMod() async {
     try {
       await getIt<ModLaunchService>().launch(widget.mod);
-    } on ModLaunchException catch (error, stackTrace) {
+    } on ModLaunchException catch (_) {
       if (!mounted) {
         return;
       }
@@ -39,15 +39,6 @@ class _InstalledModsListTileState extends State<InstalledModsListTile> {
         SnackBar(
           content: Text('Could not launch ${widget.mod.title}'),
           behavior: SnackBarBehavior.floating,
-        ),
-      );
-
-      FlutterError.reportError(
-        FlutterErrorDetails(
-          exception: error,
-          stack: stackTrace,
-          library: 'installed_mods',
-          context: ErrorDescription('launching mod ${widget.mod.title}'),
         ),
       );
     }
@@ -61,34 +52,34 @@ class _InstalledModsListTileState extends State<InstalledModsListTile> {
 
   @override
   Widget build(BuildContext context) {
-    final leading = ModIcon(mod: widget.mod);
+    final List<Widget> trailingChildren = [
+      ModReleaseInfoChips(
+        mod: widget.mod,
+      ),
+      FilledButton.icon(
+          icon: const Icon(Icons.rocket),
+          onPressed: () async {
+            if (_isLaunching) {
+              return;
+            }
 
-    final favButtonWidget = FavoriteModButton(
-      mod: widget.mod,
-      isFavorite: widget.isFavorite,
-    );
-
-    final favButtonOrLaunchingIndicator = SizedBox(
-        width: 40,
-        height: 40,
-        child: _isLaunching ? const LoadingIndicator() : favButtonWidget);
-
-    final List<Widget> trailingChildren = [];
-    final releaseInfoChips = ModReleaseInfoChips(
-      mod: widget.mod,
-    );
-
-    trailingChildren.add(releaseInfoChips);
-    trailingChildren.add(favButtonOrLaunchingIndicator);
+            _setIsLaunching(true);
+            _launchMod().whenComplete(() =>
+                // NOTE: Artificial delay to give feedback that something is going on
+                Timer(
+                  const Duration(milliseconds: 500),
+                  () => _setIsLaunching(false),
+                ));
+          },
+          label: const Text('Launch')),
+      FavoriteModButton(
+        mod: widget.mod,
+        isFavorite: widget.isFavorite,
+      ),
+    ];
 
     return InkWell(
-        onTap: () {
-          _setIsLaunching(true);
-          _launchMod().whenComplete(() =>
-              // NOTE: Add artificial delay to give the user
-              // feedback that something is going on
-              Timer(const Duration(seconds: 1), () => _setIsLaunching(false)));
-        },
+        onTap: () {},
         onHover: (hovering) {
           setState(() {
             _isHovered = hovering;
@@ -100,13 +91,15 @@ class _InstalledModsListTileState extends State<InstalledModsListTile> {
           });
         },
         child: ListTile(
-          mouseCursor: SystemMouseCursors.click,
-          enabled: !_isLaunching,
-          leading: leading,
+          leading: ModIcon(mod: widget.mod),
           title: Text(widget.mod.title),
           subtitle: Text(widget.mod.version),
           trailing: _isHovered
-              ? FittedBox(child: Row(children: trailingChildren))
+              ? FittedBox(
+                  child: Row(
+                  spacing: AppConstants.spacing,
+                  children: trailingChildren,
+                ))
               : null,
         ));
   }
