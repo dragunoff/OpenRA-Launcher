@@ -30,10 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AppRelease? appRelease =
-        StoreProvider.of<AppState>(context).state.appRelease;
-    bool checkFoUpdates =
-        StoreProvider.of<AppState>(context).state.autoCheckAppUpdates;
+    final appState = StoreProvider.of<AppState>(context).state;
+
+    final AppRelease? appRelease = appState.appRelease;
+    final bool checkFoUpdates = appState.autoCheckAppUpdates;
+    final updatesCount = appState.releases.length;
 
     Future.delayed(Duration.zero, () {
       if (shoudlOpenUpdateDialog && checkFoUpdates && appRelease != null) {
@@ -51,12 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final destinations = <_HomeDestination>[
       _HomeDestination(
+        id: 'mods',
         label: 'Mods',
         icon: Icons.list,
         selectedIcon: Icons.list,
         content: const InstalledModsHome(),
       ),
       _HomeDestination(
+        id: 'updates',
         label: 'Updates',
         icon: Icons.update,
         selectedIcon: Icons.update,
@@ -83,15 +86,38 @@ class _HomeScreenState extends State<HomeScreen> {
             minExtendedWidth: 220,
             extended: true,
             useIndicator: true,
-            destinations: destinations
-                .map(
-                  (destination) => NavigationRailDestination(
-                    icon: Icon(destination.icon),
-                    selectedIcon: Icon(destination.selectedIcon),
-                    label: Text(destination.label),
-                  ),
-                )
-                .toList(),
+            destinations: destinations.map(
+              (destination) {
+                Widget iconWidget = Icon(destination.icon);
+                Widget selectedIconWidget = Icon(destination.selectedIcon);
+
+                if (destination.id == 'updates' && updatesCount > 0) {
+                  final label = Text(
+                    updatesCount.toString(),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontSize: 10,
+                    ),
+                  );
+
+                  iconWidget = Badge(
+                    label: label,
+                    child: Icon(destination.icon),
+                  );
+
+                  selectedIconWidget = Badge(
+                    label: label,
+                    child: Icon(destination.selectedIcon),
+                  );
+                }
+
+                return NavigationRailDestination(
+                  icon: iconWidget,
+                  selectedIcon: selectedIconWidget,
+                  label: Text(destination.label),
+                );
+              },
+            ).toList(),
           ),
           Expanded(
             child: Material(
@@ -114,12 +140,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class _HomeDestination {
   const _HomeDestination({
+    required this.id,
     required this.label,
     required this.icon,
     required this.selectedIcon,
     required this.content,
   });
 
+  final String id;
   final String label;
   final IconData icon;
   final IconData selectedIcon;
