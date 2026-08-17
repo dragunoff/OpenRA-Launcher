@@ -62,9 +62,21 @@ class _ViewModel {
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
+    final hiddenModIds = store.state.mods
+        .where((mod) => store.state.hiddenMods.contains(mod.key))
+        .map((mod) => mod.id)
+        .toSet();
+
+    Set<Release> filterHidden(Set<Release> releases) {
+      if (store.state.showHiddenMods) return releases;
+      return releases
+          .where((release) => !hiddenModIds.contains(release.modId))
+          .toSet();
+    }
+
     return _ViewModel(
-      releases: selectReleaseUpdates(store.state),
-      playtests: selectPlaytestUpdates(store.state),
+      releases: filterHidden(selectReleaseUpdates(store.state)),
+      playtests: filterHidden(selectPlaytestUpdates(store.state)),
       modsListStatus: store.state.modsListStatus,
       updatesListStatus: store.state.updatesListStatus,
     );

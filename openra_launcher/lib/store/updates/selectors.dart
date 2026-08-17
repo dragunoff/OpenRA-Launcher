@@ -64,3 +64,16 @@ bool selectHasPlaytestUpdate(AppState state, Mod mod) {
   return !state.mods.any((installed) =>
       installed.id == mod.id && installed.version == latestPlaytest.version);
 }
+
+int selectUpdatesCount(AppState state) {
+  if (state.showHiddenMods) return state.releases.length;
+
+  final hiddenModIds = state.mods
+      .where((mod) => state.hiddenMods.contains(mod.key))
+      .map((mod) => mod.id)
+      .toSet();
+
+  return state.releases
+      .where((release) => !hiddenModIds.contains(release.modId))
+      .length;
+}

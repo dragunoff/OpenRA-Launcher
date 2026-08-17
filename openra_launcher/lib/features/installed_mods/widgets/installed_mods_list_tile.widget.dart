@@ -5,6 +5,8 @@ import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/services/mod_launch_service.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/favorite_mod_button.widget.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/mod_actions_menu_button.widget.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/unhide_mod_button.widget.dart';
 import 'package:openra_launcher/widgets/mod_icon.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/mod_release_info_chips.widget.dart';
 import 'package:openra_launcher/injection.dart';
@@ -14,10 +16,12 @@ class InstalledModsListTile extends StatefulWidget {
     Key? key,
     required this.mod,
     this.isFavorite = false,
+    this.isHidden = false,
   }) : super(key: key);
 
   final Mod mod;
   final bool isFavorite;
+  final bool isHidden;
 
   @override
   State<InstalledModsListTile> createState() => _InstalledModsListTileState();
@@ -72,10 +76,13 @@ class _InstalledModsListTileState extends State<InstalledModsListTile> {
                 ));
           },
           label: const Text('Launch')),
-      FavoriteModButton(
-        mod: widget.mod,
-        isFavorite: widget.isFavorite,
-      ),
+      widget.isHidden
+          ? UnhideModButton(mod: widget.mod)
+          : FavoriteModButton(
+              mod: widget.mod,
+              isFavorite: widget.isFavorite,
+            ),
+      ModActionsMenuButton(mod: widget.mod),
     ];
 
     return InkWell(

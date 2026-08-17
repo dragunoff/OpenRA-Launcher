@@ -34,18 +34,27 @@ class InstalledModsHome extends StatelessWidget {
 
           if (favoriteMods.isNotEmpty) {
             children.add(const ListDivider('Favorites'));
-            children.add(
-                InstalledModsList(mods: favoriteMods, isFavoritesList: true));
+            children.add(InstalledModsList(
+              mods: favoriteMods,
+              isFavoritesList: true,
+              hiddenMods: vm.hiddenMods,
+            ));
           }
 
           if (installedMods.isNotEmpty) {
             children.add(const ListDivider('Installed'));
-            children.add(InstalledModsList(mods: installedMods));
+            children.add(InstalledModsList(
+              mods: installedMods,
+              hiddenMods: vm.hiddenMods,
+            ));
           }
 
           if (devMods.isNotEmpty && vm.showDevMods) {
             children.add(const ListDivider('Development'));
-            children.add(InstalledModsList(mods: devMods));
+            children.add(InstalledModsList(
+              mods: devMods,
+              hiddenMods: vm.hiddenMods,
+            ));
           }
 
           return SingleChildScrollView(
@@ -60,6 +69,7 @@ class _ViewModel {
   final Set<Mod> installedMods;
   final Set<Mod> favoriteMods;
   final Set<Mod> devMods;
+  final Set<String> hiddenMods;
   final bool showDevMods;
   final ListStatus modsListStatus;
 
@@ -67,15 +77,24 @@ class _ViewModel {
     required this.installedMods,
     required this.favoriteMods,
     required this.devMods,
+    required this.hiddenMods,
     required this.showDevMods,
     required this.modsListStatus,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
+    final showHiddenMods = store.state.showHiddenMods;
+
+    Set<Mod> filterHidden(Set<Mod> mods) {
+      if (showHiddenMods) return mods;
+      return mods.where((mod) => !store.state.hiddenMods.contains(mod.key)).toSet();
+    }
+
     return _ViewModel(
-      installedMods: selectInstalledMods(store.state),
-      favoriteMods: selectFavoriteMods(store.state),
-      devMods: selectDevMods(store.state),
+      installedMods: filterHidden(selectInstalledMods(store.state)),
+      favoriteMods: filterHidden(selectFavoriteMods(store.state)),
+      devMods: filterHidden(selectDevMods(store.state)),
+      hiddenMods: store.state.hiddenMods,
       showDevMods: store.state.showDevMods,
       modsListStatus: store.state.modsListStatus,
     );

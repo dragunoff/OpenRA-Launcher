@@ -14,20 +14,24 @@ class AppState {
   final Set<Mod> mods;
   final Set<Release> releases;
   final Set<String> favoriteMods;
+  final Set<String> hiddenMods;
   final ListStatus modsListStatus;
   final ListStatus updatesListStatus;
   final bool autoCheckAppUpdates;
   final bool showDevMods;
+  final bool showHiddenMods;
   final AppRelease? appRelease;
 
   AppState({
     this.mods = const {},
     this.releases = const {},
     this.favoriteMods = const {},
+    this.hiddenMods = const {},
     this.modsListStatus = ListStatus.initial,
     this.updatesListStatus = ListStatus.initial,
     this.autoCheckAppUpdates = true,
     this.showDevMods = false,
+    this.showHiddenMods = false,
     this.appRelease,
   });
 
@@ -38,8 +42,10 @@ class AppState {
 
     return AppState(
       favoriteMods: Set.from(json['favoriteMods'] ?? {}),
+      hiddenMods: Set.from(json['hiddenMods'] ?? {}),
       autoCheckAppUpdates: json['autoCheckAppUpdates'] ?? true,
       showDevMods: json['showDevMods'] ?? false,
+      showHiddenMods: json['showHiddenMods'] ?? false,
     );
   }
 
@@ -47,7 +53,9 @@ class AppState {
     return {
       'autoCheckAppUpdates': autoCheckAppUpdates,
       'showDevMods': showDevMods,
+      'showHiddenMods': showHiddenMods,
       'favoriteMods': favoriteMods.toList(),
+      'hiddenMods': hiddenMods.toList(),
     };
   }
 }

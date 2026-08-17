@@ -22,6 +22,12 @@ Set<Mod> selectDevMods(AppState state) {
       .toSet();
 }
 
+Set<Mod> selectHiddenMods(AppState state) {
+  return state.mods
+      .where((mod) => state.hiddenMods.contains(mod.key))
+      .toSet();
+}
+
 Set<String> selectUniqueInstalledModIds(AppState state) {
   return state.mods
       .where((mod) => !ModUtils.isDevMod(mod))

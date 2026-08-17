@@ -7,10 +7,17 @@ import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/store/show_dev_mods/actions.dart';
+import 'package:openra_launcher/store/show_hidden_mods/actions.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:openra_launcher/widgets/about_dialog_contents.widget.dart';
 
-enum Menu { refreshMods, checkForUpdates, showDevMods, showAboutDialog }
+enum Menu {
+  refreshMods,
+  checkForUpdates,
+  showDevMods,
+  showHiddenMods,
+  showAboutDialog
+}
 
 class AppBarPopupMenu extends StatelessWidget {
   const AppBarPopupMenu({Key? key}) : super(key: key);
@@ -57,6 +64,7 @@ class AppBarPopupMenu extends StatelessWidget {
             store.dispatch(LoadUpdatesAction());
           },
         ),
+        const PopupMenuDivider(),
         CheckedPopupMenuItem<Menu>(
           value: Menu.showDevMods,
           checked: store.state.showDevMods,
@@ -64,6 +72,16 @@ class AppBarPopupMenu extends StatelessWidget {
           onTap: () {
             store.dispatch(
                 store.state.showDevMods ? ShowDevModsOff() : ShowDevModsOn());
+          },
+        ),
+        CheckedPopupMenuItem<Menu>(
+          value: Menu.showHiddenMods,
+          checked: store.state.showHiddenMods,
+          child: const Text('Show hidden mods'),
+          onTap: () {
+            store.dispatch(store.state.showHiddenMods
+                ? ShowHiddenModsOff()
+                : ShowHiddenModsOn());
           },
         ),
         const PopupMenuDivider(),

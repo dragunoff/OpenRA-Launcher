@@ -231,5 +231,134 @@ void main() {
       expect(selectCurrentModReleaseType(state, installedMod),
           ModReleaseType.none);
     });
+
+    group('selectUpdatesCount', () {
+      test('should count all releases when no mods are hidden', () {
+        final state = AppState(
+          mods: {installedMod},
+          releases: {
+            Release(
+              modId: 'test',
+              id: 10,
+              name: 'Release 1.0.1',
+              version: '1.0.1',
+              isPlaytest: false,
+              htmlUrl: 'https://example.com/1.0.1',
+            ),
+            Release(
+              modId: 'test',
+              id: 20,
+              name: 'Playtest 1.1.0',
+              version: '1.1.0',
+              isPlaytest: true,
+              htmlUrl: 'https://example.com/1.1.0',
+            ),
+          },
+        );
+
+        expect(selectUpdatesCount(state), 2);
+      });
+
+      test('should exclude releases for hidden mods', () {
+        final hiddenMod = Mod(
+          key: 'other-2.0.0',
+          id: 'other',
+          version: '2.0.0',
+          title: 'Other Mod',
+          launchPath: '/launch',
+          launchArgs: const [''],
+        );
+
+        final state = AppState(
+          mods: {installedMod, hiddenMod},
+          hiddenMods: {hiddenMod.key},
+          releases: {
+            Release(
+              modId: 'test',
+              id: 10,
+              name: 'Release 1.0.1',
+              version: '1.0.1',
+              isPlaytest: false,
+              htmlUrl: 'https://example.com/1.0.1',
+            ),
+            Release(
+              modId: 'other',
+              id: 20,
+              name: 'Release 3.0.0',
+              version: '3.0.0',
+              isPlaytest: false,
+              htmlUrl: 'https://example.com/3.0.0',
+            ),
+          },
+        );
+
+        expect(selectUpdatesCount(state), 1);
+      });
+
+      test('should count all releases when showHiddenMods is true', () {
+        final hiddenMod = Mod(
+          key: 'other-2.0.0',
+          id: 'other',
+          version: '2.0.0',
+          title: 'Other Mod',
+          launchPath: '/launch',
+          launchArgs: const [''],
+        );
+
+        final state = AppState(
+          mods: {installedMod, hiddenMod},
+          hiddenMods: {hiddenMod.key},
+          showHiddenMods: true,
+          releases: {
+            Release(
+              modId: 'test',
+              id: 10,
+              name: 'Release 1.0.1',
+              version: '1.0.1',
+              isPlaytest: false,
+              htmlUrl: 'https://example.com/1.0.1',
+            ),
+            Release(
+              modId: 'other',
+              id: 20,
+              name: 'Release 3.0.0',
+              version: '3.0.0',
+              isPlaytest: false,
+              htmlUrl: 'https://example.com/3.0.0',
+            ),
+          },
+        );
+
+        expect(selectUpdatesCount(state), 2);
+      });
+
+      test('should return zero when all releases are for hidden mods', () {
+        final hiddenMod = Mod(
+          key: 'other-2.0.0',
+          id: 'other',
+          version: '2.0.0',
+          title: 'Other Mod',
+          launchPath: '/launch',
+          launchArgs: const [''],
+        );
+
+        final state = AppState(
+          mods: {hiddenMod},
+          hiddenMods: {hiddenMod.key},
+          releases: {
+            Release(
+              modId: 'other',
+              id: 20,
+              name: 'Release 3.0.0',
+              version: '3.0.0',
+              isPlaytest: false,
+              htmlUrl: 'https://example.com/3.0.0',
+            ),
+          },
+        );
+
+        expect(selectUpdatesCount(state), 0);
+      });
+    });
   });
 }

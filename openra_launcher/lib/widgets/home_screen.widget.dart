@@ -5,6 +5,7 @@ import 'package:openra_launcher/features/app_update/widgets/app_update_dialog.wi
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_home.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_home.widget.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/app_bar_popup_menu.widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final AppRelease? appRelease = appState.appRelease;
     final bool checkFoUpdates = appState.autoCheckAppUpdates;
-    final updatesCount = appState.releases.length;
+    final updatesCount = selectUpdatesCount(appState);
 
     Future.delayed(Duration.zero, () {
       if (shoudlOpenUpdateDialog && checkFoUpdates && appRelease != null) {
