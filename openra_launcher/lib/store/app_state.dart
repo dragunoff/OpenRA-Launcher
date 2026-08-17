@@ -17,6 +17,7 @@ class AppState {
   final ListStatus modsListStatus;
   final ListStatus updatesListStatus;
   final bool autoCheckAppUpdates;
+  final bool showDevMods;
   final AppRelease? appRelease;
 
   AppState({
@@ -26,6 +27,7 @@ class AppState {
     this.modsListStatus = ListStatus.initial,
     this.updatesListStatus = ListStatus.initial,
     this.autoCheckAppUpdates = true,
+    this.showDevMods = false,
     this.appRelease,
   });
 
@@ -37,12 +39,14 @@ class AppState {
     return AppState(
       favoriteMods: Set.from(json['favoriteMods'] ?? {}),
       autoCheckAppUpdates: json['autoCheckAppUpdates'] ?? true,
+      showDevMods: json['showDevMods'] ?? false,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'autoCheckAppUpdates': autoCheckAppUpdates,
+      'showDevMods': showDevMods,
       'favoriteMods': favoriteMods.toList(),
     };
   }

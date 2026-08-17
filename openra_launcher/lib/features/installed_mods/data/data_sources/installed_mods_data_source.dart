@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/platform/support_dir_service.dart';
 import 'package:openra_launcher/features/installed_mods/data/models/mod_model.dart';
-import 'package:openra_launcher/features/installed_mods/utils/mod_utils.dart';
 import 'package:path/path.dart' as path;
 
 abstract class InstalledModsDataSource {
@@ -46,8 +45,7 @@ class InstalledModsDataSourceImpl implements InstalledModsDataSource {
             try {
               final mod = ModModel.fromFile(file);
               if (fileSystem.file(mod.launchPath).existsSync() &&
-                  path.basenameWithoutExtension(file.path) == mod.key &&
-                  !ModUtils.isDevMod(mod)) {
+                  path.basenameWithoutExtension(file.path) == mod.key) {
                 return mod;
               }
             } catch (error, stackTrace) {

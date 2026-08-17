@@ -44,7 +44,27 @@ class InstalledModsFixtureGenerator {
         launchArgs: 'Game.Mod=d2k',
         isValid: true,
       ),
-      if (includeDevVersions)
+      _FixtureManifest(
+        filename: 'hv-release-20231010.yaml',
+        id: 'hv',
+        version: 'release-20231010',
+        title: 'OpenHV',
+        launchPath:
+            path.join(launchTargetsDir.path, 'hv-release-20231010.sh'),
+        launchArgs: 'Game.Mod=hv',
+        isValid: true,
+      ),
+      _FixtureManifest(
+        filename: 'sp-release-20230802.yaml',
+        id: 'sp',
+        version: 'release-20230802',
+        title: 'Shattered Paradise',
+        launchPath:
+            path.join(launchTargetsDir.path, 'sp-release-20230802.sh'),
+        launchArgs: 'Game.Mod=sp',
+        isValid: true,
+      ),
+      if (includeDevVersions) ...[
         _FixtureManifest(
           filename: 'ts-{DEV_VERSION}.yaml',
           id: 'ts',
@@ -54,6 +74,25 @@ class InstalledModsFixtureGenerator {
           launchArgs: 'Game.Mod=ts',
           isValid: true,
         ),
+        _FixtureManifest(
+          filename: 'hv-{DEV_VERSION}.yaml',
+          id: 'hv',
+          version: '{DEV_VERSION}',
+          title: 'OpenHV',
+          launchPath: path.join(launchTargetsDir.path, 'hv-{DEV_VERSION}.sh'),
+          launchArgs: 'Game.Mod=hv',
+          isValid: true,
+        ),
+        _FixtureManifest(
+          filename: 'sp-{DEV_VERSION}.yaml',
+          id: 'sp',
+          version: '{DEV_VERSION}',
+          title: 'Shattered Paradise',
+          launchPath: path.join(launchTargetsDir.path, 'sp-{DEV_VERSION}.sh'),
+          launchArgs: 'Game.Mod=sp',
+          isValid: true,
+        ),
+      ],
       if (includeInvalidEntries)
         _FixtureManifest(
           filename: 'invalid-missing-launchpath.yaml',
@@ -102,7 +141,11 @@ class InstalledModsFixtureGenerator {
       'ra-release-20210321.yaml',
       'cnc-release-20210321.yaml',
       'd2k-release-20210321.yaml',
+      'hv-release-20231010.yaml',
+      'sp-release-20230802.yaml',
       'ts-{DEV_VERSION}.yaml',
+      'hv-{DEV_VERSION}.yaml',
+      'sp-{DEV_VERSION}.yaml',
       'invalid-missing-launchpath.yaml',
       'bogus-filename.yaml',
     ];
@@ -111,7 +154,11 @@ class InstalledModsFixtureGenerator {
       path.join(launchTargetsDir.path, 'ra-release-20210321.sh'),
       path.join(launchTargetsDir.path, 'cnc-release-20210321.sh'),
       path.join(launchTargetsDir.path, 'd2k-release-20210321.sh'),
+      path.join(launchTargetsDir.path, 'hv-release-20231010.sh'),
+      path.join(launchTargetsDir.path, 'sp-release-20230802.sh'),
       path.join(launchTargetsDir.path, 'ts-{DEV_VERSION}.sh'),
+      path.join(launchTargetsDir.path, 'hv-{DEV_VERSION}.sh'),
+      path.join(launchTargetsDir.path, 'sp-{DEV_VERSION}.sh'),
     ];
 
     for (final fileName in manifestFiles) {

@@ -167,7 +167,7 @@ void main() {
             });
           });
 
-          test('should not load dev version mods', () async {
+          test('should load dev version mods', () async {
             // given
             mockFileSystem
                 .file('home/user/code/OpenRA/launch-game.sh')
@@ -186,7 +186,7 @@ void main() {
             out.fold(
               (failure) => fail('Expected Either.Right'),
               (result) {
-                expect(result, isEmpty);
+                expect(result, hasLength(1));
               },
             );
           });

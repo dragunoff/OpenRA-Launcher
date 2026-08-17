@@ -19,6 +19,7 @@ class InstalledModsHome extends StatelessWidget {
         builder: (context, vm) {
           final installedMods = vm.installedMods;
           final favoriteMods = vm.favoriteMods;
+          final devMods = vm.devMods;
 
           if (vm.modsListStatus == ListStatus.loading) {
             return const LoadingState(text: 'Scannig for installed mods...');
@@ -42,6 +43,11 @@ class InstalledModsHome extends StatelessWidget {
             children.add(InstalledModsList(mods: installedMods));
           }
 
+          if (devMods.isNotEmpty && vm.showDevMods) {
+            children.add(const ListDivider('Development'));
+            children.add(InstalledModsList(mods: devMods));
+          }
+
           return SingleChildScrollView(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -53,11 +59,15 @@ class InstalledModsHome extends StatelessWidget {
 class _ViewModel {
   final Set<Mod> installedMods;
   final Set<Mod> favoriteMods;
+  final Set<Mod> devMods;
+  final bool showDevMods;
   final ListStatus modsListStatus;
 
   _ViewModel({
     required this.installedMods,
     required this.favoriteMods,
+    required this.devMods,
+    required this.showDevMods,
     required this.modsListStatus,
   });
 
@@ -65,6 +75,8 @@ class _ViewModel {
     return _ViewModel(
       installedMods: selectInstalledMods(store.state),
       favoriteMods: selectFavoriteMods(store.state),
+      devMods: selectDevMods(store.state),
+      showDevMods: store.state.showDevMods,
       modsListStatus: store.state.modsListStatus,
     );
   }

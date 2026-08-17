@@ -5,6 +5,7 @@ import 'package:openra_launcher/store/app_update/reducer.dart';
 import 'package:openra_launcher/store/auto_check_app_updates/reducer.dart';
 import 'package:openra_launcher/store/favorite_mods/reducer.dart';
 import 'package:openra_launcher/store/mods_list_status/reducer.dart';
+import 'package:openra_launcher/store/show_dev_mods/reducer.dart';
 import 'package:openra_launcher/store/updates/reducer.dart';
 import 'package:openra_launcher/store/updates_list_status/reducer.dart';
 
@@ -18,6 +19,7 @@ AppState appReducer(AppState state, action) {
         updatesListStatusReducer(state.updatesListStatus, action),
     autoCheckAppUpdates:
         autoCheckAppUpdatesReducer(state.autoCheckAppUpdates, action),
+    showDevMods: showDevModsReducer(state.showDevMods, action),
     appRelease: appUpdateReducer(state.appRelease, action),
   );
 }

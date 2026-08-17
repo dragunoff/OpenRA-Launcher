@@ -19,6 +19,15 @@ class ModReleaseInfoChips extends StatelessWidget {
       fontWeight: FontWeight.w200,
     );
 
+    if (ModUtils.isDevMod(mod)) {
+      return const Row(children: [
+        Chip(
+          label: Text('DEV VERSION'),
+          labelStyle: style,
+        )
+      ]);
+    }
+
     if (!isSupported) {
       return const Row(children: [
         Chip(
