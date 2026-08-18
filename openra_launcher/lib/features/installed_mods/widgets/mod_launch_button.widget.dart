@@ -42,7 +42,7 @@ class _ModLaunchButtonState extends State<ModLaunchButton> {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton.icon(
+    return OutlinedButton.icon(
         icon: const Icon(Icons.rocket),
         onPressed: () async {
           if (_isLaunching) {

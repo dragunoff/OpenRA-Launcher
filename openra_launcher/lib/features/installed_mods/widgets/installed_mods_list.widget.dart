@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
-import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list_tile.widget.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_card.widget.dart';
 
 class InstalledModsList extends StatelessWidget {
   const InstalledModsList({
@@ -22,7 +22,7 @@ class InstalledModsList extends StatelessWidget {
         itemCount: mods.length,
         itemBuilder: (BuildContext context, int index) {
           final Mod mod = mods.elementAt(index);
-          return InstalledModsListTile(
+          return InstalledModsCard(
             mod: mod,
             isFavorite: isFavoritesList,
             isHidden: hiddenMods.contains(mod.key),
