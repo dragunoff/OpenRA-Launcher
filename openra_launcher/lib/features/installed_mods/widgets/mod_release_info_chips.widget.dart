@@ -20,12 +20,7 @@ class ModReleaseInfoChips extends StatelessWidget {
     );
 
     if (ModUtils.isDevMod(mod)) {
-      return const Row(children: [
-        Chip(
-          label: Text('DEV VERSION'),
-          labelStyle: style,
-        )
-      ]);
+      return const Row(children: []);
     }
 
     if (!isSupported) {
