@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/widgets/empty_state.widget.dart';
 
 class InstalledModsListEmptyState extends StatelessWidget {
-  const InstalledModsListEmptyState({Key? key, this.listStatus = ListStatus.empty})
+  const InstalledModsListEmptyState(
+      {Key? key, this.listStatus = ListStatus.empty})
       : super(key: key);
 
   final ListStatus listStatus;

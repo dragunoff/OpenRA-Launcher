@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
@@ -8,6 +8,7 @@ import 'package:openra_launcher/features/updates/widgets/updates_home.widget.dar
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/app_bar_popup_menu.widget.dart';
+import 'package:openra_launcher/widgets/theme_toggle_button.widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title, required this.onInit})
@@ -78,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
               padding: EdgeInsets.symmetric(horizontal: AppConstants.spacing),
               child: Row(spacing: AppConstants.spacing, children: [
+                ThemeToggleButton(),
                 AppBarPopupMenu(),
               ]))
         ],

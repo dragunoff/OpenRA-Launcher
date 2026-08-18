@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class EmptyState extends StatelessWidget {
   const EmptyState({Key? key, this.text = 'Loading...'}) : super(key: key);
@@ -8,7 +8,7 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(
-            children: [const CircularProgressIndicator(), Text(text)]));
+        child:
+            Column(children: [const CircularProgressIndicator(), Text(text)]));
   }
 }

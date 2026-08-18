@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -8,31 +9,40 @@ import 'package:openra_launcher/widgets/home_screen.widget.dart';
 import 'package:redux/redux.dart';
 
 class OpenRALauncher extends StatelessWidget {
-  const OpenRALauncher({Key? key, required this.store}) : super(key: key);
+  const OpenRALauncher({Key? key, required this.store, this.savedThemeMode})
+      : super(key: key);
   final Store<AppState> store;
   final String title = AppConstants.appName;
+  final AdaptiveThemeMode? savedThemeMode;
 
   @override
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
         store: store,
-        child: MaterialApp(
-            title: title,
-            initialRoute: '/',
-            routes: {
-              '/': (context) => StoreConnector<AppState, _ViewModel>(
-                    converter: _ViewModel.fromStore,
-                    builder: ((context, vm) {
-                      return HomeScreen(
-                        title: title,
-                        onInit: () {
-                          vm.loadMods();
-                          vm.loadAppUpdate();
-                        },
-                      );
-                    }),
-                  ),
-            }));
+        child: AdaptiveTheme(
+          light: ThemeData.light(),
+          dark: ThemeData.dark(),
+          initial: savedThemeMode ?? AdaptiveThemeMode.system,
+          builder: (theme, darkTheme) => MaterialApp(
+              title: title,
+              theme: theme,
+              darkTheme: darkTheme,
+              initialRoute: '/',
+              routes: {
+                '/': (context) => StoreConnector<AppState, _ViewModel>(
+                      converter: _ViewModel.fromStore,
+                      builder: ((context, vm) {
+                        return HomeScreen(
+                          title: title,
+                          onInit: () {
+                            vm.loadMods();
+                            vm.loadAppUpdate();
+                          },
+                        );
+                      }),
+                    ),
+              }),
+        ));
   }
 }
 

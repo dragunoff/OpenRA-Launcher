@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
@@ -6,7 +6,8 @@ import 'package:openra_launcher/store/favorite_mods/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
 
 class FavoriteModButton extends StatelessWidget {
-  const FavoriteModButton({Key? key, required this.mod, required this.isFavorite})
+  const FavoriteModButton(
+      {Key? key, required this.mod, required this.isFavorite})
       : super(key: key);
 
   final Mod mod;

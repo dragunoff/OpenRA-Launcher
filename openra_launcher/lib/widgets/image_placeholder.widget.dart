@@ -1,5 +1,4 @@
-
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class ImagePlaceholder extends StatelessWidget {
   const ImagePlaceholder({
@@ -12,7 +11,7 @@ class ImagePlaceholder extends StatelessWidget {
       width: 32,
       height: 32,
       decoration: ShapeDecoration(
-          shape: const CircleBorder(), color: ThemeData.dark().highlightColor),
+          shape: const CircleBorder(), color: Theme.of(context).highlightColor),
     );
   }
 }

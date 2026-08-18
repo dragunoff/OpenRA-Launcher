@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -87,7 +87,9 @@ class _ViewModel {
 
     Set<Mod> filterHidden(Set<Mod> mods) {
       if (showHiddenMods) return mods;
-      return mods.where((mod) => !store.state.hiddenMods.contains(mod.key)).toSet();
+      return mods
+          .where((mod) => !store.state.hiddenMods.contains(mod.key))
+          .toSet();
     }
 
     return _ViewModel(

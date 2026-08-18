@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/widgets/loading_indicator.widget.dart';
 
