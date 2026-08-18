@@ -37,37 +37,80 @@ class _ViewModel {
   }
 }
 
-class ModActionsMenuButton extends StatelessWidget {
-  const ModActionsMenuButton({Key? key, required this.mod}) : super(key: key);
+class ModActionsMenuButton extends StatefulWidget {
+  const ModActionsMenuButton({
+    Key? key,
+    required this.mod,
+    this.onMenuToggle,
+  }) : super(key: key);
 
   final Mod mod;
+  final ValueChanged<bool>? onMenuToggle;
+
+  @override
+  State<ModActionsMenuButton> createState() => _ModActionsMenuButtonState();
+}
+
+class _ModActionsMenuButtonState extends State<ModActionsMenuButton> {
+  final MenuController _menuController = MenuController();
+  bool _lastIsOpen = false;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, _ViewModel>(
-      converter: (store) => _ViewModel.fromStore(store, mod),
-      builder: (context, vm) {
-        return PopupMenuButton<String>(
-          iconSize: 16,
-          icon: const Icon(Icons.more_vert),
-          itemBuilder: (context) => [
-            if (vm.isHidden)
-              PopupMenuItem<String>(
-                onTap: vm.toggleFavorite,
-                value: 'toggle_favorite',
-                child: Text(
-                  vm.isFavorite ? 'Remove from favorites' : 'Add to favorites',
-                ),
-              )
-            else
-              PopupMenuItem<String>(
-                onTap: vm.toggleHidden,
-                value: 'toggle_hidden',
-                child: const Text('Hide mod'),
-              ),
-          ],
-        );
-      },
-    );
+        converter: (store) => _ViewModel.fromStore(store, widget.mod),
+        builder: (context, vm) {
+          return Directionality(
+              textDirection: TextDirection.rtl,
+              child: MenuAnchor(
+                controller: _menuController,
+                builder: (BuildContext context, MenuController controller,
+                    Widget? child) {
+                  final isOpen = controller.isOpen;
+                  if (isOpen != _lastIsOpen) {
+                    _lastIsOpen = isOpen;
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      widget.onMenuToggle?.call(isOpen);
+                    });
+                  }
+                  return IconButton(
+                    iconSize: 16,
+                    icon: const Icon(Icons.more_vert),
+                    onPressed: () {
+                      if (controller.isOpen) {
+                        controller.close();
+                      } else {
+                        controller.open();
+                      }
+                    },
+                  );
+                },
+                menuChildren: [
+                  if (vm.isHidden)
+                    Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: MenuItemButton(
+                          onPressed: vm.toggleFavorite,
+                          leadingIcon: Icon(
+                              vm.isFavorite ? Icons.star_border : Icons.star),
+                          child: Text(
+                            vm.isFavorite
+                                ? 'Remove from favorites'
+                                : 'Add to favorites',
+                          ),
+                        ))
+                  else
+                    Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: MenuItemButton(
+                          leadingIcon: Icon(vm.isFavorite
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: vm.toggleHidden,
+                          child: const Text('Hide mod'),
+                        )),
+                ],
+              ));
+        });
   }
 }

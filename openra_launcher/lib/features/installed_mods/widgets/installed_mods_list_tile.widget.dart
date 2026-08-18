@@ -30,6 +30,7 @@ class InstalledModsListTile extends StatefulWidget {
 class _InstalledModsListTileState extends State<InstalledModsListTile> {
   bool _isLaunching = false;
   bool _isHovered = false;
+  bool _isMenuOpen = false;
 
   Future<void> _launchMod() async {
     try {
@@ -56,6 +57,21 @@ class _InstalledModsListTileState extends State<InstalledModsListTile> {
 
   @override
   Widget build(BuildContext context) {
+    final Widget pinnedButton = widget.isHidden
+        ? UnhideModButton(mod: widget.mod)
+        : FavoriteModButton(
+            mod: widget.mod,
+            isFavorite: widget.isFavorite,
+          );
+
+    final Widget actionsMenuButton = ModActionsMenuButton(
+        mod: widget.mod,
+        onMenuToggle: (open) {
+          setState(() {
+            _isMenuOpen = open;
+          });
+        });
+
     final List<Widget> trailingChildren = [
       ModReleaseInfoChips(
         mod: widget.mod,
@@ -76,13 +92,8 @@ class _InstalledModsListTileState extends State<InstalledModsListTile> {
                 ));
           },
           label: const Text('Launch')),
-      widget.isHidden
-          ? UnhideModButton(mod: widget.mod)
-          : FavoriteModButton(
-              mod: widget.mod,
-              isFavorite: widget.isFavorite,
-            ),
-      ModActionsMenuButton(mod: widget.mod),
+      pinnedButton,
+      actionsMenuButton,
     ];
 
     return InkWell(
@@ -98,16 +109,13 @@ class _InstalledModsListTileState extends State<InstalledModsListTile> {
           });
         },
         child: ListTile(
-          leading: ModIcon(mod: widget.mod),
-          title: Text(widget.mod.title),
-          subtitle: Text(widget.mod.version),
-          trailing: _isHovered
-              ? FittedBox(
-                  child: Row(
-                  spacing: AppConstants.spacing,
-                  children: trailingChildren,
-                ))
-              : null,
-        ));
+            leading: ModIcon(mod: widget.mod),
+            title: Text(widget.mod.title),
+            subtitle: Text(widget.mod.version),
+            trailing: FittedBox(
+                child: Row(
+              spacing: AppConstants.spacing,
+              children: (_isHovered || _isMenuOpen) ? trailingChildren : [],
+            ))));
   }
 }

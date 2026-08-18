@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
 import 'package:openra_launcher/features/app_update/widgets/app_update_dialog.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_home.widget.dart';
@@ -73,7 +74,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: const [AppBarPopupMenu()],
+        actions: [
+          Container(
+              padding: EdgeInsets.symmetric(horizontal: AppConstants.spacing),
+              child: Row(spacing: AppConstants.spacing, children: [
+                AppBarPopupMenu(),
+              ]))
+        ],
       ),
       body: Row(
         children: [
