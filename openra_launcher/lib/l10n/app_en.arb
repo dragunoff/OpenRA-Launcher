@@ -1,0 +1,64 @@
+{
+  "@@locale": "en",
+  "appUpdateTitle": "{appName} Update",
+  "@appUpdateTitle": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "appUpdateBody": "A new version ({version}) of this app is available.",
+  "@appUpdateBody": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "goToDownload": "Go to Download",
+  "notNow": "Not Now",
+  "mods": "Mods",
+  "updates": "Updates",
+  "switchColorTheme": "Switch color theme",
+  "refreshMods": "Refresh mods",
+  "checkForUpdates": "Check for updates",
+  "showDevMods": "Show dev mods",
+  "showHiddenMods": "Show hidden mods",
+  "aboutThisApp": "About this app",
+  "appLegalese": "glhf by dragunoff",
+  "checkForAppUpdatesOnStartup": "Check for app updates on startup",
+  "updatesNotSupported": "UPDATES NOT SUPPORTED",
+  "releaseAvailable": "RELEASE AVAILABLE",
+  "playtestAvailable": "PLAYTEST AVAILABLE",
+  "currentRelease": "CURRENT RELEASE",
+  "currentPlaytest": "CURRENT PLAYTEST",
+  "noInstalledModsFound": "No installed mods found.",
+  "modsScanError": "There was an error while scanning for mods.",
+  "tryAgain": "Try again",
+  "refresh": "Refresh",
+  "scanningForInstalledMods": "Scanning for installed mods...",
+  "favorites": "Favorites",
+  "installed": "Installed",
+  "development": "Development",
+  "couldNotLaunchMod": "Could not launch {modTitle}",
+  "@couldNotLaunchMod": {
+    "placeholders": {
+      "modTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "launch": "Launch",
+  "removeFromFavorites": "Remove from favorites",
+  "addToFavorites": "Add to favorites",
+  "hideMod": "Hide mod",
+  "unhideMod": "Unhide mod",
+  "everythingUpToDate": "Everything up to date.",
+  "updatesFetchError": "There was an error while fetching updates. Please try again later.",
+  "checkNow": "Check now",
+  "checkingForUpdates": "Checking for updates...",
+  "releaseAvailableSection": "Release available",
+  "playtestAvailableSection": "Playtest available",
+  "download": "Download"
+}

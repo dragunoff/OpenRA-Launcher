@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/utils/mod_utils.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 
@@ -24,9 +25,9 @@ class ModReleaseInfoChips extends StatelessWidget {
     }
 
     if (!isSupported) {
-      return const Row(children: [
+      return Row(children: [
         Chip(
-          label: Text('UPDATES NOT SUPPORTED'),
+          label: Text(AppLocalizations.of(context)!.updatesNotSupported),
           labelStyle: style,
         )
       ]);
@@ -39,32 +40,33 @@ class ModReleaseInfoChips extends StatelessWidget {
         currentReleaseType: selectCurrentModReleaseType(store.state, mod),
       ),
       builder: (context, vm) {
+        final l10n = AppLocalizations.of(context)!;
         final List<Chip> chips = [];
 
         if (vm.hasRelease) {
-          chips.add(const Chip(
-            label: Text('RELEASE AVAILABLE'),
+          chips.add(Chip(
+            label: Text(l10n.releaseAvailable),
             labelStyle: style,
           ));
         }
 
         if (vm.hasPlaytest) {
-          chips.add(const Chip(
-            label: Text('PLAYTEST AVAILABLE'),
+          chips.add(Chip(
+            label: Text(l10n.playtestAvailable),
             labelStyle: style,
           ));
         }
 
         switch (vm.currentReleaseType) {
           case ModReleaseType.release:
-            chips.add(const Chip(
-              label: Text('CURRENT RELEASE'),
+            chips.add(Chip(
+              label: Text(l10n.currentRelease),
               labelStyle: style,
             ));
             break;
           case ModReleaseType.playtest:
-            chips.add(const Chip(
-              label: Text('CURRENT PLAYTEST'),
+            chips.add(Chip(
+              label: Text(l10n.currentPlaytest),
               labelStyle: style,
             ));
             break;

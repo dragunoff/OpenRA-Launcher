@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/auto_check_app_updates/actions.dart';
 import 'package:redux/redux.dart';
@@ -15,7 +16,7 @@ class AboutDialogContents extends StatelessWidget {
       converter: _ViewModel.fromStore,
       builder: ((context, vm) {
         return CheckboxListTile(
-          title: const Text('Check for app updates on statup'),
+          title: Text(AppLocalizations.of(context)!.checkForAppUpdatesOnStartup),
           controlAffinity: ListTileControlAffinity.leading,
           value: vm.checkFoUpdates,
           onChanged: (value) {

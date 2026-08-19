@@ -4,6 +4,7 @@ import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/core/platform/get_package_info.dart';
 import 'package:openra_launcher/domain/usecases/use_case.abstract.dart';
 import 'package:openra_launcher/injection.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/store/show_dev_mods/actions.dart';
@@ -47,6 +48,8 @@ class AppBarPopupMenu extends StatelessWidget {
             : ShowHiddenModsOn()),
       );
     }, builder: (context, vm) {
+      final l10n = AppLocalizations.of(context)!;
+
       return Directionality(
           textDirection: TextDirection.rtl,
           child: MenuAnchor(
@@ -68,13 +71,13 @@ class AppBarPopupMenu extends StatelessWidget {
                   textDirection: TextDirection.ltr,
                   child: MenuItemButton(
                     onPressed: vm.reloadMods,
-                    child: const Text('Refresh mods'),
+                    child: Text(l10n.refreshMods),
                   )),
               Directionality(
                   textDirection: TextDirection.ltr,
                   child: MenuItemButton(
                     onPressed: vm.loadUpdates,
-                    child: const Text('Check for updates'),
+                    child: Text(l10n.checkForUpdates),
                   )),
               const Divider(),
               Directionality(
@@ -85,7 +88,7 @@ class AppBarPopupMenu extends StatelessWidget {
                         : const Icon(Icons.check_box_outline_blank),
                     onPressed: vm.toggleDevMods,
                     closeOnActivate: false,
-                    child: const Text('Show dev mods'),
+                    child: Text(l10n.showDevMods),
                   )),
               Directionality(
                   textDirection: TextDirection.ltr,
@@ -95,13 +98,13 @@ class AppBarPopupMenu extends StatelessWidget {
                         : const Icon(Icons.check_box_outline_blank),
                     onPressed: vm.toggleHiddenMods,
                     closeOnActivate: false,
-                    child: const Text('Show hidden mods'),
+                    child: Text(l10n.showHiddenMods),
                   )),
               const Divider(),
               Directionality(
                   textDirection: TextDirection.ltr,
                   child: MenuItemButton(
-                    child: const Text('About this app'),
+                    child: Text(l10n.aboutThisApp),
                     onPressed: () async {
                       final packageInfo =
                           await getIt<GetPackageInfo>()(NoParams()).run();
@@ -111,7 +114,7 @@ class AppBarPopupMenu extends StatelessWidget {
                           context: context,
                           applicationName: AppConstants.appName,
                           applicationVersion: packageInfo.version,
-                          applicationLegalese: 'glhf by dragunoff',
+                          applicationLegalese: l10n.appLegalese,
                           children: [
                             const AboutDialogContents(),
                           ],

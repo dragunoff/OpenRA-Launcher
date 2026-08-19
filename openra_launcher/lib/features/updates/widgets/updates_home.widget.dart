@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/list_divider.widget.dart';
@@ -17,10 +18,12 @@ class UpdatesHome extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
         converter: _ViewModel.fromStore,
         builder: (context, vm) {
+          final l10n = AppLocalizations.of(context)!;
+
           if (vm.modsListStatus == ListStatus.loading) {
-            return const LoadingState(text: 'Scannig for installed mods...');
+            return LoadingState(text: l10n.scanningForInstalledMods);
           } else if (vm.updatesListStatus == ListStatus.loading) {
-            return const LoadingState(text: 'Checking for updates...');
+            return LoadingState(text: l10n.checkingForUpdates);
           }
 
           if (vm.updatesListStatus == ListStatus.empty ||
@@ -31,12 +34,12 @@ class UpdatesHome extends StatelessWidget {
           final List<Widget> children = [];
 
           if (vm.releases.isNotEmpty) {
-            children.add(const ListDivider('Release available'));
+            children.add(ListDivider(l10n.releaseAvailableSection));
             children.add(UpdatesList(releases: vm.releases));
           }
 
           if (vm.playtests.isNotEmpty) {
-            children.add(const ListDivider('Playtest available'));
+            children.add(ListDivider(l10n.playtestAvailableSection));
             children.add(UpdatesList(releases: vm.playtests));
           }
 

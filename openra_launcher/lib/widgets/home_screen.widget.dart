@@ -5,6 +5,7 @@ import 'package:openra_launcher/features/app_update/domain/entities/app_release.
 import 'package:openra_launcher/features/app_update/widgets/app_update_dialog.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_home.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_home.widget.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/app_bar_popup_menu.widget.dart';
@@ -53,17 +54,19 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
 
+    final l10n = AppLocalizations.of(context)!;
+
     final destinations = <_HomeDestination>[
       _HomeDestination(
         id: 'mods',
-        label: 'Mods',
+        label: l10n.mods,
         icon: Icons.list,
         selectedIcon: Icons.list,
         content: const InstalledModsHome(),
       ),
       _HomeDestination(
         id: 'updates',
-        label: 'Updates',
+        label: l10n.updates,
         icon: Icons.update,
         selectedIcon: Icons.update,
         content: const UpdatesHome(),

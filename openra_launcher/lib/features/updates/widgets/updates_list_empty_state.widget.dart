@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:openra_launcher/widgets/empty_state.widget.dart';
@@ -9,17 +10,15 @@ class UpdatesListEmptyState extends StatelessWidget {
       : super(key: key);
 
   final ListStatus listStatus;
-  final String text = 'Everything up to date.';
-  final String updatesErrorText =
-      'There was an error while fetching updates. Please try again later.';
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final hasError = listStatus == ListStatus.error;
 
     return EmptyState(
-      text: hasError ? updatesErrorText : text,
-      buttonText: 'Check now',
+      text: hasError ? l10n.updatesFetchError : l10n.everythingUpToDate,
+      buttonText: l10n.checkNow,
       buttonIcon: Icons.refresh,
       buttonOnPressed: () {
         StoreProvider.of<AppState>(context).dispatch(LoadUpdatesAction());

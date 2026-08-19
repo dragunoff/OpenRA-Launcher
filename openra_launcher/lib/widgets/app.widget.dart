@@ -1,7 +1,10 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'
+    show GlobalWidgetsLocalizations, GlobalCupertinoLocalizations;
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/app_update/actions.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
@@ -27,6 +30,15 @@ class OpenRALauncher extends StatelessWidget {
               title: title,
               theme: theme,
               darkTheme: darkTheme,
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en'),
+              ],
               initialRoute: '/',
               routes: {
                 '/': (context) => StoreConnector<AppState, _ViewModel>(

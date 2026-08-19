@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
 import 'package:openra_launcher/widgets/list_divider.widget.dart';
@@ -17,12 +18,13 @@ class InstalledModsHome extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
         converter: _ViewModel.fromStore,
         builder: (context, vm) {
+          final l10n = AppLocalizations.of(context)!;
           final installedMods = vm.installedMods;
           final favoriteMods = vm.favoriteMods;
           final devMods = vm.devMods;
 
           if (vm.modsListStatus == ListStatus.loading) {
-            return const LoadingState(text: 'Scannig for installed mods...');
+            return LoadingState(text: l10n.scanningForInstalledMods);
           }
 
           if (vm.modsListStatus == ListStatus.empty ||
@@ -33,7 +35,7 @@ class InstalledModsHome extends StatelessWidget {
           final List<Widget> children = [];
 
           if (favoriteMods.isNotEmpty) {
-            children.add(const ListDivider('Favorites'));
+            children.add(ListDivider(l10n.favorites));
             children.add(InstalledModsList(
               mods: favoriteMods,
               isFavoritesList: true,
@@ -42,7 +44,7 @@ class InstalledModsHome extends StatelessWidget {
           }
 
           if (installedMods.isNotEmpty) {
-            children.add(const ListDivider('Installed'));
+            children.add(ListDivider(l10n.installed));
             children.add(InstalledModsList(
               mods: installedMods,
               hiddenMods: vm.hiddenMods,
@@ -50,7 +52,7 @@ class InstalledModsHome extends StatelessWidget {
           }
 
           if (devMods.isNotEmpty && vm.showDevMods) {
-            children.add(const ListDivider('Development'));
+            children.add(ListDivider(l10n.development));
             children.add(InstalledModsList(
               mods: devMods,
               hiddenMods: vm.hiddenMods,

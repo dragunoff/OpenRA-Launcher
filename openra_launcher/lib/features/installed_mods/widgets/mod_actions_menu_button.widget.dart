@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/favorite_mods/actions.dart';
 import 'package:openra_launcher/store/hidden_mods/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -60,6 +61,8 @@ class _ModActionsMenuButtonState extends State<ModActionsMenuButton> {
     return StoreConnector<AppState, _ViewModel>(
         converter: (store) => _ViewModel.fromStore(store, widget.mod),
         builder: (context, vm) {
+          final l10n = AppLocalizations.of(context)!;
+
           return Directionality(
               textDirection: TextDirection.rtl,
               child: MenuAnchor(
@@ -95,8 +98,8 @@ class _ModActionsMenuButtonState extends State<ModActionsMenuButton> {
                               vm.isFavorite ? Icons.star_border : Icons.star),
                           child: Text(
                             vm.isFavorite
-                                ? 'Remove from favorites'
-                                : 'Add to favorites',
+                                ? l10n.removeFromFavorites
+                                : l10n.addToFavorites,
                           ),
                         ))
                   else
@@ -107,7 +110,7 @@ class _ModActionsMenuButtonState extends State<ModActionsMenuButton> {
                               ? Icons.visibility
                               : Icons.visibility_off),
                           onPressed: vm.toggleHidden,
-                          child: const Text('Hide mod'),
+                          child: Text(l10n.hideMod),
                         )),
                 ],
               ));

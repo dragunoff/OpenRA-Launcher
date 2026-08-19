@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/services/mod_launch_service.dart';
 import 'package:openra_launcher/injection.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class ModLaunchButton extends StatefulWidget {
   const ModLaunchButton({Key? key, required this.mod}) : super(key: key);
@@ -27,7 +28,7 @@ class _ModLaunchButtonState extends State<ModLaunchButton> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Could not launch ${widget.mod.title}'),
+          content: Text(AppLocalizations.of(context)!.couldNotLaunchMod(widget.mod.title)),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -57,6 +58,6 @@ class _ModLaunchButtonState extends State<ModLaunchButton> {
                 () => _setIsLaunching(false),
               ));
         },
-        label: const Text('Launch'));
+        label: Text(AppLocalizations.of(context)!.launch));
   }
 }

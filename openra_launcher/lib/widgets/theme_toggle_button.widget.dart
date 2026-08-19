@@ -1,5 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class ThemeToggleButton extends StatelessWidget {
   const ThemeToggleButton({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class ThemeToggleButton extends StatelessWidget {
                 ? Icons.light_mode
                 : Icons.brightness_auto,
       ),
-      tooltip: 'Switch color theme',
+      tooltip: AppLocalizations.of(context)!.switchColorTheme,
       onPressed: () => AdaptiveTheme.of(context).toggleThemeMode(),
     );
   }

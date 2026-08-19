@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/injection.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
 import 'package:openra_launcher/widgets/card_layout.widget.dart';
@@ -35,7 +36,7 @@ class UpdatesCard extends StatelessWidget {
                 onPressed: () async {
                   await openExternalUrl(release.htmlUrl).run();
                 },
-                label: const Text('Download'),
+                label: Text(AppLocalizations.of(context)!.download),
               ),
             ],
           ),

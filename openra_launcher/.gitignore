@@ -53,3 +53,4 @@ app.*.map.json
 # Generated code
 /lib/injection.config.dart
 *.mocks.dart
+/lib/l10n/app_localizations*.dart
