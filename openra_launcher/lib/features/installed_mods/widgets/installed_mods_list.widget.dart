@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_card.widget.dart';
+import 'package:openra_launcher/widgets/card_grid.widget.dart';
 
 class InstalledModsList extends StatelessWidget {
   const InstalledModsList({
@@ -16,17 +17,16 @@ class InstalledModsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: mods.length,
-        itemBuilder: (BuildContext context, int index) {
-          final Mod mod = mods.elementAt(index);
-          return InstalledModsCard(
-            mod: mod,
-            isFavorite: isFavoritesList,
-            isHidden: hiddenMods.contains(mod.key),
-          );
-        });
+    return CardGrid(
+      itemCount: mods.length,
+      itemBuilder: (context, index) {
+        final Mod mod = mods.elementAt(index);
+        return InstalledModsCard(
+          mod: mod,
+          isFavorite: isFavoritesList,
+          isHidden: hiddenMods.contains(mod.key),
+        );
+      },
+    );
   }
 }

@@ -13,6 +13,6 @@ class ListDivider extends StatelessWidget {
     return Container(
         padding: const EdgeInsets.symmetric(
             vertical: AppConstants.spacing, horizontal: AppConstants.spacing2x),
-        child: Text(text, style: TextStyle(fontWeight: FontWeight.bold)));
+        child: Text(text, style: TextStyle(fontSize: 18.0)));
   }
 }

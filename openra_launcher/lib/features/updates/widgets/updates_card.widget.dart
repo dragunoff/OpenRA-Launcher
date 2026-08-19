@@ -1,12 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
-import 'package:openra_launcher/widgets/mod_icon.widget.dart';
+import 'package:openra_launcher/widgets/card_layout.widget.dart';
+import 'package:openra_launcher/widgets/mod_info_header.widget.dart';
 
 class UpdatesCard extends StatelessWidget {
   const UpdatesCard({
@@ -25,39 +25,19 @@ class UpdatesCard extends StatelessWidget {
     return StoreConnector<AppState, dynamic>(
       converter: (store) => selectModById(store.state, release.modId),
       builder: (context, mod) {
-        return Card(
-          child: Padding(
-            padding: const EdgeInsets.all(AppConstants.spacing2x),
-            child: Row(
-              children: [
-                ModIcon(mod: mod),
-                const SizedBox(width: AppConstants.spacing2x),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        mod.title,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Text(
-                        release.version,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: AppConstants.spacing2x),
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.download),
-                  onPressed: () async {
-                    await openExternalUrl(release.htmlUrl).run();
-                  },
-                  label: const Text('Download'),
-                ),
-              ],
-            ),
+        return CardLayout(
+          header: ModInfoHeader(mod: mod, version: release.version),
+          bottom: Row(
+            children: [
+              Spacer(),
+              OutlinedButton.icon(
+                icon: const Icon(Icons.download),
+                onPressed: () async {
+                  await openExternalUrl(release.htmlUrl).run();
+                },
+                label: const Text('Download'),
+              ),
+            ],
           ),
         );
       },

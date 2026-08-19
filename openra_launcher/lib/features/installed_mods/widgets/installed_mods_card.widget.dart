@@ -1,12 +1,12 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/favorite_mod_button.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/mod_actions_menu_button.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/mod_launch_button.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/mod_release_info_chips.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/unhide_mod_button.widget.dart';
-import 'package:openra_launcher/widgets/mod_icon.widget.dart';
+import 'package:openra_launcher/widgets/card_layout.widget.dart';
+import 'package:openra_launcher/widgets/mod_info_header.widget.dart';
 
 class InstalledModsCard extends StatelessWidget {
   const InstalledModsCard({
@@ -29,43 +29,21 @@ class InstalledModsCard extends StatelessWidget {
             isFavorite: isFavorite,
           );
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(AppConstants.spacing2x),
-        child: Row(
-          children: [
-            ModIcon(mod: mod),
-            const SizedBox(width: AppConstants.spacing2x),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    mod.title,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Text(
-                    mod.version,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: AppConstants.spacing2x),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ModReleaseInfoChips(mod: mod),
-                const SizedBox(width: AppConstants.spacing),
-                ModLaunchButton(mod: mod),
-                const SizedBox(width: AppConstants.spacing),
-                pinnedButton,
-                ModActionsMenuButton(mod: mod),
-              ],
-            ),
-          ],
-        ),
+    return CardLayout(
+      header: ModInfoHeader(mod: mod, version: mod.version),
+      topRight: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          pinnedButton,
+          ModActionsMenuButton(mod: mod),
+        ],
+      ),
+      bottom: Row(
+        children: [
+          ModReleaseInfoChips(mod: mod),
+          const Spacer(),
+          ModLaunchButton(mod: mod),
+        ],
       ),
     );
   }

@@ -84,65 +84,74 @@ class _HomeScreenState extends State<HomeScreen> {
               ]))
         ],
       ),
-      body: Row(
-        children: [
-          NavigationRail(
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            minExtendedWidth: 220,
-            extended: true,
-            useIndicator: true,
-            destinations: destinations.map(
-              (destination) {
-                Widget iconWidget = Icon(destination.icon);
-                Widget selectedIconWidget = Icon(destination.selectedIcon);
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final extended =
+              constraints.maxWidth > AppConstants.smallScreenBreakpoint;
+          return Row(
+            children: [
+              NavigationRail(
+                selectedIndex: _selectedIndex,
+                onDestinationSelected: (index) {
+                  setState(() {
+                    _selectedIndex = index;
+                  });
+                },
+                minExtendedWidth: 220,
+                extended: extended,
+                labelType: extended
+                    ? NavigationRailLabelType.none
+                    : NavigationRailLabelType.all,
+                useIndicator: true,
+                destinations: destinations.map(
+                  (destination) {
+                    Widget iconWidget = Icon(destination.icon);
+                    Widget selectedIconWidget = Icon(destination.selectedIcon);
 
-                if (destination.id == 'updates' && updatesCount > 0) {
-                  final label = Text(
-                    updatesCount.toString(),
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 10,
+                    if (destination.id == 'updates' && updatesCount > 0) {
+                      final label = Text(
+                        updatesCount.toString(),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          fontSize: 10,
+                        ),
+                      );
+
+                      iconWidget = Badge(
+                        label: label,
+                        child: Icon(destination.icon),
+                      );
+
+                      selectedIconWidget = Badge(
+                        label: label,
+                        child: Icon(destination.selectedIcon),
+                      );
+                    }
+
+                    return NavigationRailDestination(
+                      icon: iconWidget,
+                      selectedIcon: selectedIconWidget,
+                      label: Text(destination.label),
+                    );
+                  },
+                ).toList(),
+              ),
+              Expanded(
+                child: Material(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  elevation: 2,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: selectedDestination.content,
                     ),
-                  );
-
-                  iconWidget = Badge(
-                    label: label,
-                    child: Icon(destination.icon),
-                  );
-
-                  selectedIconWidget = Badge(
-                    label: label,
-                    child: Icon(destination.selectedIcon),
-                  );
-                }
-
-                return NavigationRailDestination(
-                  icon: iconWidget,
-                  selectedIcon: selectedIconWidget,
-                  label: Text(destination.label),
-                );
-              },
-            ).toList(),
-          ),
-          Expanded(
-            child: Material(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              elevation: 2,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: selectedDestination.content,
+                  ),
                 ),
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
