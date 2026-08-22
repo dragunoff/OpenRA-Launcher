@@ -10,7 +10,6 @@ import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/store/show_dev_mods/actions.dart';
 import 'package:openra_launcher/store/show_hidden_mods/actions.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
-import 'package:openra_launcher/widgets/about_dialog_contents.widget.dart';
 
 class _ViewModel {
   const _ViewModel({
@@ -115,9 +114,6 @@ class AppBarPopupMenu extends StatelessWidget {
                           applicationName: AppConstants.appName,
                           applicationVersion: packageInfo.version,
                           applicationLegalese: l10n.appLegalese,
-                          children: [
-                            const AboutDialogContents(),
-                          ],
                         );
                       }
                     },

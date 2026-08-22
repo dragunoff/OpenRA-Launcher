@@ -60,5 +60,11 @@
   "checkingForUpdates": "Checking for updates...",
   "releaseAvailableSection": "Release available",
   "playtestAvailableSection": "Playtest available",
-  "download": "Download"
+  "download": "Download",
+  "settings": "Settings",
+  "colorTheme": "Color theme",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "close": "Close"
 }
