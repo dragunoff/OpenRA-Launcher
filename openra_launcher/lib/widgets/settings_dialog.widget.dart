@@ -88,7 +88,18 @@ class SettingsDialog extends StatelessWidget {
                   AdaptiveTheme.of(context).setThemeMode(selected.first);
                 },
               ),
-              // const Divider(height: 32),
+              CheckboxListTile(
+                title: Text(l10n.showHiddenMods),
+                controlAffinity: ListTileControlAffinity.leading,
+                value: vm.showHiddenMods,
+                onChanged: (_) => vm.toggleHiddenMods(),
+              ),
+              CheckboxListTile(
+                title: Text(l10n.showDevMods),
+                controlAffinity: ListTileControlAffinity.leading,
+                value: vm.showDevMods,
+                onChanged: (_) => vm.toggleDevMods(),
+              ),
               CheckboxListTile(
                 title: Text(l10n.checkForAppUpdatesOnStartup),
                 controlAffinity: ListTileControlAffinity.leading,
@@ -100,18 +111,6 @@ class SettingsDialog extends StatelessWidget {
                     vm.autoCheckForAppUpdatesOff();
                   }
                 },
-              ),
-              CheckboxListTile(
-                title: Text(l10n.showDevMods),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: vm.showDevMods,
-                onChanged: (_) => vm.toggleDevMods(),
-              ),
-              CheckboxListTile(
-                title: Text(l10n.showHiddenMods),
-                controlAffinity: ListTileControlAffinity.leading,
-                value: vm.showHiddenMods,
-                onChanged: (_) => vm.toggleHiddenMods(),
               ),
             ],
           ),

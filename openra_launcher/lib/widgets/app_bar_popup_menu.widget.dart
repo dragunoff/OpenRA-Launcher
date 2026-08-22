@@ -82,16 +82,6 @@ class AppBarPopupMenu extends StatelessWidget {
               Directionality(
                   textDirection: TextDirection.ltr,
                   child: MenuItemButton(
-                    leadingIcon: vm.showDevMods
-                        ? const Icon(Icons.check_box)
-                        : const Icon(Icons.check_box_outline_blank),
-                    onPressed: vm.toggleDevMods,
-                    closeOnActivate: false,
-                    child: Text(l10n.showDevMods),
-                  )),
-              Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: MenuItemButton(
                     leadingIcon: vm.showHiddenMods
                         ? const Icon(Icons.check_box)
                         : const Icon(Icons.check_box_outline_blank),
