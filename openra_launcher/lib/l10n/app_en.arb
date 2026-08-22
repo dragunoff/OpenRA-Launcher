@@ -54,6 +54,25 @@
   "addToFavorites": "Add to favorites",
   "hideMod": "Hide mod",
   "unhideMod": "Unhide mod",
+  "openMapsFolder": "Open maps folder",
+  "couldNotOpenMapsFolder": "Could not open the maps folder of {modTitle}",
+  "@couldNotOpenMapsFolder": {
+    "placeholders": {
+      "modTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "openReplaysFolder": "Open replays folder",
+  "couldNotOpenReplaysFolder":
+      "Could not open the replays folder of {modTitle}",
+  "@couldNotOpenReplaysFolder": {
+    "placeholders": {
+      "modTitle": {
+        "type": "String"
+      }
+    }
+  },
   "everythingUpToDate": "Everything up to date.",
   "updatesFetchError": "There was an error while fetching updates. Please try again later.",
   "checkNow": "Check now",
