@@ -78,8 +78,8 @@ class _ViewModel {
     }
 
     return _ViewModel(
-      releases: filterHidden(selectReleaseUpdates(store.state)),
-      playtests: filterHidden(selectPlaytestUpdates(store.state)),
+      releases: filterHidden(selectAvailableReleaseUpdates(store.state)),
+      playtests: filterHidden(selectAvailablePlaytestUpdates(store.state)),
       modsListStatus: store.state.modsListStatus,
       updatesListStatus: store.state.updatesListStatus,
     );

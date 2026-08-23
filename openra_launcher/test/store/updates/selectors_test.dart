@@ -6,355 +6,369 @@ import 'package:openra_launcher/store/updates/selectors.dart';
 
 void main() {
   group('Update selectors', () {
-    final installedMod = Mod(
-      key: 'test-1.0.0',
-      id: 'test',
-      version: '1.0.0',
-      title: 'Test Mod',
-      launchPath: '/launch',
-      launchArgs: const [''],
-    );
-
-    final installedPlaytest = Mod(
-      key: 'test-1.1.0-playtest',
-      id: 'test',
-      version: '1.1.0',
-      title: 'Test Mod',
-      launchPath: '/launch',
-      launchArgs: const [''],
-    );
-
-    test('selectLatestReleaseForMod returns the latest non-playtest release',
-        () {
-      final state = AppState(
-        mods: {installedMod},
-        releases: {
-          Release(
-            modId: 'test',
-            id: 10,
-            name: 'Release 1.0.1',
-            version: '1.0.1',
-            isPlaytest: false,
-            htmlUrl: 'https://example.com/1.0.1',
-          ),
-          Release(
-            modId: 'test',
-            id: 12,
-            name: 'Release 1.0.2',
-            version: '1.0.2',
-            isPlaytest: false,
-            htmlUrl: 'https://example.com/1.0.2',
-          ),
-        },
-      );
-
-      final latest = selectLatestReleaseForMod(state, 'test');
-
-      expect(latest, isNotNull);
-      expect(latest!.version, '1.0.2');
-    });
-
-    test('selectLatestPlaytestForMod returns the latest playtest release', () {
-      final state = AppState(
-        mods: {installedMod},
-        releases: {
-          Release(
-            modId: 'test',
-            id: 20,
-            name: 'Playtest 1.1.0',
-            version: '1.1.0',
-            isPlaytest: true,
-            htmlUrl: 'https://example.com/1.1.0',
-          ),
-          Release(
-            modId: 'test',
-            id: 21,
-            name: 'Playtest 1.2.0',
-            version: '1.2.0',
-            isPlaytest: true,
-            htmlUrl: 'https://example.com/1.2.0',
-          ),
-        },
-      );
-
-      final latest = selectLatestPlaytestForMod(state, 'test');
-
-      expect(latest, isNotNull);
-      expect(latest!.version, '1.2.0');
-    });
-
-    test('selectHasReleaseUpdate returns true when a newer release exists', () {
-      final state = AppState(
-        mods: {installedMod},
-        releases: {
-          Release(
-            modId: 'test',
-            id: 11,
-            name: 'Release 1.1.0',
-            version: '1.1.0',
-            isPlaytest: false,
-            htmlUrl: 'https://example.com/1.1.0',
-          ),
-        },
-      );
-
-      expect(selectHasReleaseUpdate(state, installedMod), isTrue);
-    });
-
-    test(
-        'selectHasReleaseUpdate returns false when installed version is latest release',
-        () {
-      final state = AppState(
-        mods: {installedMod},
-        releases: {
-          Release(
-            modId: 'test',
-            id: 11,
-            name: 'Release 1.0.0',
-            version: '1.0.0',
-            isPlaytest: false,
-            htmlUrl: 'https://example.com/1.0.0',
-          ),
-        },
-      );
-
-      expect(selectHasReleaseUpdate(state, installedMod), isFalse);
-    });
-
-    test(
-        'selectHasPlaytestUpdate returns true when a playtest update exists and is not installed',
-        () {
-      final state = AppState(
-        mods: {installedMod},
-        releases: {
-          Release(
-            modId: 'test',
-            id: 30,
-            name: 'Playtest 1.1.0',
-            version: '1.1.0',
-            isPlaytest: true,
-            htmlUrl: 'https://example.com/1.1.0',
-          ),
-        },
-      );
-
-      expect(selectHasPlaytestUpdate(state, installedMod), isTrue);
-    });
-
-    test(
-        'selectHasPlaytestUpdate returns false when the latest playtest is installed',
-        () {
-      final state = AppState(
-        mods: {installedPlaytest},
-        releases: {
-          Release(
-            modId: 'test',
-            id: 31,
-            name: 'Playtest 1.1.0',
-            version: '1.1.0',
-            isPlaytest: true,
-            htmlUrl: 'https://example.com/1.1.0',
-          ),
-        },
-      );
-
-      expect(selectHasPlaytestUpdate(state, installedPlaytest), isFalse);
-    });
-
-    test(
-        'selectCurrentModReleaseType returns release when installed version matches latest release',
-        () {
-      final state = AppState(
-        mods: {installedMod},
-        releases: {
-          Release(
-            modId: 'test',
-            id: 41,
-            name: 'Release 1.0.0',
-            version: '1.0.0',
-            isPlaytest: false,
-            htmlUrl: 'https://example.com/1.0.0',
-          ),
-        },
-      );
-
-      expect(selectCurrentModReleaseType(state, installedMod),
-          ModReleaseType.release);
-    });
-
-    test(
-        'selectCurrentModReleaseType returns playtest when installed version matches latest playtest',
-        () {
-      final state = AppState(
-        mods: {installedPlaytest},
-        releases: {
-          Release(
-            modId: 'test',
-            id: 42,
-            name: 'Playtest 1.1.0',
-            version: '1.1.0',
-            isPlaytest: true,
-            htmlUrl: 'https://example.com/1.1.0',
-          ),
-        },
-      );
-
-      expect(selectCurrentModReleaseType(state, installedPlaytest),
-          ModReleaseType.playtest);
-    });
-
-    test(
-        'selectCurrentModReleaseType returns none when installed version does not match any latest update',
-        () {
-      final state = AppState(
-        mods: {installedMod},
-        releases: {
-          Release(
-            modId: 'test',
-            id: 43,
-            name: 'Release 1.1.0',
-            version: '1.1.0',
-            isPlaytest: false,
-            htmlUrl: 'https://example.com/1.1.0',
-          ),
-          Release(
-            modId: 'test',
-            id: 44,
-            name: 'Playtest 1.2.0',
-            version: '1.2.0',
-            isPlaytest: true,
-            htmlUrl: 'https://example.com/1.2.0',
-          ),
-        },
-      );
-
-      expect(selectCurrentModReleaseType(state, installedMod),
-          ModReleaseType.none);
-    });
-
-    group('selectUpdatesCount', () {
-      test('should count all releases when no mods are hidden', () {
-        final state = AppState(
-          mods: {installedMod},
-          releases: {
-            Release(
-              modId: 'test',
-              id: 10,
-              name: 'Release 1.0.1',
-              version: '1.0.1',
-              isPlaytest: false,
-              htmlUrl: 'https://example.com/1.0.1',
-            ),
-            Release(
-              modId: 'test',
-              id: 20,
-              name: 'Playtest 1.1.0',
-              version: '1.1.0',
-              isPlaytest: true,
-              htmlUrl: 'https://example.com/1.1.0',
-            ),
-          },
-        );
-
-        expect(selectUpdatesCount(state), 2);
-      });
-
-      test('should exclude releases for hidden mods', () {
-        final hiddenMod = Mod(
-          key: 'other-2.0.0',
-          id: 'other',
-          version: '2.0.0',
-          title: 'Other Mod',
+    Mod mod(String version, {String id = 'test'}) => Mod(
+          key: '$id-$version',
+          id: id,
+          version: version,
+          title: 'Test Mod',
           launchPath: '/launch',
           launchArgs: const [''],
         );
 
+    Release rel(
+      int id,
+      String version, {
+      bool isPlaytest = false,
+      String modId = 'test',
+    }) =>
+        Release(
+          modId: modId,
+          id: id,
+          name: '${isPlaytest ? 'Playtest' : 'Release'} $version',
+          version: version,
+          isPlaytest: isPlaytest,
+          htmlUrl: 'https://example.com/$version',
+        );
+
+    final stableV100 = mod('1.0.0');
+    final stableV090 = mod('0.9.0');
+    final playtestV110 = mod('1.1.0');
+    final playtestV090 = mod('0.9.0-rc');
+
+    group('selectLatestReleaseForMod', () {
+      test('returns the latest non-playtest release by id', () {
         final state = AppState(
-          mods: {installedMod, hiddenMod},
-          hiddenMods: {hiddenMod.key},
+          mods: {stableV100},
           releases: {
-            Release(
-              modId: 'test',
-              id: 10,
-              name: 'Release 1.0.1',
-              version: '1.0.1',
-              isPlaytest: false,
-              htmlUrl: 'https://example.com/1.0.1',
-            ),
-            Release(
-              modId: 'other',
-              id: 20,
-              name: 'Release 3.0.0',
-              version: '3.0.0',
-              isPlaytest: false,
-              htmlUrl: 'https://example.com/3.0.0',
-            ),
+            rel(10, '1.0.1'),
+            rel(12, '1.0.2'),
+            rel(11, '1.1.0', isPlaytest: true),
+          },
+        );
+
+        expect(selectLatestReleaseForMod(state, 'test')!.version, '1.0.2');
+      });
+
+      test('returns null when no release exists for the mod', () {
+        final state = AppState(
+          mods: {stableV100},
+          releases: {rel(10, '1.0.1', modId: 'other')},
+        );
+
+        expect(selectLatestReleaseForMod(state, 'test'), isNull);
+      });
+    });
+
+    group('selectLatestPlaytestForMod', () {
+      test('returns the latest playtest release by id', () {
+        final state = AppState(
+          mods: {stableV100},
+          releases: {
+            rel(20, '1.1.0', isPlaytest: true),
+            rel(21, '1.2.0', isPlaytest: true),
+            rel(22, '1.3.0'),
+          },
+        );
+
+        expect(selectLatestPlaytestForMod(state, 'test')!.version, '1.2.0');
+      });
+
+      test('returns null when no playtest exists for the mod', () {
+        final state = AppState(mods: {stableV100}, releases: {});
+
+        expect(selectLatestPlaytestForMod(state, 'test'), isNull);
+      });
+    });
+
+    group('selectHasReleaseUpdate', () {
+      test('returns true when a newer release exists', () {
+        final state = AppState(
+          mods: {stableV090},
+          releases: {rel(11, '1.0.0')},
+        );
+
+        expect(selectHasReleaseUpdate(state, stableV090), isTrue);
+      });
+
+      test('returns false when installed version is latest release', () {
+        final state = AppState(
+          mods: {stableV100},
+          releases: {rel(11, '1.0.0')},
+        );
+
+        expect(selectHasReleaseUpdate(state, stableV100), isFalse);
+      });
+
+      test('returns false when there is no release at all', () {
+        final state = AppState(mods: {stableV100}, releases: {});
+
+        expect(selectHasReleaseUpdate(state, stableV100), isFalse);
+      });
+
+      test(
+          'returns false when running the latest playtest that is newer '
+          'than the latest release', () {
+        final state = AppState(
+          mods: {playtestV110},
+          releases: {
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
+          },
+        );
+
+        expect(selectHasReleaseUpdate(state, playtestV110), isFalse);
+      });
+
+      test(
+          'returns true when the installed playtest is older than the '
+          'latest release', () {
+        final state = AppState(
+          mods: {playtestV090},
+          releases: {
+            rel(10, '1.0.0'),
+            rel(5, '0.9.0-rc', isPlaytest: true),
+          },
+        );
+
+        expect(selectHasReleaseUpdate(state, playtestV090), isTrue);
+      });
+
+      test(
+          'returns true on an outdated copy even when another copy already '
+          'has the latest release installed', () {
+        final state = AppState(
+          mods: {stableV090, stableV100},
+          releases: {rel(10, '1.0.0')},
+        );
+
+        expect(selectHasReleaseUpdate(state, stableV090), isTrue);
+      });
+    });
+
+    group('selectHasPlaytestUpdate', () {
+      test('returns true when a newer playtest exists and none is installed',
+          () {
+        final state = AppState(
+          mods: {stableV100},
+          releases: {rel(30, '1.1.0', isPlaytest: true)},
+        );
+
+        expect(selectHasPlaytestUpdate(state, stableV100), isTrue);
+      });
+
+      test('returns false when the latest playtest is installed', () {
+        final state = AppState(
+          mods: {playtestV110},
+          releases: {rel(31, '1.1.0', isPlaytest: true)},
+        );
+
+        expect(selectHasPlaytestUpdate(state, playtestV110), isFalse);
+      });
+
+      test('returns false when another copy has the playtest installed', () {
+        final state = AppState(
+          mods: {stableV090, playtestV110},
+          releases: {rel(31, '1.1.0', isPlaytest: true)},
+        );
+
+        expect(selectHasPlaytestUpdate(state, stableV090), isFalse);
+      });
+
+      test(
+          'returns false when the latest playtest is not newer than the '
+          'latest release (outdated playtest over a newer stable)', () {
+        final state = AppState(
+          mods: {stableV100},
+          releases: {
+            rel(10, '1.0.0'),
+            rel(5, '0.9.0-rc', isPlaytest: true),
+          },
+        );
+
+        expect(selectHasPlaytestUpdate(state, stableV100), isFalse);
+      });
+
+      test(
+          'returns false on an outdated copy when the playtest matches the '
+          'installed release version of another copy', () {
+        final state = AppState(
+          mods: {stableV090, playtestV110},
+          releases: {
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
+          },
+        );
+
+        expect(selectHasPlaytestUpdate(state, stableV090), isFalse);
+      });
+
+      test(
+          'returns true on an outdated copy when the playtest is newer than '
+          'the latest release and not installed anywhere', () {
+        final state = AppState(
+          mods: {stableV090},
+          releases: {
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
+          },
+        );
+
+        expect(selectHasPlaytestUpdate(state, stableV090), isTrue);
+      });
+    });
+
+    group('selectCurrentModReleaseType', () {
+      test('returns release when installed version matches latest release',
+          () {
+        final state = AppState(
+          mods: {stableV100},
+          releases: {rel(41, '1.0.0')},
+        );
+
+        expect(
+          selectCurrentModReleaseType(state, stableV100),
+          ModReleaseType.release,
+        );
+      });
+
+      test('returns playtest when installed version matches latest playtest',
+          () {
+        final state = AppState(
+          mods: {playtestV110},
+          releases: {rel(42, '1.1.0', isPlaytest: true)},
+        );
+
+        expect(
+          selectCurrentModReleaseType(state, playtestV110),
+          ModReleaseType.playtest,
+        );
+      });
+
+      test('takes precedence of release over playtest on equal versions', () {
+        final state = AppState(
+          mods: {mod('1.0.0')},
+          releases: {
+            rel(43, '1.0.0'),
+            rel(44, '1.0.0', isPlaytest: true),
+          },
+        );
+
+        expect(
+          selectCurrentModReleaseType(state, mod('1.0.0')),
+          ModReleaseType.release,
+        );
+      });
+
+      test('returns none when installed version matches neither', () {
+        final state = AppState(
+          mods: {stableV090},
+          releases: {
+            rel(43, '1.0.0'),
+            rel(44, '1.1.0', isPlaytest: true),
+          },
+        );
+
+        expect(
+          selectCurrentModReleaseType(state, stableV090),
+          ModReleaseType.none,
+        );
+      });
+    });
+
+    group('selectAvailableReleaseUpdates / selectAvailablePlaytestUpdates', () {
+      test('exclude versions installed by any copy of the mod', () {
+        final state = AppState(
+          mods: {stableV100, playtestV110},
+          releases: {
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
+          },
+        );
+
+        expect(selectAvailableReleaseUpdates(state), isEmpty);
+        expect(selectAvailablePlaytestUpdates(state), isEmpty);
+      });
+
+      test('keep versions that are not installed', () {
+        final state = AppState(
+          mods: {stableV100},
+          releases: {
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
+          },
+        );
+
+        expect(selectAvailableReleaseUpdates(state), isEmpty);
+        final availablePlaytests = selectAvailablePlaytestUpdates(state);
+        expect(availablePlaytests, hasLength(1));
+        expect(availablePlaytests.first.version, '1.1.0');
+      });
+    });
+
+    group('selectUpdatesCount', () {
+      test('counts outstanding updates only, excluding installed versions',
+          () {
+        final state = AppState(
+          mods: {stableV100},
+          releases: {
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
           },
         );
 
         expect(selectUpdatesCount(state), 1);
       });
 
-      test('should count all releases when showHiddenMods is true', () {
-        final hiddenMod = Mod(
-          key: 'other-2.0.0',
-          id: 'other',
-          version: '2.0.0',
-          title: 'Other Mod',
-          launchPath: '/launch',
-          launchArgs: const [''],
+      test('returns zero when everything is up to date', () {
+        final state = AppState(
+          mods: {stableV100, playtestV110},
+          releases: {
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
+          },
         );
 
+        expect(selectUpdatesCount(state), 0);
+      });
+
+      test('excludes updates for hidden mods', () {
+        final hiddenMod = mod('2.0.0', id: 'other');
+
         final state = AppState(
-          mods: {installedMod, hiddenMod},
+          mods: {stableV100, hiddenMod},
+          hiddenMods: {hiddenMod.key},
+          releases: {
+            rel(20, '1.1.0', isPlaytest: true),
+            rel(30, '3.0.0', modId: 'other'),
+          },
+        );
+
+        expect(selectUpdatesCount(state), 1);
+      });
+
+      test('counts all available updates when showHiddenMods is true', () {
+        final hiddenMod = mod('2.0.0', id: 'other');
+
+        final state = AppState(
+          mods: {stableV100, hiddenMod},
           hiddenMods: {hiddenMod.key},
           showHiddenMods: true,
           releases: {
-            Release(
-              modId: 'test',
-              id: 10,
-              name: 'Release 1.0.1',
-              version: '1.0.1',
-              isPlaytest: false,
-              htmlUrl: 'https://example.com/1.0.1',
-            ),
-            Release(
-              modId: 'other',
-              id: 20,
-              name: 'Release 3.0.0',
-              version: '3.0.0',
-              isPlaytest: false,
-              htmlUrl: 'https://example.com/3.0.0',
-            ),
+            rel(20, '1.1.0', isPlaytest: true),
+            rel(30, '3.0.0', modId: 'other'),
           },
         );
 
         expect(selectUpdatesCount(state), 2);
       });
 
-      test('should return zero when all releases are for hidden mods', () {
-        final hiddenMod = Mod(
-          key: 'other-2.0.0',
-          id: 'other',
-          version: '2.0.0',
-          title: 'Other Mod',
-          launchPath: '/launch',
-          launchArgs: const [''],
-        );
+      test('returns zero when all available updates are for hidden mods', () {
+        final hiddenMod = mod('2.0.0', id: 'other');
 
         final state = AppState(
           mods: {hiddenMod},
           hiddenMods: {hiddenMod.key},
-          releases: {
-            Release(
-              modId: 'other',
-              id: 20,
-              name: 'Release 3.0.0',
-              version: '3.0.0',
-              isPlaytest: false,
-              htmlUrl: 'https://example.com/3.0.0',
-            ),
-          },
+          releases: {rel(30, '3.0.0', modId: 'other')},
         );
 
         expect(selectUpdatesCount(state), 0);
