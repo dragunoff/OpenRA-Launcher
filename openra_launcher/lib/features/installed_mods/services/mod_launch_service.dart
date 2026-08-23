@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:openra_launcher/core/error/error_reporter.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 
 abstract class ModLaunchService {
@@ -28,15 +29,19 @@ class ProcessStarter implements LaunchProcessStarter {
 @LazySingleton(as: ModLaunchService)
 class ProcessModLaunchService implements ModLaunchService {
   final LaunchProcessStarter starter;
+  final ErrorReporter reportError;
 
-  ProcessModLaunchService({required this.starter});
+  ProcessModLaunchService({
+    required this.starter,
+    this.reportError = defaultErrorReporter,
+  });
 
   @override
   Future<void> launch(Mod mod) async {
     try {
       await starter.start(mod.launchPath, mod.launchArgs);
     } on Object catch (error, stackTrace) {
-      FlutterError.reportError(
+      reportError(
         FlutterErrorDetails(
           exception: error,
           stack: stackTrace,

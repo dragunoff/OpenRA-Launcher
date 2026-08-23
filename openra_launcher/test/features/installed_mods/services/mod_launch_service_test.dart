@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:openra_launcher/features/installed_mods/services/mod_launch_service.dart';
 import '../../../../testing/utils/test_utils.dart';
@@ -20,11 +21,18 @@ void main() {
     });
 
     test('should wrap launch errors in ModLaunchException', () async {
-      final service =
-          ProcessModLaunchService(starter: _ThrowingProcessStarter());
+      final reportedErrors = <FlutterErrorDetails>[];
+      final service = ProcessModLaunchService(
+        starter: _ThrowingProcessStarter(),
+        reportError: reportedErrors.add,
+      );
       final mod = TestUtils.generateMod();
 
-      expect(service.launch(mod), throwsA(isA<ModLaunchException>()));
+      await expectLater(
+        service.launch(mod),
+        throwsA(isA<ModLaunchException>()),
+      );
+      expect(reportedErrors.length, 1);
     });
   });
 }

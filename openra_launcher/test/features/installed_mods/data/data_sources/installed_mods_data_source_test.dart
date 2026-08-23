@@ -14,25 +14,27 @@ import '../../../../../testing/utils/test_utils.dart';
 import 'installed_mods_data_source_test.mocks.dart';
 
 void main() {
-  FlutterError.onError = null;
-
   provideDummy<TaskEither<FileSystemFailure, Set<Directory>>>(
     TaskEither.left(const FileSystemFailure()),
   );
 
+  final reportedErrors = <FlutterErrorDetails>[];
   MemoryFileSystem mockFileSystem = MemoryFileSystem();
   SupportDirService mockSupportDirService = MockSupportDirService();
   InstalledModsDataSourceImpl dataSource = InstalledModsDataSourceImpl(
     fileSystem: mockFileSystem,
     supportDirService: mockSupportDirService,
+    reportError: reportedErrors.add,
   );
 
   setUp(() {
+    reportedErrors.clear();
     mockFileSystem = MemoryFileSystem();
     mockSupportDirService = MockSupportDirService();
     dataSource = InstalledModsDataSourceImpl(
       fileSystem: mockFileSystem,
       supportDirService: mockSupportDirService,
+      reportError: reportedErrors.add,
     );
   });
 
@@ -212,6 +214,7 @@ void main() {
                 expect(result, isEmpty);
               },
             );
+            expect(reportedErrors.length, 1);
           });
 
           test('should not load mods with non-existing launch path', () async {

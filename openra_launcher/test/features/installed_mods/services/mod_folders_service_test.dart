@@ -1,7 +1,9 @@
 import 'package:file/file.dart';
 import 'package:file/memory.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:openra_launcher/core/error/error_reporter.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/platform/support_dir_service.dart';
 import 'package:openra_launcher/features/installed_mods/services/mod_folders_service.dart';
@@ -121,17 +123,20 @@ void main() {
     test('should return a left with PlatformFailure when starting fails',
         () async {
       await _createModFolder(fileSystem, 'maps');
+      final reportedErrors = <FlutterErrorDetails>[];
 
       final result = await _createService(
         fileSystem: fileSystem,
         platformOperatingSystem: 'linux',
         starter: _ThrowingProcessStarter(),
+        reportError: reportedErrors.add,
       ).openMapsFolder(TestUtils.generateMod()).run();
 
       result.fold(
         (failure) => expect(failure, isA<PlatformFailure>()),
         (_) => fail('Expected Either.Left'),
       );
+      expect(reportedErrors.length, 1);
     });
 
     test('should return a left when resolving the support dirs fails',
@@ -169,6 +174,7 @@ ProcessModFoldersService _createService({
   required String platformOperatingSystem,
   required LaunchProcessStarter starter,
   Set<String> supportPaths = const {'/home/user/.openra'},
+  ErrorReporter reportError = defaultErrorReporter,
 }) {
   return ProcessModFoldersService(
     supportDirService: _FakeSupportDirService(TaskEither.right({
@@ -177,6 +183,7 @@ ProcessModFoldersService _createService({
     fileSystem: fileSystem,
     platform: FakePlatform(operatingSystem: platformOperatingSystem),
     starter: starter,
+    reportError: reportError,
   );
 }
 

@@ -2,6 +2,7 @@ import 'package:file/file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:openra_launcher/core/error/error_reporter.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/platform/support_dir_service.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
@@ -21,12 +22,14 @@ class ProcessModFoldersService implements ModFoldersService {
   final FileSystem fileSystem;
   final Platform platform;
   final LaunchProcessStarter starter;
+  final ErrorReporter reportError;
 
   ProcessModFoldersService({
     required this.supportDirService,
     required this.fileSystem,
     required this.platform,
     required this.starter,
+    this.reportError = defaultErrorReporter,
   });
 
   @override
@@ -61,13 +64,13 @@ class ProcessModFoldersService implements ModFoldersService {
 
               return unit;
             }, (error, stackTrace) {
-              FlutterError.reportError(
+              reportError(
                 FlutterErrorDetails(
                   exception: error,
                   stack: stackTrace,
                   library: 'installed_mods',
-                  context:
-                      ErrorDescription('opening the $folder of ${mod.title}'),
+                  context: ErrorDescription(
+                      'opening the $folder of ${mod.title}'),
                 ),
               );
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:openra_launcher/core/error/error_reporter.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/features/app_update/data/models/app_release_model.dart';
@@ -18,9 +19,11 @@ class AppReleasesDataSourceImpl implements AppReleasesDataSource {
       GitHubUtils.buildLatestReleaseEndpoint('dragunoff/OpenRA-Launcher'));
 
   final HttpClientService httpClientService;
+  final ErrorReporter reportError;
 
   AppReleasesDataSourceImpl({
     required this.httpClientService,
+    this.reportError = defaultErrorReporter,
   });
 
   @override
@@ -32,7 +35,7 @@ class AppReleasesDataSourceImpl implements AppReleasesDataSource {
 
       return AppReleaseModel.fromJson(responseBody);
     }, (error, stackTrace) {
-      FlutterError.reportError(FlutterErrorDetails(
+      reportError(FlutterErrorDetails(
         exception: error,
         stack: stackTrace,
         context: ErrorDescription('fetching latest app release from GitHub'),

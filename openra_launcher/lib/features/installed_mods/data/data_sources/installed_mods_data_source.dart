@@ -2,6 +2,7 @@ import 'package:file/file.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:openra_launcher/core/error/error_reporter.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/platform/support_dir_service.dart';
 import 'package:openra_launcher/features/installed_mods/data/models/mod_model.dart';
@@ -15,10 +16,12 @@ abstract class InstalledModsDataSource {
 class InstalledModsDataSourceImpl implements InstalledModsDataSource {
   final FileSystem fileSystem;
   final SupportDirService supportDirService;
+  final ErrorReporter reportError;
 
   InstalledModsDataSourceImpl({
     required this.fileSystem,
     required this.supportDirService,
+    this.reportError = defaultErrorReporter,
   });
 
   @override
@@ -49,7 +52,7 @@ class InstalledModsDataSourceImpl implements InstalledModsDataSource {
                 return mod;
               }
             } catch (error, stackTrace) {
-              FlutterError.reportError(FlutterErrorDetails(
+              reportError(FlutterErrorDetails(
                 exception: error,
                 stack: stackTrace,
               ));
