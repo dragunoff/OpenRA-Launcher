@@ -1,10 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fpdart/fpdart.dart' hide State;
-import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
-import 'package:openra_launcher/features/installed_mods/services/mod_folders_service.dart';
-import 'package:openra_launcher/injection.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/open_mod_folder_menu_item_button.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/favorite_mods/actions.dart';
 import 'package:openra_launcher/store/hidden_mods/actions.dart';
@@ -59,40 +56,6 @@ class ModActionsMenuButton extends StatefulWidget {
 class _ModActionsMenuButtonState extends State<ModActionsMenuButton> {
   final MenuController _menuController = MenuController();
   bool _lastIsOpen = false;
-
-  Future<void> _openMapsFolder() {
-    return _openFolder(
-      () => getIt<ModFoldersService>().openMapsFolder(widget.mod),
-      (l10n) => l10n.couldNotOpenMapsFolder(widget.mod.title),
-    );
-  }
-
-  Future<void> _openReplaysFolder() {
-    return _openFolder(
-      () => getIt<ModFoldersService>().openReplaysFolder(widget.mod),
-      (l10n) => l10n.couldNotOpenReplaysFolder(widget.mod.title),
-    );
-  }
-
-  Future<void> _openFolder(
-    TaskEither<PlatformFailure, Unit> Function() open,
-    String Function(AppLocalizations l10n) buildErrorMessage,
-  ) async {
-    _menuController.close();
-
-    final result = await open().run();
-
-    if (!mounted || result.isRight()) {
-      return;
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(buildErrorMessage(AppLocalizations.of(context)!)),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,18 +115,16 @@ class _ModActionsMenuButtonState extends State<ModActionsMenuButton> {
                         )),
                   Directionality(
                     textDirection: TextDirection.ltr,
-                    child: MenuItemButton(
-                      leadingIcon: const Icon(Icons.folder_open),
-                      onPressed: _openMapsFolder,
-                      child: Text(l10n.openMapsFolder),
+                    child: OpenModFolderMenuItemButton(
+                      mod: widget.mod,
+                      folder: ModFolderType.maps,
                     ),
                   ),
                   Directionality(
                     textDirection: TextDirection.ltr,
-                    child: MenuItemButton(
-                      leadingIcon: const Icon(Icons.folder_open),
-                      onPressed: _openReplaysFolder,
-                      child: Text(l10n.openReplaysFolder),
+                    child: OpenModFolderMenuItemButton(
+                      mod: widget.mod,
+                      folder: ModFolderType.replays,
                     ),
                   ),
                 ],

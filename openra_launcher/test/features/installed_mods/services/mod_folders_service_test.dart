@@ -59,7 +59,7 @@ void main() {
 
     group('openReplaysFolder', () {
       test('should open the replays folder of the mod', () async {
-        final folderPath = await _createModFolder(fileSystem, 'replays');
+        final folderPath = await _createModFolder(fileSystem, 'Replays');
         final started = <List<String>>[];
 
         final result = await _createService(
@@ -78,10 +78,10 @@ void main() {
         const legacySupportPath = '/home/user/.openra';
         const modernSupportPath = '/home/user/.config/openra';
         fileSystem
-            .directory(path.join(legacySupportPath, 'replays', 'test'))
+            .directory(path.join(legacySupportPath, 'Replays', 'test'))
             .createSync(recursive: true);
         fileSystem
-            .directory(path.join(modernSupportPath, 'replays', 'test'))
+            .directory(path.join(modernSupportPath, 'Replays', 'test'))
             .createSync(recursive: true);
 
         final started = <List<String>>[];
@@ -97,14 +97,14 @@ void main() {
         expect(
           started,
           containsAll([
-            ['explorer', path.join(legacySupportPath, 'replays', 'test')],
-            ['explorer', path.join(modernSupportPath, 'replays', 'test')],
+            ['explorer', path.join(legacySupportPath, 'Replays', 'test')],
+            ['explorer', path.join(modernSupportPath, 'Replays', 'test')],
           ]),
         );
       });
 
       test('should use the open command on macOS', () async {
-        final folderPath = await _createModFolder(fileSystem, 'replays');
+        final folderPath = await _createModFolder(fileSystem, 'Replays');
         final started = <List<String>>[];
 
         final result = await _createService(

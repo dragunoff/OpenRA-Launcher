@@ -38,7 +38,7 @@ class ProcessModFoldersService implements ModFoldersService {
 
   @override
   TaskEither<PlatformFailure, Unit> openReplaysFolder(Mod mod) =>
-      _openFolder(mod, 'replays');
+      _openFolder(mod, 'Replays');
 
   TaskEither<PlatformFailure, Unit> _openFolder(Mod mod, String folder) {
     return supportDirService
@@ -46,13 +46,13 @@ class ProcessModFoldersService implements ModFoldersService {
         .mapLeft((failure) => PlatformFailure(failure.message))
         .flatMap((supportDirs) => TaskEither.tryCatch(() async {
               final targetPaths = supportDirs
-                  .map((supportDir) => _nearestExistingAncestor(
-                      fileSystem.directory(path.join(
-                    supportDir.path,
-                    folder,
-                    mod.id,
-                    mod.version,
-                  ))))
+                  .map((supportDir) =>
+                      _nearestExistingAncestor(fileSystem.directory(path.join(
+                        supportDir.path,
+                        folder,
+                        mod.id,
+                        mod.version,
+                      ))))
                   .map((directory) => directory.path)
                   .toSet();
 
@@ -69,8 +69,8 @@ class ProcessModFoldersService implements ModFoldersService {
                   exception: error,
                   stack: stackTrace,
                   library: 'installed_mods',
-                  context: ErrorDescription(
-                      'opening the $folder of ${mod.title}'),
+                  context:
+                      ErrorDescription('opening the $folder of ${mod.title}'),
                 ),
               );
 
