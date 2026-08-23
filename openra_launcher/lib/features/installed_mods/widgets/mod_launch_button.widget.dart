@@ -19,20 +19,19 @@ class _ModLaunchButtonState extends State<ModLaunchButton> {
   bool _isLaunching = false;
 
   Future<void> _launchMod() async {
-    try {
-      await getIt<ModLaunchService>().launch(widget.mod);
-    } on ModLaunchException catch (_) {
-      if (!mounted) {
-        return;
-      }
+    final result = await getIt<ModLaunchService>().launch(widget.mod).run();
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.couldNotLaunchMod(widget.mod.title)),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+    if (!mounted || result.isRight()) {
+      return;
     }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!
+            .couldNotLaunchMod(widget.mod.title)),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   void _setIsLaunching(bool isStarting) {

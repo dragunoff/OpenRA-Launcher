@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/core/error/error_reporter.dart';
+import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 
 abstract class ModLaunchService {
-  Future<void> launch(Mod mod);
+  TaskEither<PlatformFailure, Unit> launch(Mod mod);
 }
 
 abstract class LaunchProcessStarter {
@@ -37,10 +39,12 @@ class ProcessModLaunchService implements ModLaunchService {
   });
 
   @override
-  Future<void> launch(Mod mod) async {
-    try {
+  TaskEither<PlatformFailure, Unit> launch(Mod mod) {
+    return TaskEither.tryCatch(() async {
       await starter.start(mod.launchPath, mod.launchArgs);
-    } on Object catch (error, stackTrace) {
+
+      return unit;
+    }, (error, stackTrace) {
       reportError(
         FlutterErrorDetails(
           exception: error,
@@ -50,20 +54,7 @@ class ProcessModLaunchService implements ModLaunchService {
         ),
       );
 
-      Error.throwWithStackTrace(
-        ModLaunchException(mod: mod, cause: error),
-        stackTrace,
-      );
-    }
+      return PlatformFailure(error.toString());
+    });
   }
-}
-
-class ModLaunchException implements Exception {
-  ModLaunchException({required this.mod, required this.cause});
-
-  final Mod mod;
-  final Object cause;
-
-  @override
-  String toString() => 'Failed to launch mod ${mod.id}: $cause';
 }
