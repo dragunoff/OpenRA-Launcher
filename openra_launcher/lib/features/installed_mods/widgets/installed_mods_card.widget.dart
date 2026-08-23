@@ -22,19 +22,16 @@ class InstalledModsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget pinnedButton = isHidden
-        ? UnhideModButton(mod: mod)
-        : FavoriteModButton(
-            mod: mod,
-            isFavorite: isFavorite,
-          );
-
     return CardLayout(
       header: ModInfoHeader(mod: mod, version: mod.version),
       topRight: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          pinnedButton,
+          if (isHidden) UnhideModButton(mod: mod),
+          FavoriteModButton(
+            mod: mod,
+            isFavorite: isFavorite,
+          ),
           ModActionsMenuButton(mod: mod),
         ],
       ),
