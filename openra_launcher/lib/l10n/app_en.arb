@@ -29,8 +29,6 @@
   "appLegalese": "glhf by dragunoff",
   "checkForAppUpdatesOnStartup": "Check for app updates on startup",
   "updatesNotSupported": "UPDATES NOT SUPPORTED",
-  "releaseAvailable": "RELEASE AVAILABLE",
-  "playtestAvailable": "PLAYTEST AVAILABLE",
   "currentRelease": "CURRENT RELEASE",
   "currentPlaytest": "CURRENT PLAYTEST",
   "noInstalledModsFound": "No installed mods found.",

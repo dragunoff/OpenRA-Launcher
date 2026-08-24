@@ -55,48 +55,6 @@ ModReleaseType selectCurrentModReleaseType(AppState state, Mod mod) {
   return ModReleaseType.none;
 }
 
-/// Whether a release update should be advertised for [mod].
-///
-/// True when a latest release exists whose version differs from
-/// `mod.version`, unless this install is the latest playtest and that
-/// playtest is newer than the latest release (i.e. the user is already
-/// running something newer than the release being offered).
-bool selectHasReleaseUpdate(AppState state, Mod mod) {
-  final latestRelease = selectLatestReleaseForMod(state, mod.id);
-  if (latestRelease == null || latestRelease.version == mod.version) {
-    return false;
-  }
-
-  if (_isRunningNewerPlaytest(state, mod)) {
-    return false;
-  }
-
-  return true;
-}
-
-/// Whether a playtest update should be advertised for [mod].
-///
-/// True when:
-/// - a latest playtest exists,
-/// - its version differs from `mod.version`,
-/// - it is newer than the latest release (or no release exists), so an
-///   outdated playtest is never advertised over a newer stable, and
-/// - no other installed copy of the same mod id already has that exact
-///   playtest version installed.
-bool selectHasPlaytestUpdate(AppState state, Mod mod) {
-  final latestPlaytest = selectLatestPlaytestForMod(state, mod.id);
-  if (latestPlaytest == null || latestPlaytest.version == mod.version) {
-    return false;
-  }
-
-  final latestRelease = selectLatestReleaseForMod(state, mod.id);
-  if (latestRelease != null && latestPlaytest.id <= latestRelease.id) {
-    return false;
-  }
-
-  return !_isVersionInstalledByAnyCopy(state, mod.id, latestPlaytest.version);
-}
-
 /// Releases that are not installed by any copy of their mod.
 Set<Release> selectAvailableReleaseUpdates(AppState state) {
   return _filterInstalled(state, selectReleaseUpdates(state));
@@ -121,16 +79,6 @@ int selectUpdatesCount(AppState state) {
   return availableUpdates
       .where((release) => !hiddenModIds.contains(release.modId))
       .length;
-}
-
-bool _isRunningNewerPlaytest(AppState state, Mod mod) {
-  final latestPlaytest = selectLatestPlaytestForMod(state, mod.id);
-  if (latestPlaytest == null || latestPlaytest.version != mod.version) {
-    return false;
-  }
-
-  final latestRelease = selectLatestReleaseForMod(state, mod.id);
-  return latestRelease == null || latestPlaytest.id > latestRelease.id;
 }
 
 bool _isVersionInstalledByAnyCopy(

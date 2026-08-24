@@ -35,27 +35,11 @@ class ModReleaseInfoChips extends StatelessWidget {
 
     return StoreConnector<AppState, _ViewModel>(
       converter: (store) => _ViewModel(
-        hasRelease: selectHasReleaseUpdate(store.state, mod),
-        hasPlaytest: selectHasPlaytestUpdate(store.state, mod),
         currentReleaseType: selectCurrentModReleaseType(store.state, mod),
       ),
       builder: (context, vm) {
         final l10n = AppLocalizations.of(context)!;
         final List<Chip> chips = [];
-
-        if (vm.hasRelease) {
-          chips.add(Chip(
-            label: Text(l10n.releaseAvailable),
-            labelStyle: style,
-          ));
-        }
-
-        if (vm.hasPlaytest) {
-          chips.add(Chip(
-            label: Text(l10n.playtestAvailable),
-            labelStyle: style,
-          ));
-        }
 
         switch (vm.currentReleaseType) {
           case ModReleaseType.release:
@@ -84,13 +68,9 @@ class ModReleaseInfoChips extends StatelessWidget {
 }
 
 class _ViewModel {
-  final bool hasRelease;
-  final bool hasPlaytest;
   final ModReleaseType currentReleaseType;
 
   _ViewModel({
-    required this.hasRelease,
-    required this.hasPlaytest,
     required this.currentReleaseType,
   });
 }

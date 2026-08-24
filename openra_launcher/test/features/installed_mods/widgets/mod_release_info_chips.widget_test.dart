@@ -84,8 +84,6 @@ void main() {
     );
 
     expect(find.text('CURRENT RELEASE'), findsOneWidget);
-    expect(find.text('RELEASE AVAILABLE'), findsNothing);
-    expect(find.text('PLAYTEST AVAILABLE'), findsNothing);
     expect(find.text('CURRENT PLAYTEST'), findsNothing);
   });
 
@@ -104,12 +102,10 @@ void main() {
     );
 
     expect(find.text('CURRENT PLAYTEST'), findsOneWidget);
-    expect(find.text('RELEASE AVAILABLE'), findsNothing);
-    expect(find.text('PLAYTEST AVAILABLE'), findsNothing);
     expect(find.text('CURRENT RELEASE'), findsNothing);
   });
 
-  testWidgets('shows release and playtest available chips when outdated',
+  testWidgets('shows no chips when the installed version is outdated',
       (tester) async {
     final outdatedMod = mod('0.9.0');
 
@@ -122,32 +118,11 @@ void main() {
       outdatedMod,
     );
 
-    expect(find.text('RELEASE AVAILABLE'), findsOneWidget);
-    expect(find.text('PLAYTEST AVAILABLE'), findsOneWidget);
-    expect(find.text('CURRENT RELEASE'), findsNothing);
-    expect(find.text('CURRENT PLAYTEST'), findsNothing);
+    expect(find.byType(Chip), findsNothing);
   });
 
-  testWidgets('hides the playtest chip when another copy has it installed',
-      (tester) async {
-    final outdatedMod = mod('0.9.0');
-    final playtestCopy = mod('1.1.0');
-
-    await pumpChips(
-      tester,
-      stateWith(
-        mods: {outdatedMod, playtestCopy},
-        releases: {rel(10, '1.0.0'), rel(20, '1.1.0', isPlaytest: true)},
-      ),
-      outdatedMod,
-    );
-
-    expect(find.text('RELEASE AVAILABLE'), findsOneWidget);
-    expect(find.text('PLAYTEST AVAILABLE'), findsNothing);
-  });
-
-  testWidgets('shows only the playtest chip when a newer release is out and '
-      'the user runs the latest release', (tester) async {
+  testWidgets('keeps the current release chip when a newer playtest is '
+      'available upstream', (tester) async {
     final stableMod = mod('1.0.0');
 
     await pumpChips(
@@ -160,7 +135,6 @@ void main() {
     );
 
     expect(find.text('CURRENT RELEASE'), findsOneWidget);
-    expect(find.text('PLAYTEST AVAILABLE'), findsOneWidget);
-    expect(find.text('RELEASE AVAILABLE'), findsNothing);
+    expect(find.text('CURRENT PLAYTEST'), findsNothing);
   });
 }
