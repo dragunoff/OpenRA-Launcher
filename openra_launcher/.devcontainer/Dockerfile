@@ -54,4 +54,7 @@ RUN dart --disable-analytics
 
 USER root
 
+RUN curl -fsSL https://opencode.ai/install | bash -s -- --no-modify-path && \
+    mv /root/.opencode/bin/opencode /usr/local/bin/opencode
+
 SHELL ["/bin/bash", "-c"]
