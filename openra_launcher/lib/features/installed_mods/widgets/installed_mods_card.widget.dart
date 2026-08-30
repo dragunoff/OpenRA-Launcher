@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
+import 'package:openra_launcher/features/installed_mods/utils/mod_utils.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/favorite_mod_button.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/mod_actions_menu_button.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/mod_launch_button.widget.dart';
@@ -23,7 +24,10 @@ class InstalledModsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardLayout(
-      header: ModInfoHeader(mod: mod, version: mod.version),
+      header: ModInfoHeader(
+        mod: mod,
+        version: ModUtils.isDevMod(mod) ? '' : mod.version,
+      ),
       topRight: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

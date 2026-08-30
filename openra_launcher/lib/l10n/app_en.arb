@@ -31,6 +31,7 @@
   "updatesNotSupported": "UPDATES NOT SUPPORTED",
   "currentRelease": "CURRENT RELEASE",
   "currentPlaytest": "CURRENT PLAYTEST",
+  "devModVersion": "DEV VERSION",
   "noInstalledModsFound": "No installed mods found.",
   "modsScanError": "There was an error while scanning for mods.",
   "tryAgain": "Try again",
