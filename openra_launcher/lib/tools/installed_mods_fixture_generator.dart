@@ -141,6 +141,103 @@ class InstalledModsFixtureGenerator {
           launchArgs: 'Game.Mod=d2k',
           isValid: false,
         ),
+      if (includeInvalidEntries)
+        _FixtureManifest(
+          filename: 'invalid-empty-id.yaml',
+          id: '',
+          version: 'release-20210321',
+          title: 'Red Alert',
+          launchPath: path.join(launchTargetsDir.path, 'ra-empty-id.sh'),
+          launchArgs: 'Game.Mod=ra',
+          isValid: false,
+        ),
+      if (includeInvalidEntries)
+        _FixtureManifest(
+          filename: 'invalid-empty-version.yaml',
+          id: 'ra',
+          version: '',
+          title: 'Red Alert',
+          launchPath: path.join(launchTargetsDir.path, 'ra-empty-version.sh'),
+          launchArgs: 'Game.Mod=ra',
+          isValid: false,
+        ),
+      if (includeInvalidEntries)
+        _FixtureManifest(
+          filename: 'invalid-empty-title.yaml',
+          id: 'ra',
+          version: 'release-20210321',
+          title: '',
+          launchPath: path.join(launchTargetsDir.path, 'ra-empty-title.sh'),
+          launchArgs: 'Game.Mod=ra',
+          isValid: false,
+        ),
+      if (includeInvalidEntries)
+        _FixtureManifest(
+          filename: 'invalid-empty-launchargs.yaml',
+          id: 'ra',
+          version: 'release-20210321',
+          title: 'Red Alert',
+          launchPath: path.join(launchTargetsDir.path, 'ra-empty-launchargs.sh'),
+          launchArgs: '',
+          isValid: false,
+        ),
+      if (includeInvalidEntries)
+        _FixtureManifest(
+          filename: 'invalid-dll-launchpath.yaml',
+          id: 'ra',
+          version: 'release-20210321',
+          title: 'Red Alert',
+          launchPath: '/home/user/OpenRA/OpenRA.dll',
+          launchArgs: 'Game.Mod=ra',
+          isValid: false,
+        ),
+      if (includeInvalidEntries)
+        _FixtureManifest(
+          filename: 'invalid-no-version.yaml',
+          id: 'ra',
+          version: '',
+          title: 'Red Alert',
+          launchPath: path.join(launchTargetsDir.path, 'ra-no-version.sh'),
+          launchArgs: 'Game.Mod=ra',
+          isValid: false,
+          content:
+              'Registration:\n  Id: ra\n  Title: Red Alert\n  LaunchPath: ${path.join(launchTargetsDir.path, 'ra-no-version.sh')}\n  LaunchArgs: Game.Mod=ra\n',
+        ),
+      if (includeInvalidEntries)
+        _FixtureManifest(
+          filename: 'invalid-no-title.yaml',
+          id: 'ra',
+          version: 'release-20210321',
+          title: '',
+          launchPath: path.join(launchTargetsDir.path, 'ra-no-title.sh'),
+          launchArgs: 'Game.Mod=ra',
+          isValid: false,
+          content:
+              'Registration:\n  Id: ra\n  Version: release-20210321\n  LaunchPath: ${path.join(launchTargetsDir.path, 'ra-no-title.sh')}\n  LaunchArgs: Game.Mod=ra\n',
+        ),
+      if (includeInvalidEntries)
+        _FixtureManifest(
+          filename: 'invalid-no-launchargs.yaml',
+          id: 'ra',
+          version: 'release-20210321',
+          title: 'Red Alert',
+          launchPath: path.join(launchTargetsDir.path, 'ra-no-launchargs.sh'),
+          launchArgs: '',
+          isValid: false,
+          content:
+              'Registration:\n  Id: ra\n  Version: release-20210321\n  Title: Red Alert\n  LaunchPath: ${path.join(launchTargetsDir.path, 'ra-no-launchargs.sh')}\n',
+        ),
+      if (includeInvalidEntries)
+        _FixtureManifest(
+          filename: 'invalid-missing-launchfile.yaml',
+          id: 'ra',
+          version: 'release-20210321',
+          title: 'Red Alert',
+          launchPath:
+              path.join(launchTargetsDir.path, 'ra-missing-launchfile.sh'),
+          launchArgs: 'Game.Mod=ra',
+          isValid: false,
+        ),
     ];
 
     for (final fixture in fixtures) {
@@ -176,6 +273,15 @@ class InstalledModsFixtureGenerator {
       'sp-{DEV_VERSION}.yaml',
       'invalid-missing-launchpath.yaml',
       'bogus-filename.yaml',
+      'invalid-empty-id.yaml',
+      'invalid-empty-version.yaml',
+      'invalid-empty-title.yaml',
+      'invalid-empty-launchargs.yaml',
+      'invalid-dll-launchpath.yaml',
+      'invalid-no-version.yaml',
+      'invalid-no-title.yaml',
+      'invalid-no-launchargs.yaml',
+      'invalid-missing-launchfile.yaml',
     ];
 
     final launchFiles = <String>[
