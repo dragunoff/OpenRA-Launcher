@@ -3,11 +3,11 @@ import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/store/app_state.dart';
 
 Set<Release> selectReleaseUpdates(AppState state) {
-  return state.releases.where((release) => !release.isPlaytest).toSet();
+  return _allReleases(state).where((release) => !release.isPlaytest).toSet();
 }
 
 Set<Release> selectPlaytestUpdates(AppState state) {
-  return state.releases.where((release) => release.isPlaytest).toSet();
+  return _allReleases(state).where((release) => release.isPlaytest).toSet();
 }
 
 Release? selectLatestReleaseForMod(AppState state, String modId) {
@@ -55,6 +55,12 @@ ModReleaseType selectCurrentModReleaseType(AppState state, Mod mod) {
   return ModReleaseType.none;
 }
 
+/// Returns true when the mod is present in the loaded mod database, i.e. there
+/// is a release (stable or playtest) recorded for [modId].
+bool selectIsModSupported(AppState state, String modId) {
+  return _allReleases(state).any((release) => release.modId == modId);
+}
+
 /// Releases that are not installed by any copy of their mod.
 Set<Release> selectAvailableReleaseUpdates(AppState state) {
   return _filterInstalled(state, selectReleaseUpdates(state));
@@ -81,6 +87,22 @@ int selectUpdatesCount(AppState state) {
       .length;
 }
 
+/// Flattens every stable and playtest release stored in the mod database.
+Set<Release> _allReleases(AppState state) {
+  Set<Release> releases = {};
+
+  for (final info in state.modDatabase.mods.values) {
+    if (info.stable != null) {
+      releases.add(info.stable!);
+    }
+    if (info.playtest != null) {
+      releases.add(info.playtest!);
+    }
+  }
+
+  return releases;
+}
+
 bool _isVersionInstalledByAnyCopy(
   AppState state,
   String modId,
@@ -91,8 +113,11 @@ bool _isVersionInstalledByAnyCopy(
 }
 
 Set<Release> _filterInstalled(AppState state, Set<Release> releases) {
+  final installedModIds = state.mods.map((mod) => mod.id).toSet();
+
   return releases
       .where((release) =>
+          installedModIds.contains(release.modId) &&
           !_isVersionInstalledByAnyCopy(state, release.modId, release.version))
       .toSet();
 }

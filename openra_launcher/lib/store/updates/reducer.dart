@@ -1,18 +1,18 @@
-import 'package:openra_launcher/features/updates/domain/entities/release.dart';
+import 'package:openra_launcher/features/updates/domain/entities/mod_database.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:redux/redux.dart';
 
-final Reducer<Set<Release>> updatesReducer = combineReducers([
-  TypedReducer<Set<Release>, UpdatesLoadedAction>(_setLoadedUpdates).call,
-  TypedReducer<Set<Release>, UpdatesEmptyAction>(_setEpmtyUpdates).call,
-  TypedReducer<Set<Release>, UpdatesErrorAction>(_setEpmtyUpdates).call,
+final Reducer<ModDatabase> modDatabaseReducer = combineReducers([
+  TypedReducer<ModDatabase, ModDatabaseLoadedAction>(_setLoadedDatabase).call,
+  TypedReducer<ModDatabase, ModDatabaseEmptyAction>(_setEmptyDatabase).call,
+  TypedReducer<ModDatabase, ModDatabaseErrorAction>(_setEmptyDatabase).call,
 ]);
 
-Set<Release> _setLoadedUpdates(
-    Set<Release> releases, UpdatesLoadedAction action) {
-  return action.releases;
+ModDatabase _setLoadedDatabase(
+    ModDatabase database, ModDatabaseLoadedAction action) {
+  return action.database;
 }
 
-Set<Release> _setEpmtyUpdates(Set<Release> releases, action) {
-  return {};
+ModDatabase _setEmptyDatabase(ModDatabase database, action) {
+  return const ModDatabase(mods: {});
 }

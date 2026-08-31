@@ -31,7 +31,6 @@ class AppReleasesDataSourceImpl implements AppReleasesDataSource {
     return TaskEither.tryCatch(() async {
       final rawResponse = await httpClientService.read(endpoint);
       final responseBody = jsonDecode(rawResponse) as Map<String, dynamic>;
-      httpClientService.close();
 
       return AppReleaseModel.fromJson(responseBody);
     }, (error, stackTrace) {
@@ -40,8 +39,6 @@ class AppReleasesDataSourceImpl implements AppReleasesDataSource {
         stack: stackTrace,
         context: ErrorDescription('fetching latest app release from GitHub'),
       ));
-
-      httpClientService.close();
 
       return ServerFailure(error.toString());
     });

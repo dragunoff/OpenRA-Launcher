@@ -4,24 +4,12 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:openra_launcher/constants/mod_constants.dart';
-import 'package:openra_launcher/features/updates/data/models/release_model.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 
 class TestUtils {
   static Release generateRelease() {
     return const Release(
-      modId: 'test-mod',
-      id: 1,
-      name: 'Test Release',
-      version: 'version',
-      isPlaytest: false,
-      htmlUrl: 'https://example.com',
-    );
-  }
-
-  static ReleaseModel generateReleaseModel() {
-    return const ReleaseModel(
       modId: 'test-mod',
       id: 1,
       name: 'Test Release',

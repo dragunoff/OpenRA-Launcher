@@ -13,8 +13,6 @@ class ModReleaseInfoChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isSupported = ModUtils.isSupportedForUpdates(mod.id);
-
     const style = TextStyle(
       fontSize: 10.0,
       fontWeight: FontWeight.w200,
@@ -29,22 +27,30 @@ class ModReleaseInfoChips extends StatelessWidget {
       ]);
     }
 
-    if (!isSupported) {
-      return Row(children: [
-        Chip(
-          label: Text(AppLocalizations.of(context)!.updatesNotSupported),
-          labelStyle: style,
-        )
-      ]);
-    }
-
     return StoreConnector<AppState, _ViewModel>(
       converter: (store) => _ViewModel(
+        updatesListStatus: store.state.updatesListStatus,
+        isSupported: selectIsModSupported(store.state, mod.id),
         currentReleaseType: selectCurrentModReleaseType(store.state, mod),
       ),
       builder: (context, vm) {
         final l10n = AppLocalizations.of(context)!;
         final List<Chip> chips = [];
+
+        if (vm.updatesListStatus == ListStatus.initial ||
+            vm.updatesListStatus == ListStatus.loading ||
+            vm.updatesListStatus == ListStatus.error) {
+          return const SizedBox.shrink();
+        }
+
+        if (!vm.isSupported) {
+          return Row(children: [
+            Chip(
+              label: Text(l10n.updatesNotSupported),
+              labelStyle: style,
+            )
+          ]);
+        }
 
         switch (vm.currentReleaseType) {
           case ModReleaseType.release:
@@ -73,9 +79,13 @@ class ModReleaseInfoChips extends StatelessWidget {
 }
 
 class _ViewModel {
+  final ListStatus updatesListStatus;
+  final bool isSupported;
   final ModReleaseType currentReleaseType;
 
   _ViewModel({
+    required this.updatesListStatus,
+    required this.isSupported,
     required this.currentReleaseType,
   });
 }

@@ -72,6 +72,15 @@
       }
     }
   },
+  "visitHomepage": "Visit homepage",
+  "couldNotOpenUrl": "Could not open {url}",
+  "@couldNotOpenUrl": {
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
   "everythingUpToDate": "Everything up to date.",
   "updatesFetchError": "There was an error while fetching updates. Please try again later.",
   "checkNow": "Check now",

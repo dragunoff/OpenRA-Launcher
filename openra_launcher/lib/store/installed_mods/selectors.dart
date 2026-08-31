@@ -28,15 +28,6 @@ Set<Mod> selectHiddenMods(AppState state) {
       .toSet();
 }
 
-Set<String> selectUniqueInstalledModIds(AppState state) {
-  return state.mods
-      .where((mod) => !ModUtils.isDevMod(mod))
-      .fold({}, (previousValue, element) {
-    previousValue.add(element.id);
-    return previousValue;
-  });
-}
-
 Mod selectModById(AppState state, String modId) {
   return state.mods.firstWhere((element) => element.id == modId);
 }

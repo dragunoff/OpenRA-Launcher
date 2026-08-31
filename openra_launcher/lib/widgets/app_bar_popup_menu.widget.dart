@@ -39,7 +39,7 @@ class AppBarPopupMenu extends StatelessWidget {
         showDevMods: store.state.showDevMods,
         showHiddenMods: store.state.showHiddenMods,
         reloadMods: () => store.dispatch(ReloadModsAction()),
-        loadUpdates: () => store.dispatch(LoadUpdatesAction()),
+        loadUpdates: () => store.dispatch(LoadModDatabaseAction()),
         toggleDevMods: () => store.dispatch(
             store.state.showDevMods ? ShowDevModsOff() : ShowDevModsOn()),
         toggleHiddenMods: () => store.dispatch(store.state.showHiddenMods

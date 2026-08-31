@@ -14,7 +14,7 @@ import 'package:openra_launcher/store/updates_list_status/reducer.dart';
 AppState appReducer(AppState state, action) {
   return AppState(
     mods: modsReducer(state.mods, action),
-    releases: updatesReducer(state.releases, action),
+    modDatabase: modDatabaseReducer(state.modDatabase, action),
     favoriteMods: favoriteModsReducer(state.favoriteMods, action),
     hiddenMods: hiddenModsReducer(state.hiddenMods, action),
     modsListStatus: modsListStatusReducer(state.modsListStatus, action),

@@ -1,13 +1,13 @@
-import 'package:openra_launcher/features/updates/domain/entities/release.dart';
+import 'package:openra_launcher/features/updates/domain/entities/mod_database.dart';
 
-class LoadUpdatesAction {}
+class LoadModDatabaseAction {}
 
-class UpdatesLoadedAction {
-  final Set<Release> releases;
+class ModDatabaseLoadedAction {
+  final ModDatabase database;
 
-  UpdatesLoadedAction(this.releases);
+  ModDatabaseLoadedAction(this.database);
 }
 
-class UpdatesEmptyAction {}
+class ModDatabaseEmptyAction {}
 
-class UpdatesErrorAction {}
+class ModDatabaseErrorAction {}

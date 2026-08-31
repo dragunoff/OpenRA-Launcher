@@ -6,6 +6,7 @@ import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
+import 'package:openra_launcher/features/updates/widgets/updates_card_menu_button.widget.dart';
 import 'package:openra_launcher/widgets/card_layout.widget.dart';
 import 'package:openra_launcher/widgets/mod_info_header.widget.dart';
 
@@ -28,6 +29,7 @@ class UpdatesCard extends StatelessWidget {
       builder: (context, mod) {
         return CardLayout(
           header: ModInfoHeader(mod: mod, version: release.version),
+          topRight: UpdatesCardMenuButton(release: release),
           bottom: Row(
             children: [
               Spacer(),

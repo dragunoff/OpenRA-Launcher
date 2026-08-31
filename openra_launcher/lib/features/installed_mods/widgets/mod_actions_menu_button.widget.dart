@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/open_mod_folder_menu_item_button.widget.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/open_url_menu_item_button.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/hidden_mods/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -9,10 +10,12 @@ import 'package:redux/redux.dart';
 
 class _ViewModel {
   final bool isHidden;
+  final String? homepage;
   final VoidCallback toggleHidden;
 
   _ViewModel({
     required this.isHidden,
+    required this.homepage,
     required this.toggleHidden,
   });
 
@@ -20,6 +23,7 @@ class _ViewModel {
     final isHidden = store.state.hiddenMods.contains(mod.key);
     return _ViewModel(
       isHidden: isHidden,
+      homepage: store.state.modDatabase.mods[mod.id]?.homepage,
       toggleHidden: () => store.dispatch(
         isHidden ? UnhideModAction(mod) : HideModAction(mod),
       ),
@@ -85,6 +89,15 @@ class _ModActionsMenuButtonState extends State<ModActionsMenuButton> {
                         leadingIcon: const Icon(Icons.visibility_off),
                         onPressed: vm.toggleHidden,
                         child: Text(l10n.hideMod),
+                      ),
+                    ),
+                  if (vm.homepage != null)
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: OpenUrlMenuItemButton(
+                        label: l10n.visitHomepage,
+                        url: vm.homepage!,
+                        title: widget.mod.title,
                       ),
                     ),
                   Directionality(

@@ -1,0 +1,60 @@
+{
+    "version": 1,
+    "mods": {
+        "ca": {
+            "title": "Combined Arms",
+            "description": "A mod that combines units and structures from all RA2 counterparts.",
+            "homepage": "https://www.moddb.com/mods/combined-arms",
+            "repo_url": "https://github.com/Inq8/CAmod",
+            "stable": {
+                "id": 362158106,
+                "name": "1.09 Combined Arms - Final",
+                "tag_name": "1.09",
+                "prerelease": false,
+                "html_url": "https://github.com/Inq8/CAmod/releases/tag/1.09",
+                "published_at": "2026-07-30T02:49:55Z"
+            },
+            "playtest": {
+                "id": 359961952,
+                "name": "1.09 Combined Arms - Pre Release #1",
+                "tag_name": "1.09-PreRelease-1",
+                "prerelease": true,
+                "html_url": "https://github.com/Inq8/CAmod/releases/tag/1.09-PreRelease-1",
+                "published_at": "2026-07-26T08:26:19Z"
+            }
+        },
+        "cnc": {
+            "stable": {
+                "id": 209218224,
+                "name": "",
+                "tag_name": "release-20250330",
+                "prerelease": false,
+                "html_url": "https://github.com/OpenRA/OpenRA/releases/tag/release-20250330",
+                "published_at": "2025-03-30T17:36:43Z"
+            },
+            "playtest": {
+                "id": 289179143,
+                "name": "",
+                "tag_name": "playtest-20260222",
+                "prerelease": true,
+                "html_url": "https://github.com/OpenRA/OpenRA/releases/tag/playtest-20260222",
+                "published_at": "2026-02-22T19:06:45Z"
+            }
+        },
+        "d2": {
+            "stable": null,
+            "playtest": null
+        },
+        "ta": {
+            "stable": null,
+            "playtest": {
+                "id": 73992711,
+                "name": "TA-playtest-20220803",
+                "tag_name": "TA-playtest-20220803",
+                "prerelease": true,
+                "html_url": "https://github.com/EoralMilk/TiberianAurora/releases/tag/TA-playtest-20220803",
+                "published_at": "2022-08-09T13:49:43Z"
+            }
+        }
+    }
+}

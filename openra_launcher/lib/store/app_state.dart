@@ -1,6 +1,6 @@
 import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
-import 'package:openra_launcher/features/updates/domain/entities/release.dart';
+import 'package:openra_launcher/features/updates/domain/entities/mod_database.dart';
 
 enum ListStatus {
   initial,
@@ -12,7 +12,7 @@ enum ListStatus {
 
 class AppState {
   final Set<Mod> mods;
-  final Set<Release> releases;
+  final ModDatabase modDatabase;
   final Set<String> favoriteMods;
   final Set<String> hiddenMods;
   final ListStatus modsListStatus;
@@ -24,7 +24,7 @@ class AppState {
 
   AppState({
     this.mods = const {},
-    this.releases = const {},
+    this.modDatabase = const ModDatabase(mods: {}),
     this.favoriteMods = const {},
     this.hiddenMods = const {},
     this.modsListStatus = ListStatus.initial,

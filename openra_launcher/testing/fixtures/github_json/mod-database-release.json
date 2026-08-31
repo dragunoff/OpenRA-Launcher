@@ -1,0 +1,17 @@
+{
+    "url": "https://api.github.com/repos/dragunoff/OpenRA-Mod-Database/releases/123456",
+    "html_url": "https://github.com/dragunoff/OpenRA-Mod-Database/releases/tag/database-2026-01-01",
+    "id": 123456,
+    "tag_name": "database-2026-01-01",
+    "name": "Mod Database",
+    "body": "Contains the mod database.",
+    "prerelease": false,
+    "published_at": "2026-01-01T00:00:00Z",
+    "assets": [
+        {
+            "name": "database.json",
+            "size": 1024,
+            "browser_download_url": "https://github.com/dragunoff/OpenRA-Mod-Database/releases/download/database-2026-01-01/database.json"
+        }
+    ]
+}

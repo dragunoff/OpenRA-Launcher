@@ -21,7 +21,7 @@ class UpdatesListEmptyState extends StatelessWidget {
       buttonText: l10n.checkNow,
       buttonIcon: Icons.refresh,
       buttonOnPressed: () {
-        StoreProvider.of<AppState>(context).dispatch(LoadUpdatesAction());
+        StoreProvider.of<AppState>(context).dispatch(LoadModDatabaseAction());
       },
     );
   }
