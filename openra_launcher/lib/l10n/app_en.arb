@@ -73,6 +73,7 @@
     }
   },
   "visitHomepage": "Visit homepage",
+  "viewRepository": "View repository",
   "couldNotOpenUrl": "Could not open {url}",
   "@couldNotOpenUrl": {
     "placeholders": {

@@ -5,20 +5,24 @@ import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
+import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:redux/redux.dart';
 
 class _ViewModel {
   final String? homepage;
+  final String? repoUrl;
   final String modTitle;
 
   _ViewModel({
     required this.homepage,
+    required this.repoUrl,
     required this.modTitle,
   });
 
   static _ViewModel fromStore(Store<AppState> store, Release release) {
     return _ViewModel(
-      homepage: store.state.modDatabase.mods[release.modId]?.homepage,
+      homepage: selectModInfo(store.state, release.modId)?.homepage,
+      repoUrl: selectModInfo(store.state, release.modId)?.repoUrl,
       modTitle: selectModById(store.state, release.modId).title,
     );
   }
@@ -81,6 +85,16 @@ class _UpdatesCardMenuButtonState extends State<UpdatesCardMenuButton> {
                     label: l10n.visitHomepage,
                     url: vm.homepage!,
                     title: vm.modTitle,
+                  ),
+                ),
+              if (vm.repoUrl != null)
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: OpenUrlMenuItemButton(
+                    label: l10n.viewRepository,
+                    url: vm.repoUrl!,
+                    title: vm.modTitle,
+                    icon: Icons.code,
                   ),
                 ),
             ],

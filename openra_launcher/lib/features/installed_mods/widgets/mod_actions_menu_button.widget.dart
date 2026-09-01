@@ -6,6 +6,7 @@ import 'package:openra_launcher/features/installed_mods/widgets/open_url_menu_it
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/hidden_mods/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:redux/redux.dart';
 
 class _ViewModel {
@@ -23,7 +24,7 @@ class _ViewModel {
     final isHidden = store.state.hiddenMods.contains(mod.key);
     return _ViewModel(
       isHidden: isHidden,
-      homepage: store.state.modDatabase.mods[mod.id]?.homepage,
+      homepage: selectModInfo(store.state, mod.id)?.homepage,
       toggleHidden: () => store.dispatch(
         isHidden ? UnhideModAction(mod) : HideModAction(mod),
       ),

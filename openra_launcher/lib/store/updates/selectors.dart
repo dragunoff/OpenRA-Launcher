@@ -1,6 +1,13 @@
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
+import 'package:openra_launcher/features/updates/domain/entities/mod_database_info.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/store/app_state.dart';
+
+/// Returns the database entry for [modId], or null when the mod is not
+/// present in the loaded mod database.
+ModDatabaseInfo? selectModInfo(AppState state, String modId) {
+  return state.modDatabase.mods[modId];
+}
 
 Set<Release> selectReleaseUpdates(AppState state) {
   return _allReleases(state).where((release) => !release.isPlaytest).toSet();
