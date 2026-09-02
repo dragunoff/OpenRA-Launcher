@@ -63,6 +63,7 @@ class ModDatabaseInfoModel extends ModDatabaseInfo {
       version: value['tag_name'],
       isPlaytest: value['prerelease'] ?? false,
       htmlUrl: value['html_url'],
+      body: value['body'],
     );
   }
 }

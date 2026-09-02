@@ -89,6 +89,8 @@
   "releaseAvailableSection": "Release available",
   "playtestAvailableSection": "Playtest available",
   "download": "Download",
+  "releaseNotes": "Release notes",
+  "noReleaseNotes": "No release notes provided.",
   "settings": "Settings",
   "colorTheme": "Color theme",
   "light": "Light",

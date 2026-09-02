@@ -8,6 +8,7 @@ class Release {
   final String version;
   final bool isPlaytest;
   final String htmlUrl;
+  final String? body;
 
   const Release({
     required this.modId,
@@ -16,7 +17,13 @@ class Release {
     required this.version,
     required this.isPlaytest,
     required this.htmlUrl,
+    this.body,
   });
+
+  bool get hasReleaseNotes =>
+      name.trim().isNotEmpty || (body?.trim().isNotEmpty ?? false);
+
+  bool get hasBody => body?.trim().isNotEmpty ?? false;
 
   Release copyWith({
     String? modId,
@@ -25,6 +32,7 @@ class Release {
     String? name,
     String? htmlUrl,
     bool? isPlaytest,
+    String? body,
   }) {
     return Release(
       modId: modId ?? this.modId,
@@ -33,6 +41,7 @@ class Release {
       name: name ?? this.name,
       htmlUrl: htmlUrl ?? this.htmlUrl,
       isPlaytest: isPlaytest ?? this.isPlaytest,
+      body: body ?? this.body,
     );
   }
 
