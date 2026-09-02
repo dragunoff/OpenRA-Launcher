@@ -1,17 +1,17 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/features/updates/domain/entities/release.dart';
+import 'package:openra_launcher/features/discover/widgets/discover_list.widget.dart';
+import 'package:openra_launcher/features/discover/widgets/discover_list_empty_state.widget.dart';
+import 'package:openra_launcher/features/updates/domain/entities/mod_database_info.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/list_divider.widget.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
-import 'package:openra_launcher/features/updates/widgets/updates_list.widget.dart';
-import 'package:openra_launcher/features/updates/widgets/updates_list_empty_state.widget.dart';
 import 'package:redux/redux.dart';
 
-class UpdatesHome extends StatelessWidget {
-  const UpdatesHome({super.key});
+class DiscoverHome extends StatelessWidget {
+  const DiscoverHome({super.key});
 
   @override
   Widget build(context) {
@@ -28,58 +28,34 @@ class UpdatesHome extends StatelessWidget {
 
           if (vm.updatesListStatus == ListStatus.empty ||
               vm.updatesListStatus == ListStatus.error) {
-            return UpdatesListEmptyState(listStatus: vm.updatesListStatus);
-          }
-
-          final List<Widget> children = [];
-
-          if (vm.releases.isNotEmpty) {
-            children.add(ListDivider(l10n.releaseAvailableSection));
-            children.add(UpdatesList(releases: vm.releases));
-          }
-
-          if (vm.playtests.isNotEmpty) {
-            children.add(ListDivider(l10n.playtestAvailableSection));
-            children.add(UpdatesList(releases: vm.playtests));
+            return DiscoverListEmptyState(listStatus: vm.updatesListStatus);
           }
 
           return SingleChildScrollView(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: children));
+                  children: [
+                ListDivider(l10n.discover),
+                DiscoverList(mods: vm.discoverableMods),
+              ]));
         });
   }
 }
 
 class _ViewModel {
-  final Set<Release> releases;
-  final Set<Release> playtests;
+  final Set<ModDatabaseInfo> discoverableMods;
   final ListStatus modsListStatus;
   final ListStatus updatesListStatus;
 
   _ViewModel({
-    required this.releases,
-    required this.playtests,
+    required this.discoverableMods,
     required this.modsListStatus,
     required this.updatesListStatus,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
-    final hiddenModIds = store.state.mods
-        .where((mod) => store.state.hiddenMods.contains(mod.key))
-        .map((mod) => mod.id)
-        .toSet();
-
-    Set<Release> filterHidden(Set<Release> releases) {
-      if (store.state.showHiddenMods) return releases;
-      return releases
-          .where((release) => !hiddenModIds.contains(release.modId))
-          .toSet();
-    }
-
     return _ViewModel(
-      releases: filterHidden(selectAvailableReleaseUpdates(store.state)),
-      playtests: filterHidden(selectAvailablePlaytestUpdates(store.state)),
+      discoverableMods: selectDiscoverableMods(store.state),
       modsListStatus: store.state.modsListStatus,
       updatesListStatus: store.state.updatesListStatus,
     );

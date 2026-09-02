@@ -20,6 +20,10 @@
   "notNow": "Not Now",
   "mods": "Mods",
   "updates": "Updates",
+  "discover": "Discover",
+  "noDiscoverableMods": "You have all available mods installed.",
+  "discoverFetchError":
+      "There was an error while fetching mods. Please try again later.",
   "switchColorTheme": "Switch color theme",
   "refreshMods": "Refresh mods",
   "checkForUpdates": "Check for updates",

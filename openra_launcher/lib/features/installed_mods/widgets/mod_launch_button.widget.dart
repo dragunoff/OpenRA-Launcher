@@ -7,7 +7,7 @@ import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class ModLaunchButton extends StatefulWidget {
-  const ModLaunchButton({Key? key, required this.mod}) : super(key: key);
+  const ModLaunchButton({super.key, required this.mod});
 
   final Mod mod;
 

@@ -8,8 +8,7 @@ import 'package:openra_launcher/store/app_state.dart';
 
 class FavoriteModButton extends StatelessWidget {
   const FavoriteModButton(
-      {Key? key, required this.mod, required this.isFavorite})
-      : super(key: key);
+      {super.key, required this.mod, required this.isFavorite});
 
   final Mod mod;
   final bool isFavorite;

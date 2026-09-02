@@ -31,10 +31,10 @@ class _ViewModel {
 
 class UpdatesCardMenuButton extends StatefulWidget {
   const UpdatesCardMenuButton({
-    Key? key,
+    super.key,
     required this.release,
     this.onMenuToggle,
-  }) : super(key: key);
+  });
 
   final Release release;
   final ValueChanged<bool>? onMenuToggle;

@@ -4,7 +4,7 @@ import 'package:openra_launcher/features/updates/widgets/updates_card.widget.dar
 import 'package:openra_launcher/widgets/card_grid.widget.dart';
 
 class UpdatesList extends StatelessWidget {
-  const UpdatesList({Key? key, required this.releases}) : super(key: key);
+  const UpdatesList({super.key, required this.releases});
 
   final Set<Release> releases;
 

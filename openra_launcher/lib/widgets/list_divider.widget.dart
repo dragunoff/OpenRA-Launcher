@@ -4,8 +4,8 @@ import 'package:openra_launcher/constants/app_constants.dart';
 class ListDivider extends StatelessWidget {
   const ListDivider(
     this.text, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String text;
   @override

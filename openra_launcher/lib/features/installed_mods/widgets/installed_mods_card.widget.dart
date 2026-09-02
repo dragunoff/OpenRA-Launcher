@@ -11,11 +11,11 @@ import 'package:openra_launcher/widgets/mod_info_header.widget.dart';
 
 class InstalledModsCard extends StatelessWidget {
   const InstalledModsCard({
-    Key? key,
+    super.key,
     required this.mod,
     this.isFavorite = false,
     this.isHidden = false,
-  }) : super(key: key);
+  });
 
   final Mod mod;
   final bool isFavorite;

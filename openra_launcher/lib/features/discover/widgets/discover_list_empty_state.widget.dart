@@ -5,8 +5,9 @@ import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:openra_launcher/widgets/empty_state.widget.dart';
 
-class UpdatesListEmptyState extends StatelessWidget {
-  const UpdatesListEmptyState({super.key, this.listStatus = ListStatus.empty});
+class DiscoverListEmptyState extends StatelessWidget {
+  const DiscoverListEmptyState(
+      {super.key, this.listStatus = ListStatus.empty});
 
   final ListStatus listStatus;
 
@@ -16,7 +17,7 @@ class UpdatesListEmptyState extends StatelessWidget {
     final hasError = listStatus == ListStatus.error;
 
     return EmptyState(
-      text: hasError ? l10n.updatesFetchError : l10n.everythingUpToDate,
+      text: hasError ? l10n.discoverFetchError : l10n.noDiscoverableMods,
       buttonText: l10n.checkNow,
       buttonIcon: Icons.refresh,
       buttonOnPressed: () {

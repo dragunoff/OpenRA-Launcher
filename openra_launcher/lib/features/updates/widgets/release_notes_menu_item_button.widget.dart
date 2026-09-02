@@ -5,9 +5,9 @@ import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class ReleaseNotesMenuItemButton extends StatefulWidget {
   const ReleaseNotesMenuItemButton({
-    Key? key,
+    super.key,
     required this.release,
-  }) : super(key: key);
+  });
 
   final Release release;
 

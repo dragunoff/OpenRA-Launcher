@@ -12,10 +12,10 @@ import 'package:openra_launcher/widgets/mod_info_header.widget.dart';
 
 class UpdatesCard extends StatelessWidget {
   const UpdatesCard({
-    Key? key,
+    super.key,
     required this.release,
     this.isFavorite = false,
-  }) : super(key: key);
+  });
 
   final Release release;
   final bool isFavorite;

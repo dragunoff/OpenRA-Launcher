@@ -7,24 +7,15 @@ import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 @immutable
 class ModDatabaseInfoModel extends ModDatabaseInfo {
   const ModDatabaseInfoModel({
-    required String modId,
-    required String title,
-    String? description,
-    String? homepage,
-    String? repoUrl,
-    Uint8List? icon,
-    Release? stable,
-    Release? playtest,
-  }) : super(
-          modId: modId,
-          title: title,
-          description: description,
-          homepage: homepage,
-          repoUrl: repoUrl,
-          icon: icon,
-          stable: stable,
-          playtest: playtest,
-        );
+    required super.modId,
+    required super.title,
+    super.description,
+    super.homepage,
+    super.repoUrl,
+    super.icon,
+    super.stable,
+    super.playtest,
+  });
 
   factory ModDatabaseInfoModel.fromJson(
     String modId,

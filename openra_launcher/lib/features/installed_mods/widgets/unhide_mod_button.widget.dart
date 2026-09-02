@@ -7,7 +7,7 @@ import 'package:openra_launcher/store/hidden_mods/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
 
 class UnhideModButton extends StatelessWidget {
-  const UnhideModButton({Key? key, required this.mod}) : super(key: key);
+  const UnhideModButton({super.key, required this.mod});
 
   final Mod mod;
 

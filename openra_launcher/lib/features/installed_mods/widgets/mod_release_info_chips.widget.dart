@@ -8,7 +8,7 @@ import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 
 class ModReleaseInfoChips extends StatelessWidget {
-  const ModReleaseInfoChips({Key? key, required this.mod}) : super(key: key);
+  const ModReleaseInfoChips({super.key, required this.mod});
   final Mod mod;
 
   @override

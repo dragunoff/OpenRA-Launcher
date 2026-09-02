@@ -3,8 +3,8 @@ import 'package:openra_launcher/constants/app_constants.dart';
 
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

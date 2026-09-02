@@ -4,11 +4,11 @@ import 'package:openra_launcher/features/app_update/domain/entities/app_release.
 @immutable
 class AppReleaseModel extends AppRelease {
   const AppReleaseModel({
-    required int id,
-    required String name,
-    required String version,
-    required String htmlUrl,
-  }) : super(id: id, name: name, version: version, htmlUrl: htmlUrl);
+    required super.id,
+    required super.name,
+    required super.version,
+    required super.htmlUrl,
+  });
 
   factory AppReleaseModel.fromJson(Map<String, dynamic> githubReleaseJson) {
     return AppReleaseModel(

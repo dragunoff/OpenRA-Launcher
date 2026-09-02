@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openra_launcher/features/discover/widgets/discover_home.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_home.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_home.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
@@ -36,6 +37,12 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(UpdatesHome), findsOneWidget);
+    expect(find.byType(InstalledModsHome), findsNothing);
+
+    await tester.tap(find.text('Discover'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(DiscoverHome), findsOneWidget);
     expect(find.byType(InstalledModsHome), findsNothing);
   });
 }

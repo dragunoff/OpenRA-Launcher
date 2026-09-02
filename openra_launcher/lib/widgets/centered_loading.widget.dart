@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 class EmptyState extends StatelessWidget {
-  const EmptyState({Key? key, this.text = 'Loading...'}) : super(key: key);
+  const EmptyState({super.key, this.text = 'Loading...'});
 
   final String text;
 

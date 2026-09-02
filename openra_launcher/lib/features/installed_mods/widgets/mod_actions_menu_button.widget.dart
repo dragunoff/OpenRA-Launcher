@@ -34,10 +34,10 @@ class _ViewModel {
 
 class ModActionsMenuButton extends StatefulWidget {
   const ModActionsMenuButton({
-    Key? key,
+    super.key,
     required this.mod,
     this.onMenuToggle,
-  }) : super(key: key);
+  });
 
   final Mod mod;
   final ValueChanged<bool>? onMenuToggle;

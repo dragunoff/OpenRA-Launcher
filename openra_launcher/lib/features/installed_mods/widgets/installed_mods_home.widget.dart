@@ -11,7 +11,7 @@ import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_l
 import 'package:redux/redux.dart';
 
 class InstalledModsHome extends StatelessWidget {
-  const InstalledModsHome({Key? key}) : super(key: key);
+  const InstalledModsHome({super.key});
 
   @override
   Widget build(context) {

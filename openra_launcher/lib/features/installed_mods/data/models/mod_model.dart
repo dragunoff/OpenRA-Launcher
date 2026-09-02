@@ -8,26 +8,16 @@ import 'package:openra_launcher/utils/mini_yaml_utils.dart';
 @immutable
 class ModModel extends Mod {
   const ModModel({
-    required String key,
-    required String id,
-    required String version,
-    required String title,
-    required String launchPath,
-    required List<String> launchArgs,
-    Uint8List? icon,
-    Uint8List? icon2x,
-    Uint8List? icon3x,
-  }) : super(
-          key: key,
-          id: id,
-          version: version,
-          title: title,
-          launchPath: launchPath,
-          launchArgs: launchArgs,
-          icon: icon,
-          icon2x: icon2x,
-          icon3x: icon3x,
-        );
+    required super.key,
+    required super.id,
+    required super.version,
+    required super.title,
+    required super.launchPath,
+    required super.launchArgs,
+    super.icon,
+    super.icon2x,
+    super.icon3x,
+  });
 
   factory ModModel.fromFile(File file) {
     final metadata = MiniYamlUtils.modMetadataFromFile(file);

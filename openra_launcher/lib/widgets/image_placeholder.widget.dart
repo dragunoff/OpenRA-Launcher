@@ -2,8 +2,8 @@ import 'package:material_ui/material_ui.dart';
 
 class ImagePlaceholder extends StatelessWidget {
   const ImagePlaceholder({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

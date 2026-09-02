@@ -5,11 +5,11 @@ import 'package:openra_launcher/widgets/card_grid.widget.dart';
 
 class InstalledModsList extends StatelessWidget {
   const InstalledModsList({
-    Key? key,
+    super.key,
     required this.mods,
     this.isFavoritesList = false,
     this.hiddenMods = const {},
-  }) : super(key: key);
+  });
 
   final Set<Mod> mods;
   final bool isFavoritesList;

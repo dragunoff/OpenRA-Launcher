@@ -13,8 +13,7 @@ import 'package:openra_launcher/widgets/home_screen.widget.dart';
 import 'package:redux/redux.dart';
 
 class OpenRALauncher extends StatelessWidget {
-  const OpenRALauncher({Key? key, required this.store, this.savedThemeMode})
-      : super(key: key);
+  const OpenRALauncher({super.key, required this.store, this.savedThemeMode});
   final Store<AppState> store;
   final String title = AppConstants.appName;
   final AdaptiveThemeMode? savedThemeMode;

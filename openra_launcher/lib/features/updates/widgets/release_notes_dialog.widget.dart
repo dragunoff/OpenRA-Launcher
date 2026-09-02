@@ -5,9 +5,9 @@ import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class ReleaseNotesDialog extends StatelessWidget {
   const ReleaseNotesDialog({
-    Key? key,
+    super.key,
     required this.release,
-  }) : super(key: key);
+  });
 
   final Release release;
 

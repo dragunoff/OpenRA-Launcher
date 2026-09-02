@@ -4,19 +4,19 @@ abstract class Failure {
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure([String? message]) : super(message);
+  const ServerFailure([super.message]);
 }
 
 class PlatformFailure extends Failure {
-  const PlatformFailure([String? message]) : super(message);
+  const PlatformFailure([super.message]);
 }
 
 class FileSystemFailure extends Failure {
-  const FileSystemFailure([String? message]) : super(message);
+  const FileSystemFailure([super.message]);
 }
 
 class MiniYamlFormatFailure extends Failure {
-  const MiniYamlFormatFailure([String? message]) : super(message);
+  const MiniYamlFormatFailure([super.message]);
 }
 
 // class UnexpectedFailure extends Failure {

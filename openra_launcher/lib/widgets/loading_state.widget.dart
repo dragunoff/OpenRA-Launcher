@@ -3,7 +3,7 @@ import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/widgets/loading_indicator.widget.dart';
 
 class LoadingState extends StatelessWidget {
-  const LoadingState({Key? key, this.text = 'Loading...'}) : super(key: key);
+  const LoadingState({super.key, this.text = 'Loading...'});
 
   final String text;
 

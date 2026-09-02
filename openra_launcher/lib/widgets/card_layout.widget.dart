@@ -3,11 +3,11 @@ import 'package:openra_launcher/constants/app_constants.dart';
 
 class CardLayout extends StatelessWidget {
   const CardLayout({
-    Key? key,
+    super.key,
     required this.header,
     this.topRight,
     this.bottom,
-  }) : super(key: key);
+  });
 
   final Widget header;
   final Widget? topRight;
@@ -23,7 +23,7 @@ class CardLayout extends StatelessWidget {
             Row(
               children: [
                 Expanded(child: header),
-                if (topRight != null) topRight!,
+                ?topRight,
               ],
             ),
             if (bottom != null) ...[

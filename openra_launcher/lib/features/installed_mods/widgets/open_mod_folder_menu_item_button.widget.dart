@@ -10,10 +10,10 @@ enum ModFolderType { maps, replays }
 
 class OpenModFolderMenuItemButton extends StatefulWidget {
   const OpenModFolderMenuItemButton({
-    Key? key,
+    super.key,
     required this.mod,
     required this.folder,
-  }) : super(key: key);
+  });
 
   final Mod mod;
   final ModFolderType folder;

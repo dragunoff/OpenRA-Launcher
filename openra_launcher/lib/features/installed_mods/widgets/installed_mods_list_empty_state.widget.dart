@@ -7,8 +7,7 @@ import 'package:openra_launcher/widgets/empty_state.widget.dart';
 
 class InstalledModsListEmptyState extends StatelessWidget {
   const InstalledModsListEmptyState(
-      {Key? key, this.listStatus = ListStatus.empty})
-      : super(key: key);
+      {super.key, this.listStatus = ListStatus.empty});
 
   final ListStatus listStatus;
 

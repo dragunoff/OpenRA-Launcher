@@ -30,7 +30,7 @@ class _ViewModel {
 }
 
 class AppBarPopupMenu extends StatelessWidget {
-  const AppBarPopupMenu({Key? key}) : super(key: key);
+  const AppBarPopupMenu({super.key});
 
   @override
   Widget build(BuildContext context) {

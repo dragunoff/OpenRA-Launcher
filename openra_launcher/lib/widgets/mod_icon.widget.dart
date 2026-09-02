@@ -6,7 +6,7 @@ import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart
 import 'package:openra_launcher/widgets/image_placeholder.widget.dart';
 
 class ModIcon extends StatelessWidget {
-  const ModIcon({Key? key, required this.mod}) : super(key: key);
+  const ModIcon({super.key, required this.mod});
 
   final Mod mod;
 

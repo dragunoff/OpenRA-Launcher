@@ -5,12 +5,12 @@ import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class OpenUrlMenuItemButton extends StatefulWidget {
   const OpenUrlMenuItemButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.url,
     this.title,
     this.icon = Icons.open_in_new,
-  }) : super(key: key);
+  });
 
   final String label;
   final String url;

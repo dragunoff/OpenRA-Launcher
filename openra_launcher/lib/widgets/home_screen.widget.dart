@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/app_update/domain/entities/app_release.dart';
 import 'package:openra_launcher/features/app_update/widgets/app_update_dialog.widget.dart';
+import 'package:openra_launcher/features/discover/widgets/discover_home.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_home.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_home.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
@@ -12,8 +13,7 @@ import 'package:openra_launcher/widgets/app_bar_popup_menu.widget.dart';
 import 'package:openra_launcher/widgets/settings_dialog.widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required this.title, required this.onInit})
-      : super(key: key);
+  const HomeScreen({super.key, required this.title, required this.onInit});
 
   final String title;
   final void Function() onInit;
@@ -70,6 +70,13 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icons.update,
         selectedIcon: Icons.update,
         content: const UpdatesHome(),
+      ),
+      _HomeDestination(
+        id: 'discover',
+        label: l10n.discover,
+        icon: Icons.travel_explore,
+        selectedIcon: Icons.travel_explore,
+        content: const DiscoverHome(),
       ),
     ];
 

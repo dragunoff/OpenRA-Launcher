@@ -6,9 +6,9 @@ import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class AppUpdateDialog extends StatelessWidget {
   const AppUpdateDialog({
-    Key? key,
+    super.key,
     required this.appRelease,
-  }) : super(key: key);
+  });
 
   final AppRelease appRelease;
 

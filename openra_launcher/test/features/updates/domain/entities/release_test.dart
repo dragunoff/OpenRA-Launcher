@@ -79,18 +79,25 @@ void main() {
     });
 
     group('hasBody', () {
+      Release withBody(String? body) => Release(
+            modId: 'test',
+            id: 1,
+            version: 'version',
+            name: '',
+            htmlUrl: 'https://example.com',
+            isPlaytest: false,
+            body: body,
+          );
+
       test('returns true when the body is non-empty', () {
-        expect(testObj.hasBody, true);
-        expect(
-          testObj.copyWith(body: '   notes   ').hasBody,
-          true,
-        );
+        expect(withBody('# Notes\n- Initial').hasBody, true);
+        expect(withBody('   notes   ').hasBody, true);
       });
 
       test('returns false when the body is null or blank', () {
-        expect(testObj.copyWith(body: null).hasBody, false);
-        expect(testObj.copyWith(body: '').hasBody, false);
-        expect(testObj.copyWith(body: '   ').hasBody, false);
+        expect(withBody(null).hasBody, false);
+        expect(withBody('').hasBody, false);
+        expect(withBody('   ').hasBody, false);
       });
     });
   });

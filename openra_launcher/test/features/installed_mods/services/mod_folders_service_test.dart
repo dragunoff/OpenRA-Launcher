@@ -147,7 +147,7 @@ void main() {
         ),
         fileSystem: fileSystem,
         platform: FakePlatform(operatingSystem: 'linux'),
-        starter: _FakeProcessStarter((_, __) async {}),
+        starter: _FakeProcessStarter((_, _) async {}),
       );
 
       final result =

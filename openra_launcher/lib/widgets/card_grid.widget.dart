@@ -3,10 +3,10 @@ import 'package:openra_launcher/constants/app_constants.dart';
 
 class CardGrid extends StatelessWidget {
   const CardGrid({
-    Key? key,
+    super.key,
     required this.itemCount,
     required this.itemBuilder,
-  }) : super(key: key);
+  });
 
   final int itemCount;
   final Widget Function(BuildContext, int) itemBuilder;

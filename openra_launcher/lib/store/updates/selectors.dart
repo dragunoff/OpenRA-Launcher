@@ -94,6 +94,20 @@ int selectUpdatesCount(AppState state) {
       .length;
 }
 
+/// Returns the mods present in the mod database that are not installed on the
+/// system, sorted alphabetically by title.
+Set<ModDatabaseInfo> selectDiscoverableMods(AppState state) {
+  final installedModIds = state.mods.map((mod) => mod.id).toSet();
+
+  final discoverable = state.modDatabase.mods.values
+      .where((info) => !installedModIds.contains(info.modId))
+      .toList()
+    ..sort(
+        (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+
+  return discoverable.toSet();
+}
+
 /// Flattens every stable and playtest release stored in the mod database.
 Set<Release> _allReleases(AppState state) {
   Set<Release> releases = {};
