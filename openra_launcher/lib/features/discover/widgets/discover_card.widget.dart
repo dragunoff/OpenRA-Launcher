@@ -26,22 +26,26 @@ class DiscoverCard extends StatelessWidget {
 
     final actions = <Widget>[];
     if (hasHomepage) {
-      actions.add(OutlinedButton.icon(
-        icon: const Icon(Icons.open_in_new),
-        onPressed: () async {
-          await openExternalUrl(homepage).run();
-        },
-        label: Text(l10n.visitHomepage),
-      ));
+      actions.add(
+        OutlinedButton.icon(
+          icon: const Icon(Icons.open_in_new),
+          onPressed: () async {
+            await openExternalUrl(homepage).run();
+          },
+          label: Text(l10n.visitHomepage),
+        ),
+      );
     }
     if (hasRepo) {
-      actions.add(TextButton.icon(
-        icon: const Icon(Icons.code),
-        onPressed: () async {
-          await openExternalUrl(repoUrl).run();
-        },
-        label: Text(l10n.viewRepository),
-      ));
+      actions.add(
+        TextButton.icon(
+          icon: const Icon(Icons.code),
+          onPressed: () async {
+            await openExternalUrl(repoUrl).run();
+          },
+          label: Text(l10n.viewRepository),
+        ),
+      );
     }
 
     final hasDescription = description != null && description.isNotEmpty;
@@ -49,11 +53,7 @@ class DiscoverCard extends StatelessWidget {
     return CardLayout(
       header: ModDatabaseInfoHeader(info: info),
       description: hasDescription
-          ? Text(
-              description,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall,
-            )
+          ? Text(description, style: Theme.of(context).textTheme.bodySmall)
           : null,
       bottom: actions.isEmpty ? null : ButtonRow(children: actions),
     );
