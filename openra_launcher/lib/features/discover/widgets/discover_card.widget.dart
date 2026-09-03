@@ -1,5 +1,4 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/discover/widgets/mod_database_info_header.widget.dart';
 import 'package:openra_launcher/features/updates/domain/entities/mod_database_info.dart';
@@ -27,32 +26,28 @@ class DiscoverCard extends StatelessWidget {
     final hasDescription = description != null && description.isNotEmpty;
 
     return CardLayout(
-      header: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ModDatabaseInfoHeader(info: info),
-          if (hasDescription) ...[
-            const SizedBox(height: AppConstants.spacing),
-            Text(
+      header: ModDatabaseInfoHeader(info: info),
+      description: hasDescription
+          ? Text(
               description,
+              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
-          if (hasLink) ...[
-            const SizedBox(height: AppConstants.spacing),
-            Align(
-              alignment: Alignment.centerRight,
-              child: OutlinedButton.icon(
-                icon: const Icon(Icons.open_in_new),
-                onPressed: () async {
-                  await openExternalUrl(homepage ?? repoUrl!).run();
-                },
-                label: Text(label),
-              ),
-            ),
-          ],
-        ],
-      ),
+            )
+          : null,
+      bottom: hasLink
+          ? Row(
+              children: [
+                const Spacer(),
+                OutlinedButton.icon(
+                  icon: const Icon(Icons.open_in_new),
+                  onPressed: () async {
+                    await openExternalUrl(homepage ?? repoUrl!).run();
+                  },
+                  label: Text(label),
+                ),
+              ],
+            )
+          : null,
     );
   }
 }

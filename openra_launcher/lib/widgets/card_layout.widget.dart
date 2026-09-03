@@ -6,11 +6,13 @@ class CardLayout extends StatelessWidget {
     super.key,
     required this.header,
     this.topRight,
+    this.description,
     this.bottom,
   });
 
   final Widget header;
   final Widget? topRight;
+  final Widget? description;
   final Widget? bottom;
 
   @override
@@ -26,6 +28,10 @@ class CardLayout extends StatelessWidget {
                 ?topRight,
               ],
             ),
+            if (description != null) ...[
+              const SizedBox(height: AppConstants.spacing),
+              description!,
+            ],
             if (bottom != null) ...[
               const SizedBox(height: AppConstants.spacing),
               bottom!,
