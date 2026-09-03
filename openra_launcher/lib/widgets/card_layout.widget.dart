@@ -27,7 +27,7 @@ class CardLayout extends StatelessWidget {
               ],
             ),
             if (bottom != null) ...[
-              const Spacer(),
+              const SizedBox(height: AppConstants.spacing),
               bottom!,
             ],
           ],
