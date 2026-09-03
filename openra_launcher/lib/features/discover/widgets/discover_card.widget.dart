@@ -1,10 +1,10 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/discover/widgets/mod_database_info_header.widget.dart';
 import 'package:openra_launcher/features/updates/domain/entities/mod_database_info.dart';
 import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
+import 'package:openra_launcher/widgets/button_row.widget.dart';
 import 'package:openra_launcher/widgets/card_layout.widget.dart';
 
 class DiscoverCard extends StatelessWidget {
@@ -55,16 +55,7 @@ class DiscoverCard extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
             )
           : null,
-      bottom: actions.isEmpty
-          ? null
-          : Row(
-              children: [
-                for (final (index, action) in actions.indexed) ...[
-                  if (index > 0) const SizedBox(width: AppConstants.spacing),
-                  action,
-                ],
-              ],
-            ),
+      bottom: actions.isEmpty ? null : ButtonRow(children: actions),
     );
   }
 }
