@@ -22,8 +22,7 @@
   "updates": "Updates",
   "discover": "Discover",
   "noDiscoverableMods": "You have all available mods installed.",
-  "discoverFetchError":
-      "There was an error while fetching mods. Please try again later.",
+  "discoverFetchError": "There was an error while fetching mods. Please try again later.",
   "switchColorTheme": "Switch color theme",
   "refreshMods": "Refresh mods",
   "checkForUpdates": "Check for updates",
@@ -67,8 +66,7 @@
     }
   },
   "openReplaysFolder": "Open replays folder",
-  "couldNotOpenReplaysFolder":
-      "Could not open the replays folder of {modTitle}",
+  "couldNotOpenReplaysFolder": "Could not open the replays folder of {modTitle}",
   "@couldNotOpenReplaysFolder": {
     "placeholders": {
       "modTitle": {
@@ -101,5 +99,7 @@
   "light": "Light",
   "dark": "Dark",
   "system": "System",
-  "close": "Close"
+  "close": "Close",
+  "release": "RELEASE",
+  "playtest": "PLAYTEST"
 }

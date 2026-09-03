@@ -1,3 +1,5 @@
+import 'package:material_ui/material_ui.dart';
+
 class AppConstants {
   static const appName = 'OpenRA Launcher';
   static const iconSize = 32.0;
@@ -8,4 +10,8 @@ class AppConstants {
   static const tooltipWaitDuration = Duration(milliseconds: 600);
   static const smallScreenBreakpoint = 1024.0;
   static const largeScreenBreakpoint = 1440.0;
+  static const chipTextStyle = TextStyle(
+    fontSize: 10.0,
+    fontWeight: FontWeight.w200,
+  );
 }

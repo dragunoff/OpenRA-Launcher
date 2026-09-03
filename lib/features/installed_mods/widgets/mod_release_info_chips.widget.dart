@@ -13,12 +13,10 @@ class ModReleaseInfoChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const style = TextStyle(fontSize: 10.0, fontWeight: FontWeight.w200);
-
     if (ModUtils.isDevMod(mod)) {
       return Chip(
         label: Text(AppLocalizations.of(context)!.devModVersion),
-        labelStyle: style,
+        labelStyle: AppConstants.chipTextStyle,
       );
     }
 
@@ -39,18 +37,27 @@ class ModReleaseInfoChips extends StatelessWidget {
         }
 
         if (!vm.isSupported) {
-          return Chip(label: Text(l10n.updatesNotSupported), labelStyle: style);
+          return Chip(
+            label: Text(l10n.updatesNotSupported),
+            labelStyle: AppConstants.chipTextStyle,
+          );
         }
 
         switch (vm.currentReleaseType) {
           case ModReleaseType.release:
             chips.add(
-              Chip(label: Text(l10n.currentRelease), labelStyle: style),
+              Chip(
+                label: Text(l10n.currentRelease),
+                labelStyle: AppConstants.chipTextStyle,
+              ),
             );
             break;
           case ModReleaseType.playtest:
             chips.add(
-              Chip(label: Text(l10n.currentPlaytest), labelStyle: style),
+              Chip(
+                label: Text(l10n.currentPlaytest),
+                labelStyle: AppConstants.chipTextStyle,
+              ),
             );
             break;
           case ModReleaseType.none:

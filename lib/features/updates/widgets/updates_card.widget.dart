@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/injection.dart';
@@ -29,6 +30,8 @@ class UpdatesCard extends StatelessWidget {
     return StoreConnector<AppState, dynamic>(
       converter: (store) => selectModById(store.state, release.modId),
       builder: (context, mod) {
+        final l10n = AppLocalizations.of(context)!;
+
         return CardLayout(
           header: ModInfoHeader(mod: mod, version: release.version),
           topRight: UpdatesCardMenuButton(release: release),
@@ -42,6 +45,11 @@ class UpdatesCard extends StatelessWidget {
                 label: Text(AppLocalizations.of(context)!.download),
               ),
               if (release.hasReleaseNotes) ReleaseNotesButton(release: release),
+              const Spacer(),
+              Chip(
+                label: Text(release.isPlaytest ? l10n.playtest : l10n.release),
+                labelStyle: AppConstants.chipTextStyle,
+              ),
             ],
           ),
         );
