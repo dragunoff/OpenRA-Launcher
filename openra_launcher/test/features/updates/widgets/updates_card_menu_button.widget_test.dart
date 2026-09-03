@@ -2,8 +2,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
+import 'package:openra_launcher/features/installed_mods/widgets/open_url_menu_item_button.widget.dart';
+import 'package:openra_launcher/features/updates/domain/entities/mod_database.dart';
+import 'package:openra_launcher/features/updates/domain/entities/mod_database_info.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
-import 'package:openra_launcher/features/updates/widgets/release_notes_menu_item_button.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_card_menu_button.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -19,17 +21,28 @@ void main() {
     launchArgs: const [],
   );
 
-  Release releaseWithNotes({String name = '', String? body}) => Release(
-        modId: 'ra',
-        id: 1,
-        version: '1.0.0',
-        name: name,
-        isPlaytest: false,
-        htmlUrl: 'https://example.com',
-        body: body,
+  final release = Release(
+    modId: 'ra',
+    id: 1,
+    version: '1.0.0',
+    name: 'Red Alert',
+    isPlaytest: false,
+    htmlUrl: 'https://example.com',
+  );
+
+  AppState stateWithLinks() => AppState(
+        mods: {mod},
+        modDatabase: ModDatabase(mods: {
+          'ra': ModDatabaseInfo(
+            modId: 'ra',
+            title: 'Red Alert',
+            homepage: 'https://example.com',
+            repoUrl: 'https://github.com/OpenRA/OpenRA',
+          ),
+        }),
       );
 
-  Widget buildMenu({required AppState state, required Release release}) {
+  Widget buildMenu({required AppState state}) {
     final store = Store<AppState>(
       (s, a) => s,
       initialState: state,
@@ -54,37 +67,22 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('shows the release notes item when the release has a body',
+  testWidgets('shows the homepage and repository items when links are present',
       (tester) async {
-    final state = AppState(mods: {mod});
-    await tester
-        .pumpWidget(buildMenu(state: state, release: releaseWithNotes(body: 'x')));
+    await tester.pumpWidget(buildMenu(state: stateWithLinks()));
 
     await openMenu(tester);
 
-    expect(find.byType(ReleaseNotesMenuItemButton), findsOneWidget);
+    expect(find.byType(OpenUrlMenuItemButton), findsNWidgets(2));
+    expect(find.text('Visit homepage'), findsOneWidget);
+    expect(find.text('View repository'), findsOneWidget);
   });
 
-  testWidgets('shows the release notes item when the release has only a name',
-      (tester) async {
-    final state = AppState(mods: {mod});
-    await tester
-        .pumpWidget(buildMenu(state: state, release: releaseWithNotes(name: 'RA')));
+  testWidgets('hides the link items when no links are present', (tester) async {
+    await tester.pumpWidget(buildMenu(state: AppState(mods: {mod})));
 
     await openMenu(tester);
 
-    expect(find.byType(ReleaseNotesMenuItemButton), findsOneWidget);
-  });
-
-  testWidgets(
-      'hides the release notes item when the release has neither a name nor '
-      'a body', (tester) async {
-    final state = AppState(mods: {mod});
-    await tester.pumpWidget(
-        buildMenu(state: state, release: releaseWithNotes()));
-
-    await openMenu(tester);
-
-    expect(find.byType(ReleaseNotesMenuItemButton), findsNothing);
+    expect(find.byType(OpenUrlMenuItemButton), findsNothing);
   });
 }

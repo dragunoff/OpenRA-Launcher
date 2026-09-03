@@ -1,8 +1,8 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
+import 'package:openra_launcher/features/updates/widgets/release_notes_button.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/release_notes_dialog.widget.dart';
-import 'package:openra_launcher/features/updates/widgets/release_notes_menu_item_button.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 
 void main() {
@@ -16,38 +16,25 @@ void main() {
     body: '# Notes\n- Item one',
   );
 
-  Widget buildMenu() {
+  Widget buildButton() {
     return MaterialApp(
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: Center(
-          child: MenuAnchor(
-            builder: (context, controller, child) {
-              return TextButton(
-                onPressed: () => controller.open(),
-                child: const Text('Open'),
-              );
-            },
-            menuChildren: [
-              ReleaseNotesMenuItemButton(release: testRelease),
-            ],
-          ),
+          child: ReleaseNotesButton(release: testRelease),
         ),
       ),
     );
   }
 
-  testWidgets(
-      'opening release notes from a closing menu shows the dialog without '
-      'throwing', (tester) async {
-    await tester.pumpWidget(buildMenu());
+  testWidgets('pressing the button shows the release notes dialog',
+      (tester) async {
+    await tester.pumpWidget(buildButton());
 
-    await tester.tap(find.text('Open'));
-    await tester.pumpAndSettle();
-    expect(find.byType(ReleaseNotesMenuItemButton), findsOneWidget);
+    expect(find.text('Release notes'), findsOneWidget);
 
-    await tester.tap(find.text('Release notes'));
+    await tester.tap(find.byType(ReleaseNotesButton));
     await tester.pumpAndSettle();
 
     expect(tester.takeException(), isNull);

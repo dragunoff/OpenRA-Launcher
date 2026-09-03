@@ -2,7 +2,6 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/open_url_menu_item_button.widget.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
-import 'package:openra_launcher/features/updates/widgets/release_notes_menu_item_button.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
@@ -79,11 +78,6 @@ class _UpdatesCardMenuButtonState extends State<UpdatesCardMenuButton> {
               );
             },
             menuChildren: [
-              if (widget.release.hasReleaseNotes)
-                Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: ReleaseNotesMenuItemButton(release: widget.release),
-                ),
               if (vm.homepage != null)
                 Directionality(
                   textDirection: TextDirection.ltr,
