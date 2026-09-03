@@ -21,6 +21,7 @@ class CardLayout extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(AppConstants.spacing2x),
         child: Column(
+          spacing: AppConstants.spacing2x,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
@@ -29,14 +30,8 @@ class CardLayout extends StatelessWidget {
                 ?topRight,
               ],
             ),
-            if (description != null) ...[
-              const SizedBox(height: AppConstants.spacing),
-              description!,
-            ],
-            if (bottom != null) ...[
-              const SizedBox(height: AppConstants.spacing),
-              bottom!,
-            ],
+            if (description != null) ...[description!],
+            if (bottom != null) ...[bottom!],
           ],
         ),
       ),

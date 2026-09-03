@@ -1,5 +1,4 @@
 import 'package:material_ui/material_ui.dart';
-import 'package:openra_launcher/constants/app_constants.dart';
 
 class CardListLayout extends StatelessWidget {
   const CardListLayout({
@@ -15,10 +14,7 @@ class CardListLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for (var i = 0; i < itemCount; i++) ...[
-          itemBuilder(context, i),
-          const SizedBox(height: AppConstants.spacing),
-        ],
+        for (var i = 0; i < itemCount; i++) ...[itemBuilder(context, i)],
       ],
     );
   }

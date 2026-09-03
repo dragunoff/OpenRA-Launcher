@@ -8,14 +8,6 @@ class ButtonRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: children.indexed.expand((entry) {
-        final (index, child) = entry;
-        return [
-          if (index > 0) const SizedBox(width: AppConstants.spacing),
-          child,
-        ];
-      }).toList(),
-    );
+    return Row(spacing: AppConstants.spacing, children: children);
   }
 }
