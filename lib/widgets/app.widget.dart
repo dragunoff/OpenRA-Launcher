@@ -45,9 +45,9 @@ class OpenRALauncher extends StatelessWidget {
                 return HomeScreen(
                   title: title,
                   onInit: () {
-                    vm.loadMods();
+                    vm.loadInstalledMods();
                     vm.loadAppUpdate();
-                    vm.loadUpdates();
+                    vm.loadModDatabase();
                   },
                 );
               }),
@@ -60,21 +60,21 @@ class OpenRALauncher extends StatelessWidget {
 }
 
 class _ViewModel {
-  final VoidCallback loadMods;
+  final VoidCallback loadInstalledMods;
   final VoidCallback loadAppUpdate;
-  final VoidCallback loadUpdates;
+  final VoidCallback loadModDatabase;
 
   _ViewModel({
-    required this.loadMods,
+    required this.loadInstalledMods,
     required this.loadAppUpdate,
-    required this.loadUpdates,
+    required this.loadModDatabase,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
-      loadMods: () => store.dispatch(LoadModsAction()),
+      loadInstalledMods: () => store.dispatch(LoadModsAction()),
       loadAppUpdate: () => store.dispatch(LoadAppUpdateAction()),
-      loadUpdates: () => store.dispatch(LoadModDatabaseAction()),
+      loadModDatabase: () => store.dispatch(LoadModDatabaseAction()),
     );
   }
 }
