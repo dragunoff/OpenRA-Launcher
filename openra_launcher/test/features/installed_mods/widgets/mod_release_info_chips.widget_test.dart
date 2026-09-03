@@ -12,32 +12,33 @@ import 'package:redux/redux.dart';
 
 void main() {
   Mod mod(String version, {String id = 'ra'}) => Mod(
-        key: '$id-$version',
-        id: id,
-        version: version,
-        title: 'Test Mod',
-        launchPath: '/launch',
-        launchArgs: const [''],
-      );
+    key: '$id-$version',
+    id: id,
+    version: version,
+    title: 'Test Mod',
+    launchPath: '/launch',
+    launchArgs: const [''],
+  );
 
   Release rel(int id, String version, {bool isPlaytest = false}) => Release(
-        modId: 'ra',
-        id: id,
-        name: '${isPlaytest ? 'Playtest' : 'Release'} $version',
-        version: version,
-        isPlaytest: isPlaytest,
-        htmlUrl: 'https://example.com/$version',
-      );
+    modId: 'ra',
+    id: id,
+    name: '${isPlaytest ? 'Playtest' : 'Release'} $version',
+    version: version,
+    isPlaytest: isPlaytest,
+    htmlUrl: 'https://example.com/$version',
+  );
 
   AppState stateWith({
     required Set<Mod> mods,
     Set<Release> releases = const {},
-    ListStatus updatesListStatus = ListStatus.loaded,
+    DataStatus modDatabaseStatus = DataStatus.loaded,
   }) {
     final byModId = <String, ModDatabaseInfo>{};
 
     for (final release in releases) {
-      final existing = byModId[release.modId] ??
+      final existing =
+          byModId[release.modId] ??
           ModDatabaseInfo(modId: release.modId, title: '');
       byModId[release.modId] = release.isPlaytest
           ? ModDatabaseInfo(
@@ -57,7 +58,7 @@ void main() {
     return AppState(
       mods: mods,
       modDatabase: ModDatabase(mods: byModId),
-      updatesListStatus: updatesListStatus,
+      modDatabaseStatus: modDatabaseStatus,
     );
   }
 
@@ -88,8 +89,9 @@ void main() {
     expect(find.text('DEV VERSION'), findsOneWidget);
   });
 
-  testWidgets('shows nothing while the updates fetch is in its initial state',
-      (tester) async {
+  testWidgets('shows nothing while the updates fetch is in its initial state', (
+    tester,
+  ) async {
     final stableMod = mod('1.0.0');
 
     await pumpChips(
@@ -97,7 +99,7 @@ void main() {
       stateWith(
         mods: {stableMod},
         releases: {rel(10, '1.0.0')},
-        updatesListStatus: ListStatus.initial,
+        modDatabaseStatus: DataStatus.initial,
       ),
       stableMod,
     );
@@ -107,8 +109,9 @@ void main() {
     expect(find.text('UPDATES NOT SUPPORTED'), findsNothing);
   });
 
-  testWidgets('shows nothing while the updates fetch is loading',
-      (tester) async {
+  testWidgets('shows nothing while the updates fetch is loading', (
+    tester,
+  ) async {
     final stableMod = mod('1.0.0');
 
     await pumpChips(
@@ -116,7 +119,7 @@ void main() {
       stateWith(
         mods: {stableMod},
         releases: {rel(10, '1.0.0')},
-        updatesListStatus: ListStatus.loading,
+        modDatabaseStatus: DataStatus.loading,
       ),
       stableMod,
     );
@@ -134,7 +137,7 @@ void main() {
       stateWith(
         mods: {stableMod},
         releases: {rel(10, '1.0.0')},
-        updatesListStatus: ListStatus.error,
+        modDatabaseStatus: DataStatus.error,
       ),
       stableMod,
     );
@@ -144,15 +147,12 @@ void main() {
     expect(find.text('UPDATES NOT SUPPORTED'), findsNothing);
   });
 
-  testWidgets('shows a single unsupported chip for an unknown mod id',
-      (tester) async {
+  testWidgets('shows a single unsupported chip for an unknown mod id', (
+    tester,
+  ) async {
     final unsupportedMod = mod('1.0.0', id: 'unknown-mod');
 
-    await pumpChips(
-      tester,
-      stateWith(mods: {unsupportedMod}),
-      unsupportedMod,
-    );
+    await pumpChips(tester, stateWith(mods: {unsupportedMod}), unsupportedMod);
 
     expect(find.byType(Chip), findsOneWidget);
     expect(find.text('UPDATES NOT SUPPORTED'), findsOneWidget);
@@ -180,8 +180,9 @@ void main() {
     expect(find.text('UPDATES NOT SUPPORTED'), findsNothing);
   });
 
-  testWidgets('shows only the current release chip when up to date',
-      (tester) async {
+  testWidgets('shows only the current release chip when up to date', (
+    tester,
+  ) async {
     final stableMod = mod('1.0.0');
 
     await pumpChips(
@@ -195,8 +196,7 @@ void main() {
   });
 
   testWidgets('shows only the current playtest chip when running the '
-      'latest playtest that is newer than the latest release',
-      (tester) async {
+      'latest playtest that is newer than the latest release', (tester) async {
     final playtestMod = mod('1.1.0');
 
     await pumpChips(
@@ -212,8 +212,9 @@ void main() {
     expect(find.text('CURRENT RELEASE'), findsNothing);
   });
 
-  testWidgets('shows no chips when the installed version is outdated',
-      (tester) async {
+  testWidgets('shows no chips when the installed version is outdated', (
+    tester,
+  ) async {
     final outdatedMod = mod('0.9.0');
 
     await pumpChips(

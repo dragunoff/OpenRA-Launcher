@@ -16,48 +16,51 @@ class DiscoverHome extends StatelessWidget {
   @override
   Widget build(context) {
     return StoreConnector<AppState, _ViewModel>(
-        converter: _ViewModel.fromStore,
-        builder: (context, vm) {
-          final l10n = AppLocalizations.of(context)!;
+      converter: _ViewModel.fromStore,
+      builder: (context, vm) {
+        final l10n = AppLocalizations.of(context)!;
 
-          if (vm.modsListStatus == ListStatus.loading) {
-            return LoadingState(text: l10n.scanningForInstalledMods);
-          } else if (vm.updatesListStatus == ListStatus.loading) {
-            return LoadingState(text: l10n.checkingForUpdates);
-          }
+        if (vm.modsListStatus == DataStatus.loading) {
+          return LoadingState(text: l10n.scanningForInstalledMods);
+        } else if (vm.modDatabaseStatus == DataStatus.loading) {
+          return LoadingState(text: l10n.checkingForUpdates);
+        }
 
-          if (vm.updatesListStatus == ListStatus.empty ||
-              vm.updatesListStatus == ListStatus.error) {
-            return DiscoverListEmptyState(listStatus: vm.updatesListStatus);
-          }
+        if (vm.modDatabaseStatus == DataStatus.empty ||
+            vm.modDatabaseStatus == DataStatus.error) {
+          return DiscoverListEmptyState(listStatus: vm.modDatabaseStatus);
+        }
 
-          return SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                ListDivider(l10n.discover),
-                DiscoverList(mods: vm.discoverableMods),
-              ]));
-        });
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ListDivider(l10n.discover),
+              DiscoverList(mods: vm.discoverableMods),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
 
 class _ViewModel {
   final Set<ModDatabaseInfo> discoverableMods;
-  final ListStatus modsListStatus;
-  final ListStatus updatesListStatus;
+  final DataStatus modsListStatus;
+  final DataStatus modDatabaseStatus;
 
   _ViewModel({
     required this.discoverableMods,
     required this.modsListStatus,
-    required this.updatesListStatus,
+    required this.modDatabaseStatus,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       discoverableMods: selectDiscoverableMods(store.state),
       modsListStatus: store.state.modsListStatus,
-      updatesListStatus: store.state.updatesListStatus,
+      modDatabaseStatus: store.state.modDatabaseStatus,
     );
   }
 }

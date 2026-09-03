@@ -16,52 +16,55 @@ class UpdatesHome extends StatelessWidget {
   @override
   Widget build(context) {
     return StoreConnector<AppState, _ViewModel>(
-        converter: _ViewModel.fromStore,
-        builder: (context, vm) {
-          final l10n = AppLocalizations.of(context)!;
+      converter: _ViewModel.fromStore,
+      builder: (context, vm) {
+        final l10n = AppLocalizations.of(context)!;
 
-          if (vm.modsListStatus == ListStatus.loading) {
-            return LoadingState(text: l10n.scanningForInstalledMods);
-          } else if (vm.updatesListStatus == ListStatus.loading) {
-            return LoadingState(text: l10n.checkingForUpdates);
-          }
+        if (vm.modsListStatus == DataStatus.loading) {
+          return LoadingState(text: l10n.scanningForInstalledMods);
+        } else if (vm.modDatabaseStatus == DataStatus.loading) {
+          return LoadingState(text: l10n.checkingForUpdates);
+        }
 
-          if (vm.updatesListStatus == ListStatus.empty ||
-              vm.updatesListStatus == ListStatus.error) {
-            return UpdatesListEmptyState(listStatus: vm.updatesListStatus);
-          }
+        if (vm.modDatabaseStatus == DataStatus.empty ||
+            vm.modDatabaseStatus == DataStatus.error) {
+          return UpdatesListEmptyState(listStatus: vm.modDatabaseStatus);
+        }
 
-          final List<Widget> children = [];
+        final List<Widget> children = [];
 
-          if (vm.releases.isNotEmpty) {
-            children.add(ListDivider(l10n.releaseAvailableSection));
-            children.add(UpdatesList(releases: vm.releases));
-          }
+        if (vm.releases.isNotEmpty) {
+          children.add(ListDivider(l10n.releaseAvailableSection));
+          children.add(UpdatesList(releases: vm.releases));
+        }
 
-          if (vm.playtests.isNotEmpty) {
-            children.add(ListDivider(l10n.playtestAvailableSection));
-            children.add(UpdatesList(releases: vm.playtests));
-          }
+        if (vm.playtests.isNotEmpty) {
+          children.add(ListDivider(l10n.playtestAvailableSection));
+          children.add(UpdatesList(releases: vm.playtests));
+        }
 
-          return SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: children));
-        });
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: children,
+          ),
+        );
+      },
+    );
   }
 }
 
 class _ViewModel {
   final Set<Release> releases;
   final Set<Release> playtests;
-  final ListStatus modsListStatus;
-  final ListStatus updatesListStatus;
+  final DataStatus modsListStatus;
+  final DataStatus modDatabaseStatus;
 
   _ViewModel({
     required this.releases,
     required this.playtests,
     required this.modsListStatus,
-    required this.updatesListStatus,
+    required this.modDatabaseStatus,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -81,7 +84,7 @@ class _ViewModel {
       releases: filterHidden(selectAvailableReleaseUpdates(store.state)),
       playtests: filterHidden(selectAvailablePlaytestUpdates(store.state)),
       modsListStatus: store.state.modsListStatus,
-      updatesListStatus: store.state.updatesListStatus,
+      modDatabaseStatus: store.state.modDatabaseStatus,
     );
   }
 }

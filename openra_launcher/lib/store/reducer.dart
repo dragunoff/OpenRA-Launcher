@@ -9,7 +9,7 @@ import 'package:openra_launcher/store/mods_list_status/reducer.dart';
 import 'package:openra_launcher/store/show_dev_mods/reducer.dart';
 import 'package:openra_launcher/store/show_hidden_mods/reducer.dart';
 import 'package:openra_launcher/store/updates/reducer.dart';
-import 'package:openra_launcher/store/updates_list_status/reducer.dart';
+import 'package:openra_launcher/store/mod_database_status/reducer.dart';
 
 AppState appReducer(AppState state, action) {
   return AppState(
@@ -18,8 +18,8 @@ AppState appReducer(AppState state, action) {
     favoriteMods: favoriteModsReducer(state.favoriteMods, action),
     hiddenMods: hiddenModsReducer(state.hiddenMods, action),
     modsListStatus: modsListStatusReducer(state.modsListStatus, action),
-    updatesListStatus:
-        updatesListStatusReducer(state.updatesListStatus, action),
+    modDatabaseStatus:
+        modDatabaseStatusReducer(state.modDatabaseStatus, action),
     autoCheckAppUpdates:
         autoCheckAppUpdatesReducer(state.autoCheckAppUpdates, action),
     showDevMods: showDevModsReducer(state.showDevMods, action),

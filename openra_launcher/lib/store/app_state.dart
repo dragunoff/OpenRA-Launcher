@@ -2,21 +2,15 @@ import 'package:openra_launcher/features/app_update/domain/entities/app_release.
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/updates/domain/entities/mod_database.dart';
 
-enum ListStatus {
-  initial,
-  empty,
-  loading,
-  loaded,
-  error,
-}
+enum DataStatus { initial, empty, loading, loaded, error }
 
 class AppState {
   final Set<Mod> mods;
   final ModDatabase modDatabase;
   final Set<String> favoriteMods;
   final Set<String> hiddenMods;
-  final ListStatus modsListStatus;
-  final ListStatus updatesListStatus;
+  final DataStatus modsListStatus;
+  final DataStatus modDatabaseStatus;
   final bool autoCheckAppUpdates;
   final bool showDevMods;
   final bool showHiddenMods;
@@ -27,8 +21,8 @@ class AppState {
     this.modDatabase = const ModDatabase(mods: {}),
     this.favoriteMods = const {},
     this.hiddenMods = const {},
-    this.modsListStatus = ListStatus.initial,
-    this.updatesListStatus = ListStatus.initial,
+    this.modsListStatus = DataStatus.initial,
+    this.modDatabaseStatus = DataStatus.initial,
     this.autoCheckAppUpdates = true,
     this.showDevMods = false,
     this.showHiddenMods = false,

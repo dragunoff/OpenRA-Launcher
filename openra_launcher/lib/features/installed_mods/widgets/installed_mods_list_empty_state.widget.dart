@@ -6,15 +6,17 @@ import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/widgets/empty_state.widget.dart';
 
 class InstalledModsListEmptyState extends StatelessWidget {
-  const InstalledModsListEmptyState(
-      {super.key, this.listStatus = ListStatus.empty});
+  const InstalledModsListEmptyState({
+    super.key,
+    this.listStatus = DataStatus.empty,
+  });
 
-  final ListStatus listStatus;
+  final DataStatus listStatus;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final hasError = listStatus == ListStatus.error;
+    final hasError = listStatus == DataStatus.error;
 
     return EmptyState(
       text: hasError ? l10n.modsScanError : l10n.noInstalledModsFound,

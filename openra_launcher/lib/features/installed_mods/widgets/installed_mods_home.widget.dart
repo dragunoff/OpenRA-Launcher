@@ -16,54 +16,57 @@ class InstalledModsHome extends StatelessWidget {
   @override
   Widget build(context) {
     return StoreConnector<AppState, _ViewModel>(
-        converter: _ViewModel.fromStore,
-        builder: (context, vm) {
-          final l10n = AppLocalizations.of(context)!;
-          final installedMods = vm.installedMods;
-          final favoriteMods = vm.favoriteMods;
-          final devMods = vm.devMods;
+      converter: _ViewModel.fromStore,
+      builder: (context, vm) {
+        final l10n = AppLocalizations.of(context)!;
+        final installedMods = vm.installedMods;
+        final favoriteMods = vm.favoriteMods;
+        final devMods = vm.devMods;
 
-          if (vm.modsListStatus == ListStatus.loading) {
-            return LoadingState(text: l10n.scanningForInstalledMods);
-          }
+        if (vm.modsListStatus == DataStatus.loading) {
+          return LoadingState(text: l10n.scanningForInstalledMods);
+        }
 
-          if (vm.modsListStatus == ListStatus.empty ||
-              vm.modsListStatus == ListStatus.error) {
-            return InstalledModsListEmptyState(listStatus: vm.modsListStatus);
-          }
+        if (vm.modsListStatus == DataStatus.empty ||
+            vm.modsListStatus == DataStatus.error) {
+          return InstalledModsListEmptyState(listStatus: vm.modsListStatus);
+        }
 
-          final List<Widget> children = [];
+        final List<Widget> children = [];
 
-          if (favoriteMods.isNotEmpty) {
-            children.add(ListDivider(l10n.favorites));
-            children.add(InstalledModsList(
+        if (favoriteMods.isNotEmpty) {
+          children.add(ListDivider(l10n.favorites));
+          children.add(
+            InstalledModsList(
               mods: favoriteMods,
               isFavoritesList: true,
               hiddenMods: vm.hiddenMods,
-            ));
-          }
+            ),
+          );
+        }
 
-          if (installedMods.isNotEmpty) {
-            children.add(ListDivider(l10n.installed));
-            children.add(InstalledModsList(
-              mods: installedMods,
-              hiddenMods: vm.hiddenMods,
-            ));
-          }
+        if (installedMods.isNotEmpty) {
+          children.add(ListDivider(l10n.installed));
+          children.add(
+            InstalledModsList(mods: installedMods, hiddenMods: vm.hiddenMods),
+          );
+        }
 
-          if (devMods.isNotEmpty && vm.showDevMods) {
-            children.add(ListDivider(l10n.development));
-            children.add(InstalledModsList(
-              mods: devMods,
-              hiddenMods: vm.hiddenMods,
-            ));
-          }
+        if (devMods.isNotEmpty && vm.showDevMods) {
+          children.add(ListDivider(l10n.development));
+          children.add(
+            InstalledModsList(mods: devMods, hiddenMods: vm.hiddenMods),
+          );
+        }
 
-          return SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: children));
-        });
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: children,
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -73,7 +76,7 @@ class _ViewModel {
   final Set<Mod> devMods;
   final Set<String> hiddenMods;
   final bool showDevMods;
-  final ListStatus modsListStatus;
+  final DataStatus modsListStatus;
 
   _ViewModel({
     required this.installedMods,

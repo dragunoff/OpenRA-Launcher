@@ -2,26 +2,26 @@ import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:redux/redux.dart';
 
-final modsListStatusReducer = combineReducers<ListStatus>([
-  TypedReducer<ListStatus, ModsLoadedAction>(_setLoaded).call,
-  TypedReducer<ListStatus, ModsEmptyAction>(_setEmpty).call,
-  TypedReducer<ListStatus, ModsErrorAction>(_setError).call,
-  TypedReducer<ListStatus, LoadModsAction>(_setIsLoading).call,
-  TypedReducer<ListStatus, ReloadModsAction>(_setIsLoading).call,
+final modsListStatusReducer = combineReducers<DataStatus>([
+  TypedReducer<DataStatus, ModsLoadedAction>(_setLoaded).call,
+  TypedReducer<DataStatus, ModsEmptyAction>(_setEmpty).call,
+  TypedReducer<DataStatus, ModsErrorAction>(_setError).call,
+  TypedReducer<DataStatus, LoadModsAction>(_setIsLoading).call,
+  TypedReducer<DataStatus, ReloadModsAction>(_setIsLoading).call,
 ]);
 
-ListStatus _setLoaded(ListStatus state, action) {
-  return ListStatus.loaded;
+DataStatus _setLoaded(DataStatus state, action) {
+  return DataStatus.loaded;
 }
 
-ListStatus _setIsLoading(ListStatus state, action) {
-  return ListStatus.loading;
+DataStatus _setIsLoading(DataStatus state, action) {
+  return DataStatus.loading;
 }
 
-ListStatus _setEmpty(ListStatus state, action) {
-  return ListStatus.empty;
+DataStatus _setEmpty(DataStatus state, action) {
+  return DataStatus.empty;
 }
 
-ListStatus _setError(ListStatus state, action) {
-  return ListStatus.error;
+DataStatus _setError(DataStatus state, action) {
+  return DataStatus.error;
 }
