@@ -16,7 +16,8 @@ abstract class AppReleasesDataSource {
 @LazySingleton(as: AppReleasesDataSource)
 class AppReleasesDataSourceImpl implements AppReleasesDataSource {
   final endpoint = Uri.parse(
-      GitHubUtils.buildLatestReleaseEndpoint('dragunoff/OpenRA-Launcher'));
+    GitHubUtils.buildLatestReleaseEndpoint('dragunoff/OpenRA-Launcher'),
+  );
 
   final HttpClientService httpClientService;
   final ErrorReporter reportError;
@@ -28,19 +29,26 @@ class AppReleasesDataSourceImpl implements AppReleasesDataSource {
 
   @override
   TaskEither<ServerFailure, AppReleaseModel> getLatestRelease() {
-    return TaskEither.tryCatch(() async {
-      final rawResponse = await httpClientService.read(endpoint);
-      final responseBody = jsonDecode(rawResponse) as Map<String, dynamic>;
+    return TaskEither.tryCatch(
+      () async {
+        final rawResponse = await httpClientService.read(endpoint);
+        final responseBody = jsonDecode(rawResponse) as Map<String, dynamic>;
 
-      return AppReleaseModel.fromJson(responseBody);
-    }, (error, stackTrace) {
-      reportError(FlutterErrorDetails(
-        exception: error,
-        stack: stackTrace,
-        context: ErrorDescription('fetching latest app release from GitHub'),
-      ));
+        return AppReleaseModel.fromJson(responseBody);
+      },
+      (error, stackTrace) {
+        reportError(
+          FlutterErrorDetails(
+            exception: error,
+            stack: stackTrace,
+            context: ErrorDescription(
+              'fetching latest app release from GitHub',
+            ),
+          ),
+        );
 
-      return ServerFailure(error.toString());
-    });
+        return ServerFailure(error.toString());
+      },
+    );
   }
 }

@@ -4,10 +4,7 @@ import 'package:openra_launcher/features/updates/widgets/release_notes_dialog.wi
 import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class ReleaseNotesButton extends StatelessWidget {
-  const ReleaseNotesButton({
-    super.key,
-    required this.release,
-  });
+  const ReleaseNotesButton({super.key, required this.release});
 
   final Release release;
 

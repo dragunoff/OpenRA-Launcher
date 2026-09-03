@@ -1,0 +1,6 @@
+pre-commit:
+  commands:
+    format:
+      run: dart format --set-exit-if-changed lib test testing/utils tool
+    analyze:
+      run: flutter analyze

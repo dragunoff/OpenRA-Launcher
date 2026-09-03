@@ -16,29 +16,32 @@ abstract class ModDatabaseDataSource {
 @LazySingleton(as: ModDatabaseDataSource)
 class ModDatabaseDataSourceImpl implements ModDatabaseDataSource {
   final Uri releaseEndpoint = Uri.parse(
-      GitHubUtils.buildLatestReleaseEndpoint(ModConstants.modDatabaseRepo));
+    GitHubUtils.buildLatestReleaseEndpoint(ModConstants.modDatabaseRepo),
+  );
 
   final HttpClientService httpClientService;
 
-  ModDatabaseDataSourceImpl({
-    required this.httpClientService,
-  });
+  ModDatabaseDataSourceImpl({required this.httpClientService});
 
   @override
   TaskEither<ServerFailure, ModDatabase> getModDatabase() {
-    return TaskEither.tryCatch(() async {
-      final rawResponse = await httpClientService.read(releaseEndpoint);
-      final releaseJson = jsonDecode(rawResponse) as Map<String, dynamic>;
-      final assetUrl = _getDatabaseAssetUrl(releaseJson);
+    return TaskEither.tryCatch(
+      () async {
+        final rawResponse = await httpClientService.read(releaseEndpoint);
+        final releaseJson = jsonDecode(rawResponse) as Map<String, dynamic>;
+        final assetUrl = _getDatabaseAssetUrl(releaseJson);
 
-      final databaseResponse =
-          await httpClientService.read(Uri.parse(assetUrl));
-      final database = jsonDecode(databaseResponse) as Map<String, dynamic>;
+        final databaseResponse = await httpClientService.read(
+          Uri.parse(assetUrl),
+        );
+        final database = jsonDecode(databaseResponse) as Map<String, dynamic>;
 
-      return ModDatabaseModel.fromJson(database);
-    }, (error, stackTrace) {
-      return ServerFailure(error.toString());
-    });
+        return ModDatabaseModel.fromJson(database);
+      },
+      (error, stackTrace) {
+        return ServerFailure(error.toString());
+      },
+    );
   }
 
   /// Extracts the `browser_download_url` of the [ModConstants.modDatabaseAssetName]
@@ -53,6 +56,7 @@ class ModDatabaseDataSourceImpl implements ModDatabaseDataSource {
     }
 
     throw StateError(
-        '${ModConstants.modDatabaseAssetName} asset not found in release');
+      '${ModConstants.modDatabaseAssetName} asset not found in release',
+    );
   }
 }

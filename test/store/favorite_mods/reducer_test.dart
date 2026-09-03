@@ -26,15 +26,17 @@ void main() {
       expect(nextState, {favoriteKey});
     });
 
-    test('should remove favorites that are no longer available after mods load',
-        () {
-      final state = {favoriteKey, missingFavoriteKey};
-      final action = ModsLoadedAction({installedMod});
+    test(
+      'should remove favorites that are no longer available after mods load',
+      () {
+        final state = {favoriteKey, missingFavoriteKey};
+        final action = ModsLoadedAction({installedMod});
 
-      final nextState = favoriteModsReducer(state, action);
+        final nextState = favoriteModsReducer(state, action);
 
-      expect(nextState, {favoriteKey});
-    });
+        expect(nextState, {favoriteKey});
+      },
+    );
 
     test('should clear favorites when installed mods are empty', () {
       final state = {favoriteKey};

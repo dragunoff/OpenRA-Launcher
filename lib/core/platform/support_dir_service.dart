@@ -20,46 +20,51 @@ class SupportDirServiceImpl implements SupportDirService {
 
   @override
   TaskEither<FileSystemFailure, Set<Directory>> getAllSupportDirs() {
-    return TaskEither.tryCatch(() async {
-      String? systemSupportPath;
-      String? modernUserSupportPath;
-      String? legacyUserSupportPath;
+    return TaskEither.tryCatch(
+      () async {
+        String? systemSupportPath;
+        String? modernUserSupportPath;
+        String? legacyUserSupportPath;
 
-      if (platform.isLinux) {
-        systemSupportPath = '/var/games/openra';
-        modernUserSupportPath = path.join(xdg.configHome.path, 'openra');
-        legacyUserSupportPath =
-            path.join(platform.environment['HOME'] as String, '.openra');
-      } else if (platform.isWindows) {
-        systemSupportPath = path.join(
-          platform.environment['ALLUSERSPROFILE'] as String,
-          'OpenRA',
-        );
-        modernUserSupportPath =
-            path.join(platform.environment['APPDATA'] as String, 'OpenRA');
+        if (platform.isLinux) {
+          systemSupportPath = '/var/games/openra';
+          modernUserSupportPath = path.join(xdg.configHome.path, 'openra');
+          legacyUserSupportPath = path.join(
+            platform.environment['HOME'] as String,
+            '.openra',
+          );
+        } else if (platform.isWindows) {
+          systemSupportPath = path.join(
+            platform.environment['ALLUSERSPROFILE'] as String,
+            'OpenRA',
+          );
+          modernUserSupportPath = path.join(
+            platform.environment['APPDATA'] as String,
+            'OpenRA',
+          );
 
-        final docsDir = await getApplicationDocumentsDirectory();
-        legacyUserSupportPath = path.join(docsDir.path, 'OpenRA');
-      } else if (platform.isMacOS) {
-        systemSupportPath = '/Library/Application Support/OpenRA/';
-        final appSupportDir = await getApplicationSupportDirectory();
-        modernUserSupportPath = legacyUserSupportPath =
-            path.join(appSupportDir.parent.path, 'OpenRA');
-      } else {
-        throw Exception('Unsupported platform: ${platform.operatingSystem}');
-      }
+          final docsDir = await getApplicationDocumentsDirectory();
+          legacyUserSupportPath = path.join(docsDir.path, 'OpenRA');
+        } else if (platform.isMacOS) {
+          systemSupportPath = '/Library/Application Support/OpenRA/';
+          final appSupportDir = await getApplicationSupportDirectory();
+          modernUserSupportPath = legacyUserSupportPath = path.join(
+            appSupportDir.parent.path,
+            'OpenRA',
+          );
+        } else {
+          throw Exception('Unsupported platform: ${platform.operatingSystem}');
+        }
 
-      return {
-        systemSupportPath,
-        modernUserSupportPath,
-        legacyUserSupportPath,
-      }
-          .whereType<String>()
-          .map((dirPath) => fileSystem.directory(dirPath))
-          .where((element) => element.existsSync())
-          .toSet();
-    }, (error, stackTrace) {
-      return FileSystemFailure(error.toString());
-    });
+        return {systemSupportPath, modernUserSupportPath, legacyUserSupportPath}
+            .whereType<String>()
+            .map((dirPath) => fileSystem.directory(dirPath))
+            .where((element) => element.existsSync())
+            .toSet();
+      },
+      (error, stackTrace) {
+        return FileSystemFailure(error.toString());
+      },
+    );
   }
 }

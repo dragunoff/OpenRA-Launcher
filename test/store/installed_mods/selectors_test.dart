@@ -74,9 +74,7 @@ void main() {
       });
 
       test('should return all mods when none are favorited', () {
-        final state = AppState(
-          mods: {regularMod},
-        );
+        final state = AppState(mods: {regularMod});
 
         final result = selectInstalledMods(state);
 
@@ -109,9 +107,7 @@ void main() {
       });
 
       test('should return empty set when no mods are favorited', () {
-        final state = AppState(
-          mods: {regularMod},
-        );
+        final state = AppState(mods: {regularMod});
 
         final result = selectFavoriteMods(state);
 
@@ -121,9 +117,7 @@ void main() {
 
     group('selectDevMods', () {
       test('should return only dev mods', () {
-        final state = AppState(
-          mods: {regularMod, devMod},
-        );
+        final state = AppState(mods: {regularMod, devMod});
 
         final result = selectDevMods(state);
 
@@ -131,10 +125,7 @@ void main() {
       });
 
       test('should include hidden dev mods', () {
-        final state = AppState(
-          mods: {devMod},
-          hiddenMods: {devMod.key},
-        );
+        final state = AppState(mods: {devMod}, hiddenMods: {devMod.key});
 
         final result = selectDevMods(state);
 
@@ -142,10 +133,7 @@ void main() {
       });
 
       test('should exclude favorited dev mods', () {
-        final state = AppState(
-          mods: {devMod},
-          favoriteMods: {devMod.key},
-        );
+        final state = AppState(mods: {devMod}, favoriteMods: {devMod.key});
 
         final result = selectDevMods(state);
 
@@ -178,9 +166,7 @@ void main() {
       });
 
       test('should return empty set when no mods are hidden', () {
-        final state = AppState(
-          mods: {regularMod},
-        );
+        final state = AppState(mods: {regularMod});
 
         final result = selectHiddenMods(state);
 

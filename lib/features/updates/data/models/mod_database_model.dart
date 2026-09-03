@@ -5,7 +5,7 @@ import 'package:openra_launcher/features/updates/domain/entities/mod_database.da
 @immutable
 class ModDatabaseModel extends ModDatabase {
   const ModDatabaseModel({required Map<String, ModDatabaseInfoModel> mods})
-      : super(mods: mods);
+    : super(mods: mods);
 
   factory ModDatabaseModel.fromJson(Map<String, dynamic> json) {
     final mods = <String, ModDatabaseInfoModel>{};

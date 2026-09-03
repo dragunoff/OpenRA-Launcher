@@ -38,23 +38,25 @@ void main() {
         ]);
       });
 
-      test('should fall back to the closest existing ancestor directory',
-          () async {
-        const supportPath = '/home/user/.openra';
-        final modFolderPath = path.join(supportPath, 'maps', 'test');
-        fileSystem.directory(modFolderPath).createSync(recursive: true);
-        final started = <List<String>>[];
+      test(
+        'should fall back to the closest existing ancestor directory',
+        () async {
+          const supportPath = '/home/user/.openra';
+          final modFolderPath = path.join(supportPath, 'maps', 'test');
+          fileSystem.directory(modFolderPath).createSync(recursive: true);
+          final started = <List<String>>[];
 
-        await _createService(
-          fileSystem: fileSystem,
-          platformOperatingSystem: 'linux',
-          starter: _recordingStarter(started),
-        ).openMapsFolder(TestUtils.generateMod()).run();
+          await _createService(
+            fileSystem: fileSystem,
+            platformOperatingSystem: 'linux',
+            starter: _recordingStarter(started),
+          ).openMapsFolder(TestUtils.generateMod()).run();
 
-        expect(started, [
-          ['xdg-open', modFolderPath],
-        ]);
-      });
+          expect(started, [
+            ['xdg-open', modFolderPath],
+          ]);
+        },
+      );
     });
 
     group('openReplaysFolder', () {
@@ -120,48 +122,50 @@ void main() {
       });
     });
 
-    test('should return a left with PlatformFailure when starting fails',
-        () async {
-      await _createModFolder(fileSystem, 'maps');
-      final reportedErrors = <FlutterErrorDetails>[];
+    test(
+      'should return a left with PlatformFailure when starting fails',
+      () async {
+        await _createModFolder(fileSystem, 'maps');
+        final reportedErrors = <FlutterErrorDetails>[];
 
-      final result = await _createService(
-        fileSystem: fileSystem,
-        platformOperatingSystem: 'linux',
-        starter: _ThrowingProcessStarter(),
-        reportError: reportedErrors.add,
-      ).openMapsFolder(TestUtils.generateMod()).run();
+        final result = await _createService(
+          fileSystem: fileSystem,
+          platformOperatingSystem: 'linux',
+          starter: _ThrowingProcessStarter(),
+          reportError: reportedErrors.add,
+        ).openMapsFolder(TestUtils.generateMod()).run();
 
-      result.fold(
-        (failure) => expect(failure, isA<PlatformFailure>()),
-        (_) => fail('Expected Either.Left'),
-      );
-      expect(reportedErrors.length, 1);
-    });
+        result.fold(
+          (failure) => expect(failure, isA<PlatformFailure>()),
+          (_) => fail('Expected Either.Left'),
+        );
+        expect(reportedErrors.length, 1);
+      },
+    );
 
-    test('should return a left when resolving the support dirs fails',
-        () async {
-      final service = ProcessModFoldersService(
-        supportDirService: _FakeSupportDirService(
-          TaskEither.left(const FileSystemFailure('boom')),
-        ),
-        fileSystem: fileSystem,
-        platform: FakePlatform(operatingSystem: 'linux'),
-        starter: _FakeProcessStarter((_, _) async {}),
-      );
+    test(
+      'should return a left when resolving the support dirs fails',
+      () async {
+        final service = ProcessModFoldersService(
+          supportDirService: _FakeSupportDirService(
+            TaskEither.left(const FileSystemFailure('boom')),
+          ),
+          fileSystem: fileSystem,
+          platform: FakePlatform(operatingSystem: 'linux'),
+          starter: _FakeProcessStarter((_, _) async {}),
+        );
 
-      final result =
-          await service.openMapsFolder(TestUtils.generateMod()).run();
+        final result = await service
+            .openMapsFolder(TestUtils.generateMod())
+            .run();
 
-      expect(result.isLeft(), true);
-    });
+        expect(result.isLeft(), true);
+      },
+    );
   });
 }
 
-Future<String> _createModFolder(
-  FileSystem fileSystem,
-  String folder,
-) async {
+Future<String> _createModFolder(FileSystem fileSystem, String folder) async {
   const supportPath = '/home/user/.openra';
   final modVersion = TestUtils.generateMod().version;
   final folderPath = path.join(supportPath, folder, 'test', modVersion);
@@ -177,9 +181,9 @@ ProcessModFoldersService _createService({
   ErrorReporter reportError = defaultErrorReporter,
 }) {
   return ProcessModFoldersService(
-    supportDirService: _FakeSupportDirService(TaskEither.right({
-      ...supportPaths.map(fileSystem.directory),
-    })),
+    supportDirService: _FakeSupportDirService(
+      TaskEither.right({...supportPaths.map(fileSystem.directory)}),
+    ),
     fileSystem: fileSystem,
     platform: FakePlatform(operatingSystem: platformOperatingSystem),
     starter: starter,
@@ -204,7 +208,7 @@ class _FakeSupportDirService implements SupportDirService {
 
 class _FakeProcessStarter implements LaunchProcessStarter {
   final Future<void> Function(String executable, List<String> arguments)
-      _onStart;
+  _onStart;
 
   _FakeProcessStarter(this._onStart);
 

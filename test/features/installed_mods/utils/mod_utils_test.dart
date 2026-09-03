@@ -7,8 +7,9 @@ import '../../../../testing/utils/test_utils.dart';
 void main() {
   group('Dev mod check', () {
     test('should return true if mod has the dev version string', () {
-      final mod =
-          TestUtils.generateMod().copyWith(version: ModConstants.devModVersion);
+      final mod = TestUtils.generateMod().copyWith(
+        version: ModConstants.devModVersion,
+      );
 
       expect(ModUtils.isDevMod(mod), true);
     });

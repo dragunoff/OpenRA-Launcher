@@ -61,17 +61,16 @@ void main() {
           when(mockPlatform.environment).thenReturn({'HOME': '/home/user'});
         });
 
-        test('should return empty set if none of the directories exist',
-            () async {
-          final out = await supportDirService.getAllSupportDirs().run();
+        test(
+          'should return empty set if none of the directories exist',
+          () async {
+            final out = await supportDirService.getAllSupportDirs().run();
 
-          out.fold(
-            (failure) => fail('Expected Either.Right'),
-            (dirs) {
+            out.fold((failure) => fail('Expected Either.Right'), (dirs) {
               expect(dirs, isEmpty);
-            },
-          );
-        });
+            });
+          },
+        );
 
         test('should include the system support directory', () async {
           const tSystemSupportPath = '/var/games/openra';
@@ -82,12 +81,9 @@ void main() {
 
           final out = await supportDirService.getAllSupportDirs().run();
 
-          out.fold(
-            (failure) => fail('Expected Either.Right'),
-            (dirs) {
-              expect(dirs.any((dir) => dir.path == tSystemSupportPath), true);
-            },
-          );
+          out.fold((failure) => fail('Expected Either.Right'), (dirs) {
+            expect(dirs.any((dir) => dir.path == tSystemSupportPath), true);
+          });
         });
 
         test('should include the modern support directory', () async {
@@ -99,12 +95,9 @@ void main() {
 
           final out = await supportDirService.getAllSupportDirs().run();
 
-          out.fold(
-            (failure) => fail('Expected Either.Right'),
-            (dirs) {
-              expect(dirs.any((dir) => dir.path == tModernSupportPath), true);
-            },
-          );
+          out.fold((failure) => fail('Expected Either.Right'), (dirs) {
+            expect(dirs.any((dir) => dir.path == tModernSupportPath), true);
+          });
         });
 
         test('should include the legacy support directory', () async {
@@ -116,12 +109,9 @@ void main() {
 
           final out = await supportDirService.getAllSupportDirs().run();
 
-          out.fold(
-            (failure) => fail('Expected Either.Right'),
-            (dirs) {
-              expect(dirs.any((dir) => dir.path == tLegacySupportPath), true);
-            },
-          );
+          out.fold((failure) => fail('Expected Either.Right'), (dirs) {
+            expect(dirs.any((dir) => dir.path == tLegacySupportPath), true);
+          });
         });
       });
 
@@ -133,21 +123,20 @@ void main() {
           when(mockPlatform.isMacOS).thenReturn(false);
           when(mockPlatform.environment).thenReturn({
             'ALLUSERSPROFILE': 'C:/ProgramData',
-            'APPDATA': 'C:/Users/user/AppData'
+            'APPDATA': 'C:/Users/user/AppData',
           });
         });
 
-        test('should return empty set if none of the directories exist',
-            () async {
-          final out = await supportDirService.getAllSupportDirs().run();
+        test(
+          'should return empty set if none of the directories exist',
+          () async {
+            final out = await supportDirService.getAllSupportDirs().run();
 
-          out.fold(
-            (failure) => fail('Expected Either.Right'),
-            (dirs) {
+            out.fold((failure) => fail('Expected Either.Right'), (dirs) {
               expect(dirs, isEmpty);
-            },
-          );
-        });
+            });
+          },
+        );
 
         test('should include the system support directory', () async {
           const tSystemSupportPath = 'C:/ProgramData/OpenRA';
@@ -158,12 +147,9 @@ void main() {
 
           final out = await supportDirService.getAllSupportDirs().run();
 
-          out.fold(
-            (failure) => fail('Expected Either.Right'),
-            (dirs) {
-              expect(dirs.any((dir) => dir.path == tSystemSupportPath), true);
-            },
-          );
+          out.fold((failure) => fail('Expected Either.Right'), (dirs) {
+            expect(dirs.any((dir) => dir.path == tSystemSupportPath), true);
+          });
         });
 
         test('should include the modern support directory', () async {
@@ -175,12 +161,9 @@ void main() {
 
           final out = await supportDirService.getAllSupportDirs().run();
 
-          out.fold(
-            (failure) => fail('Expected Either.Right'),
-            (dirs) {
-              expect(dirs.any((dir) => dir.path == tModernSupportPath), true);
-            },
-          );
+          out.fold((failure) => fail('Expected Either.Right'), (dirs) {
+            expect(dirs.any((dir) => dir.path == tModernSupportPath), true);
+          });
         });
 
         test('should include the legacy support directory', () async {
@@ -193,12 +176,9 @@ void main() {
 
           final out = await supportDirService.getAllSupportDirs().run();
 
-          out.fold(
-            (failure) => fail('Expected Either.Right'),
-            (dirs) {
-              expect(dirs.any((dir) => dir.path == tLegacySupportPath), true);
-            },
-          );
+          out.fold((failure) => fail('Expected Either.Right'), (dirs) {
+            expect(dirs.any((dir) => dir.path == tLegacySupportPath), true);
+          });
         });
       });
     });
@@ -212,17 +192,16 @@ void main() {
         when(mockPlatform.environment).thenReturn({'HOME': '/home/user'});
       });
 
-      test('should return empty set if none of the directories exist',
-          () async {
-        final out = await supportDirService.getAllSupportDirs().run();
+      test(
+        'should return empty set if none of the directories exist',
+        () async {
+          final out = await supportDirService.getAllSupportDirs().run();
 
-        out.fold(
-          (failure) => fail('Expected Either.Right'),
-          (dirs) {
+          out.fold((failure) => fail('Expected Either.Right'), (dirs) {
             expect(dirs, isEmpty);
-          },
-        );
-      });
+          });
+        },
+      );
 
       test('should include the system support directory', () async {
         const tSystemSupportPath = '/Library/Application Support/OpenRA/';
@@ -233,36 +212,33 @@ void main() {
 
         final out = await supportDirService.getAllSupportDirs().run();
 
-        out.fold(
-          (failure) => fail('Expected Either.Right'),
-          (dirs) {
-            expect(dirs.any((dir) => dir.path == tSystemSupportPath), true);
-          },
-        );
+        out.fold((failure) => fail('Expected Either.Right'), (dirs) {
+          expect(dirs.any((dir) => dir.path == tSystemSupportPath), true);
+        });
       });
 
       test(
-          'should include the user support directory (modern and legacy are the same)',
-          () async {
-        final appSupportDir = await getApplicationSupportDirectory();
-        final tModernSupportPath =
-            path.join(appSupportDir.parent.path, 'OpenRA');
-        final tLegacySupportPath = tModernSupportPath;
+        'should include the user support directory (modern and legacy are the same)',
+        () async {
+          final appSupportDir = await getApplicationSupportDirectory();
+          final tModernSupportPath = path.join(
+            appSupportDir.parent.path,
+            'OpenRA',
+          );
+          final tLegacySupportPath = tModernSupportPath;
 
-        mockFileSystem
-            .directory(tModernSupportPath)
-            .createSync(recursive: true);
+          mockFileSystem
+              .directory(tModernSupportPath)
+              .createSync(recursive: true);
 
-        final out = await supportDirService.getAllSupportDirs().run();
+          final out = await supportDirService.getAllSupportDirs().run();
 
-        out.fold(
-          (failure) => fail('Expected Either.Right'),
-          (dirs) {
+          out.fold((failure) => fail('Expected Either.Right'), (dirs) {
             expect(dirs.any((dir) => dir.path == tModernSupportPath), true);
             expect(dirs.any((dir) => dir.path == tLegacySupportPath), true);
-          },
-        );
-      });
+          });
+        },
+      );
     });
   });
 }

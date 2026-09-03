@@ -19,9 +19,10 @@ class LoadingState extends StatelessWidget {
     children.add(const LoadingIndicator());
 
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: children,
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: children,
+      ),
+    );
   }
 }

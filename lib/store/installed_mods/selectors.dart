@@ -4,8 +4,10 @@ import 'package:openra_launcher/store/app_state.dart';
 
 Set<Mod> selectInstalledMods(AppState state) {
   return state.mods
-      .where((mod) =>
-          !state.favoriteMods.contains(mod.key) && !ModUtils.isDevMod(mod))
+      .where(
+        (mod) =>
+            !state.favoriteMods.contains(mod.key) && !ModUtils.isDevMod(mod),
+      )
       .toSet();
 }
 
@@ -17,15 +19,15 @@ Set<Mod> selectFavoriteMods(AppState state) {
 
 Set<Mod> selectDevMods(AppState state) {
   return state.mods
-      .where((mod) =>
-          !state.favoriteMods.contains(mod.key) && ModUtils.isDevMod(mod))
+      .where(
+        (mod) =>
+            !state.favoriteMods.contains(mod.key) && ModUtils.isDevMod(mod),
+      )
       .toSet();
 }
 
 Set<Mod> selectHiddenMods(AppState state) {
-  return state.mods
-      .where((mod) => state.hiddenMods.contains(mod.key))
-      .toSet();
+  return state.mods.where((mod) => state.hiddenMods.contains(mod.key)).toSet();
 }
 
 Mod selectModById(AppState state, String modId) {

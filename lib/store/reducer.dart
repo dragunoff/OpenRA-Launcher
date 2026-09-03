@@ -18,10 +18,14 @@ AppState appReducer(AppState state, action) {
     favoriteMods: favoriteModsReducer(state.favoriteMods, action),
     hiddenMods: hiddenModsReducer(state.hiddenMods, action),
     modsListStatus: modsListStatusReducer(state.modsListStatus, action),
-    modDatabaseStatus:
-        modDatabaseStatusReducer(state.modDatabaseStatus, action),
-    autoCheckAppUpdates:
-        autoCheckAppUpdatesReducer(state.autoCheckAppUpdates, action),
+    modDatabaseStatus: modDatabaseStatusReducer(
+      state.modDatabaseStatus,
+      action,
+    ),
+    autoCheckAppUpdates: autoCheckAppUpdatesReducer(
+      state.autoCheckAppUpdates,
+      action,
+    ),
     showDevMods: showDevModsReducer(state.showDevMods, action),
     showHiddenMods: showHiddenModsReducer(state.showHiddenMods, action),
     appRelease: appUpdateReducer(state.appRelease, action),

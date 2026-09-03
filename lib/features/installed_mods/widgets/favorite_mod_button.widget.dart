@@ -7,22 +7,27 @@ import 'package:openra_launcher/store/favorite_mods/actions.dart';
 import 'package:openra_launcher/store/app_state.dart';
 
 class FavoriteModButton extends StatelessWidget {
-  const FavoriteModButton(
-      {super.key, required this.mod, required this.isFavorite});
+  const FavoriteModButton({
+    super.key,
+    required this.mod,
+    required this.isFavorite,
+  });
 
   final Mod mod;
   final bool isFavorite;
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, VoidCallback>(converter: ((store) {
-      return isFavorite
-          ? () => store.dispatch(RemoveModFromFavoritesAction(mod))
-          : () => store.dispatch(AddModToFavoritesAction(mod));
-    }), builder: (context, toggleFavoriteCallback) {
-      final l10n = AppLocalizations.of(context)!;
+    return StoreConnector<AppState, VoidCallback>(
+      converter: ((store) {
+        return isFavorite
+            ? () => store.dispatch(RemoveModFromFavoritesAction(mod))
+            : () => store.dispatch(AddModToFavoritesAction(mod));
+      }),
+      builder: (context, toggleFavoriteCallback) {
+        final l10n = AppLocalizations.of(context)!;
 
-      return Tooltip(
+        return Tooltip(
           message: isFavorite ? l10n.removeFromFavorites : l10n.addToFavorites,
           waitDuration: AppConstants.tooltipWaitDuration,
           child: IconButton(
@@ -31,7 +36,9 @@ class FavoriteModButton extends StatelessWidget {
                 ? const Icon(Icons.star)
                 : const Icon(Icons.star_border),
             onPressed: toggleFavoriteCallback,
-          ));
-    });
+          ),
+        );
+      },
+    );
   }
 }

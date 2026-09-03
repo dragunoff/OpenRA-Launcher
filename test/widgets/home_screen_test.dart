@@ -10,8 +10,9 @@ import 'package:openra_launcher/widgets/home_screen.widget.dart';
 import 'package:redux/redux.dart';
 
 void main() {
-  testWidgets('home screen switches content with the navigation rail',
-      (tester) async {
+  testWidgets('home screen switches content with the navigation rail', (
+    tester,
+  ) async {
     final store = Store<AppState>(
       (state, action) => state,
       initialState: AppState.initial(),

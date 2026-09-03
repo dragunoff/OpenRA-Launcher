@@ -12,17 +12,20 @@ void main() {
         'Version',
         'Title',
         'LaunchPath',
-        'LaunchArgs'
+        'LaunchArgs',
       ];
       final metadata = MiniYamlUtils.modMetadataFromFile(
-          TestUtils.getYamlFile('valid-ra.yaml'));
+        TestUtils.getYamlFile('valid-ra.yaml'),
+      );
 
       expect(metadata.keys, containsAll(mandatoryFields));
       expect(metadata['Id'], 'ra');
       expect(metadata['Version'], 'release-20210321');
       expect(metadata['Title'], 'Red Alert');
-      expect(metadata['LaunchPath'],
-          '/home/user/OpenRA/OpenRA-Red-Alert-x86_64.AppImage');
+      expect(
+        metadata['LaunchPath'],
+        '/home/user/OpenRA/OpenRA-Red-Alert-x86_64.AppImage',
+      );
       expect(metadata['LaunchArgs'], 'Game.Mod=ra');
     });
 
@@ -32,23 +35,27 @@ void main() {
         'Version',
         'Title',
         'LaunchPath',
-        'LaunchArgs'
+        'LaunchArgs',
       ];
       final metadata = MiniYamlUtils.modMetadataFromFile(
-          TestUtils.getYamlFile('valid-no-icons.yaml'));
+        TestUtils.getYamlFile('valid-no-icons.yaml'),
+      );
 
       expect(metadata.keys, containsAll(mandatoryFields));
       expect(metadata['Id'], 'ra');
       expect(metadata['Version'], 'release-20210321');
       expect(metadata['Title'], 'Red Alert');
-      expect(metadata['LaunchPath'],
-          '/home/user/OpenRA/OpenRA-Red-Alert-x86_64.AppImage');
+      expect(
+        metadata['LaunchPath'],
+        '/home/user/OpenRA/OpenRA-Red-Alert-x86_64.AppImage',
+      );
       expect(metadata['LaunchArgs'], 'Game.Mod=ra');
     });
 
     test('should parse valid files with icons', () {
       final metadata = MiniYamlUtils.modMetadataFromFile(
-          TestUtils.getYamlFile('valid-ra.yaml'));
+        TestUtils.getYamlFile('valid-ra.yaml'),
+      );
       final base64Png = TestUtils.getTestPngBase64();
 
       expect(metadata['Icon'], base64Png);
@@ -58,79 +65,101 @@ void main() {
 
     test('should throw if "Id" field is missing', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('no-id.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('no-id.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "Version" field is missing', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('no-version.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('no-version.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "Title" field is missing', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('no-title.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('no-title.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "LaunchPath" field is missing', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('no-launch-path.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('no-launch-path.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "LaunchArgs" field is missing', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('no-launch-args.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('no-launch-args.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "Id" field is empty', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('empty-id.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('empty-id.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "Version" field is empty', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('empty-version.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('empty-version.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "Title" field is empty', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('empty-title.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('empty-title.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "LaunchPath" field is empty', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('empty-launch-path.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('empty-launch-path.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "LaunchArgs" field is empty', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('empty-launch-args.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('empty-launch-args.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
 
     test('should throw if "LaunchPath" points to a DLL', () {
       expect(
-          () => MiniYamlUtils.modMetadataFromFile(
-              TestUtils.getYamlFile('invalid-dll-launch-path.yaml')),
-          throwsA(isA<MiniYamlFormatException>()));
+        () => MiniYamlUtils.modMetadataFromFile(
+          TestUtils.getYamlFile('invalid-dll-launch-path.yaml'),
+        ),
+        throwsA(isA<MiniYamlFormatException>()),
+      );
     });
   });
 }

@@ -4,10 +4,7 @@ import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class ReleaseNotesDialog extends StatelessWidget {
-  const ReleaseNotesDialog({
-    super.key,
-    required this.release,
-  });
+  const ReleaseNotesDialog({super.key, required this.release});
 
   final Release release;
 
@@ -18,15 +15,10 @@ class ReleaseNotesDialog extends StatelessWidget {
     final hasBody = release.hasBody;
 
     return AlertDialog(
-      title: Text(
-        release.name.isNotEmpty ? release.name : l10n.releaseNotes,
-      ),
+      title: Text(release.name.isNotEmpty ? release.name : l10n.releaseNotes),
       content: SingleChildScrollView(
         child: hasBody
-            ? MarkdownBody(
-                data: body,
-                selectable: true,
-              )
+            ? MarkdownBody(data: body, selectable: true)
             : Text(l10n.noReleaseNotes),
       ),
       actions: [

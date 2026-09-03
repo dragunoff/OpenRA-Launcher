@@ -9,7 +9,9 @@ final Reducer<ModDatabase> modDatabaseReducer = combineReducers([
 ]);
 
 ModDatabase _setLoadedDatabase(
-    ModDatabase database, ModDatabaseLoadedAction action) {
+  ModDatabase database,
+  ModDatabaseLoadedAction action,
+) {
   return action.database;
 }
 

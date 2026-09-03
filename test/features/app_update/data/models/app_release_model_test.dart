@@ -15,18 +15,15 @@ void main() {
       htmlUrl: 'https://example.com',
     );
 
-    test(
-      'should be a subclass of App Release entity',
-      () {
-        expect(testObj, isA<AppRelease>());
-      },
-    );
+    test('should be a subclass of App Release entity', () {
+      expect(testObj, isA<AppRelease>());
+    });
 
     test('should construct object from decoded JSON', () {
       // given
       final Map<String, dynamic> jsonMap = json.decode(
-          TestUtils.getJsonStringFromFile(
-              'github_json/release-is-latest.json'))[0];
+        TestUtils.getJsonStringFromFile('github_json/release-is-latest.json'),
+      )[0];
 
       // when
       final result = AppReleaseModel.fromJson(jsonMap);

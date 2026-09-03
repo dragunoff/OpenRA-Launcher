@@ -13,8 +13,9 @@ import 'package:redux_persist_flutter/redux_persist_flutter.dart';
 Future<Store<AppState>> createStore() async {
   final persistor = Persistor<AppState>(
     storage: FlutterStorage(
-        key: 'openra-launcher',
-        location: FlutterSaveLocation.sharedPreferences),
+      key: 'openra-launcher',
+      location: FlutterSaveLocation.sharedPreferences,
+    ),
     serializer: JsonSerializer<AppState>(AppState.fromJson),
   );
 
@@ -30,7 +31,7 @@ Future<Store<AppState>> createStore() async {
         getLatestAppRelease: getIt.get<GetLatestAppRelease>(),
         getPackageInfo: getIt.get<GetPackageInfo>(),
       ),
-      persistor.createMiddleware()
+      persistor.createMiddleware(),
     ],
   );
 

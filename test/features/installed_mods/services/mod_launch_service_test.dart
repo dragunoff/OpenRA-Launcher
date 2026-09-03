@@ -22,29 +22,31 @@ void main() {
       expect(started, [mod.launchPath, ...mod.launchArgs]);
     });
 
-    test('should return a left with PlatformFailure when starting fails',
-        () async {
-      final reportedErrors = <FlutterErrorDetails>[];
-      final service = ProcessModLaunchService(
-        starter: _ThrowingProcessStarter(),
-        reportError: reportedErrors.add,
-      );
-      final mod = TestUtils.generateMod();
+    test(
+      'should return a left with PlatformFailure when starting fails',
+      () async {
+        final reportedErrors = <FlutterErrorDetails>[];
+        final service = ProcessModLaunchService(
+          starter: _ThrowingProcessStarter(),
+          reportError: reportedErrors.add,
+        );
+        final mod = TestUtils.generateMod();
 
-      final result = await service.launch(mod).run();
+        final result = await service.launch(mod).run();
 
-      result.fold(
-        (failure) => expect(failure, isA<PlatformFailure>()),
-        (_) => fail('Expected Either.Left'),
-      );
-      expect(reportedErrors.length, 1);
-    });
+        result.fold(
+          (failure) => expect(failure, isA<PlatformFailure>()),
+          (_) => fail('Expected Either.Left'),
+        );
+        expect(reportedErrors.length, 1);
+      },
+    );
   });
 }
 
 class _FakeProcessStarter implements LaunchProcessStarter {
   final Future<void> Function(String executable, List<String> arguments)
-      _onStart;
+  _onStart;
 
   _FakeProcessStarter(this._onStart);
 

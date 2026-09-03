@@ -25,26 +25,21 @@ Middleware<AppState> createReloadMods(GetInstalledMods getInstalledMods) {
   };
 }
 
-void _loadAllMods(
-  GetInstalledMods getInstalledMods,
-  Store<AppState> store,
-) {
-  getInstalledMods(NoParams()).run().then(
-    (mods) {
-      mods.fold(
-        (failure) {
-          store.dispatch(ModsErrorAction());
-        },
-        (mods) {
-          if (mods.isEmpty) {
-            store.dispatch(ModsEmptyAction());
+void _loadAllMods(GetInstalledMods getInstalledMods, Store<AppState> store) {
+  getInstalledMods(NoParams()).run().then((mods) {
+    mods.fold(
+      (failure) {
+        store.dispatch(ModsErrorAction());
+      },
+      (mods) {
+        if (mods.isEmpty) {
+          store.dispatch(ModsEmptyAction());
 
-            return;
-          }
+          return;
+        }
 
-          store.dispatch(ModsLoadedAction(mods));
-        },
-      );
-    },
-  );
+        store.dispatch(ModsLoadedAction(mods));
+      },
+    );
+  });
 }

@@ -32,10 +32,7 @@ class InstalledModsCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (isHidden) UnhideModButton(mod: mod),
-          FavoriteModButton(
-            mod: mod,
-            isFavorite: isFavorite,
-          ),
+          FavoriteModButton(mod: mod, isFavorite: isFavorite),
           ModActionsMenuButton(mod: mod),
         ],
       ),

@@ -23,8 +23,7 @@ class OpenUrlMenuItemButton extends StatefulWidget {
 
 class _OpenUrlMenuItemButtonState extends State<OpenUrlMenuItemButton> {
   Future<void> _onPressed() async {
-    final result =
-        await getIt<OpenExternalUrl>()(widget.url).run();
+    final result = await getIt<OpenExternalUrl>()(widget.url).run();
 
     if (!mounted || result.isRight()) {
       return;

@@ -69,15 +69,16 @@ void main() {
       });
 
       test(
-          'should remove hidden mods that are no longer available after mods load',
-          () {
-        final state = {hiddenKey, missingHiddenKey};
-        final action = ModsLoadedAction({installedMod});
+        'should remove hidden mods that are no longer available after mods load',
+        () {
+          final state = {hiddenKey, missingHiddenKey};
+          final action = ModsLoadedAction({installedMod});
 
-        final nextState = hiddenModsReducer(state, action);
+          final nextState = hiddenModsReducer(state, action);
 
-        expect(nextState, {hiddenKey});
-      });
+          expect(nextState, {hiddenKey});
+        },
+      );
 
       test('should clear all hidden mods when loaded mods are empty', () {
         final state = {hiddenKey};

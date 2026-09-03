@@ -24,7 +24,7 @@ void main() {
 
   final Set<Mod> tMods = {
     TestUtils.generateMod(),
-    TestUtils.generateMod().copyWith(id: 'test-2')
+    TestUtils.generateMod().copyWith(id: 'test-2'),
   };
 
   setUp(() {
@@ -35,8 +35,9 @@ void main() {
   group('GetInstalledMods', () {
     test('should get installed mods from the repository', () async {
       // given
-      when(mockInstalledModsRepository.getInstalledMods())
-          .thenAnswer((_) => TaskEither.right(tMods));
+      when(
+        mockInstalledModsRepository.getInstalledMods(),
+      ).thenAnswer((_) => TaskEither.right(tMods));
 
       // when
       final result = await usecase(NoParams()).run();

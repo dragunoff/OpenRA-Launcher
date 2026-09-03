@@ -38,8 +38,9 @@ void main() {
     );
   }
 
-  testWidgets('shows an error snackbar when opening the maps folder fails',
-      (tester) async {
+  testWidgets('shows an error snackbar when opening the maps folder fails', (
+    tester,
+  ) async {
     getIt.registerSingleton<ModFoldersService>(
       _FakeModFoldersService(TaskEither.left(const PlatformFailure('boom'))),
     );
@@ -55,8 +56,9 @@ void main() {
     );
   });
 
-  testWidgets('shows an error snackbar when opening the replays folder fails',
-      (tester) async {
+  testWidgets('shows an error snackbar when opening the replays folder fails', (
+    tester,
+  ) async {
     getIt.registerSingleton<ModFoldersService>(
       _FakeModFoldersService(TaskEither.left(const PlatformFailure('boom'))),
     );
@@ -72,8 +74,9 @@ void main() {
     );
   });
 
-  testWidgets('shows no snackbar when opening the folder succeeds',
-      (tester) async {
+  testWidgets('shows no snackbar when opening the folder succeeds', (
+    tester,
+  ) async {
     getIt.registerSingleton<ModFoldersService>(
       _FakeModFoldersService(TaskEither.right(unit)),
     );

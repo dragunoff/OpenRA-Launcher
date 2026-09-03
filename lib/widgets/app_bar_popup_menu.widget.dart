@@ -34,82 +34,98 @@ class AppBarPopupMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, _ViewModel>(converter: (store) {
-      return _ViewModel(
-        showDevMods: store.state.showDevMods,
-        showHiddenMods: store.state.showHiddenMods,
-        reloadMods: () => store.dispatch(ReloadModsAction()),
-        loadUpdates: () => store.dispatch(LoadModDatabaseAction()),
-        toggleDevMods: () => store.dispatch(
-            store.state.showDevMods ? ShowDevModsOff() : ShowDevModsOn()),
-        toggleHiddenMods: () => store.dispatch(store.state.showHiddenMods
-            ? ShowHiddenModsOff()
-            : ShowHiddenModsOn()),
-      );
-    }, builder: (context, vm) {
-      final l10n = AppLocalizations.of(context)!;
+    return StoreConnector<AppState, _ViewModel>(
+      converter: (store) {
+        return _ViewModel(
+          showDevMods: store.state.showDevMods,
+          showHiddenMods: store.state.showHiddenMods,
+          reloadMods: () => store.dispatch(ReloadModsAction()),
+          loadUpdates: () => store.dispatch(LoadModDatabaseAction()),
+          toggleDevMods: () => store.dispatch(
+            store.state.showDevMods ? ShowDevModsOff() : ShowDevModsOn(),
+          ),
+          toggleHiddenMods: () => store.dispatch(
+            store.state.showHiddenMods
+                ? ShowHiddenModsOff()
+                : ShowHiddenModsOn(),
+          ),
+        );
+      },
+      builder: (context, vm) {
+        final l10n = AppLocalizations.of(context)!;
 
-      return Directionality(
+        return Directionality(
           textDirection: TextDirection.rtl,
           child: MenuAnchor(
-            builder: (BuildContext context, MenuController controller,
-                Widget? child) {
-              return IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () {
-                  if (controller.isOpen) {
-                    controller.close();
-                  } else {
-                    controller.open();
-                  }
-                },
-              );
-            },
-            menuChildren: [
-              Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: MenuItemButton(
-                    onPressed: vm.reloadMods,
-                    child: Text(l10n.refreshMods),
-                  )),
-              Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: MenuItemButton(
-                    onPressed: vm.loadUpdates,
-                    child: Text(l10n.checkForUpdates),
-                  )),
-              const Divider(),
-              Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: MenuItemButton(
-                    leadingIcon: vm.showHiddenMods
-                        ? const Icon(Icons.check_box)
-                        : const Icon(Icons.check_box_outline_blank),
-                    onPressed: vm.toggleHiddenMods,
-                    closeOnActivate: false,
-                    child: Text(l10n.showHiddenMods),
-                  )),
-              const Divider(),
-              Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: MenuItemButton(
-                    child: Text(l10n.aboutThisApp),
-                    onPressed: () async {
-                      final packageInfo =
-                          await getIt<GetPackageInfo>()(NoParams()).run();
-
-                      if (context.mounted) {
-                        showAboutDialog(
-                          context: context,
-                          applicationName: AppConstants.appName,
-                          applicationVersion: packageInfo.version,
-                          applicationLegalese: l10n.appLegalese,
-                        );
+            builder:
+                (
+                  BuildContext context,
+                  MenuController controller,
+                  Widget? child,
+                ) {
+                  return IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    onPressed: () {
+                      if (controller.isOpen) {
+                        controller.close();
+                      } else {
+                        controller.open();
                       }
                     },
-                  )),
+                  );
+                },
+            menuChildren: [
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: MenuItemButton(
+                  onPressed: vm.reloadMods,
+                  child: Text(l10n.refreshMods),
+                ),
+              ),
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: MenuItemButton(
+                  onPressed: vm.loadUpdates,
+                  child: Text(l10n.checkForUpdates),
+                ),
+              ),
+              const Divider(),
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: MenuItemButton(
+                  leadingIcon: vm.showHiddenMods
+                      ? const Icon(Icons.check_box)
+                      : const Icon(Icons.check_box_outline_blank),
+                  onPressed: vm.toggleHiddenMods,
+                  closeOnActivate: false,
+                  child: Text(l10n.showHiddenMods),
+                ),
+              ),
+              const Divider(),
+              Directionality(
+                textDirection: TextDirection.ltr,
+                child: MenuItemButton(
+                  child: Text(l10n.aboutThisApp),
+                  onPressed: () async {
+                    final packageInfo = await getIt<GetPackageInfo>()(
+                      NoParams(),
+                    ).run();
+
+                    if (context.mounted) {
+                      showAboutDialog(
+                        context: context,
+                        applicationName: AppConstants.appName,
+                        applicationVersion: packageInfo.version,
+                        applicationLegalese: l10n.appLegalese,
+                      );
+                    }
+                  },
+                ),
+              ),
             ],
-          ));
-    });
+          ),
+        );
+      },
+    );
   }
 }

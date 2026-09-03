@@ -31,22 +31,21 @@ void main() {
   );
 
   AppState stateWithLinks() => AppState(
-        mods: {mod},
-        modDatabase: ModDatabase(mods: {
-          'ra': ModDatabaseInfo(
-            modId: 'ra',
-            title: 'Red Alert',
-            homepage: 'https://example.com',
-            repoUrl: 'https://github.com/OpenRA/OpenRA',
-          ),
-        }),
-      );
+    mods: {mod},
+    modDatabase: ModDatabase(
+      mods: {
+        'ra': ModDatabaseInfo(
+          modId: 'ra',
+          title: 'Red Alert',
+          homepage: 'https://example.com',
+          repoUrl: 'https://github.com/OpenRA/OpenRA',
+        ),
+      },
+    ),
+  );
 
   Widget buildMenu({required AppState state}) {
-    final store = Store<AppState>(
-      (s, a) => s,
-      initialState: state,
-    );
+    final store = Store<AppState>((s, a) => s, initialState: state);
 
     return StoreProvider<AppState>(
       store: store,
@@ -54,9 +53,7 @@ void main() {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
-          body: Center(
-            child: UpdatesCardMenuButton(release: release),
-          ),
+          body: Center(child: UpdatesCardMenuButton(release: release)),
         ),
       ),
     );
@@ -67,16 +64,18 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('shows the homepage and repository items when links are present',
-      (tester) async {
-    await tester.pumpWidget(buildMenu(state: stateWithLinks()));
+  testWidgets(
+    'shows the homepage and repository items when links are present',
+    (tester) async {
+      await tester.pumpWidget(buildMenu(state: stateWithLinks()));
 
-    await openMenu(tester);
+      await openMenu(tester);
 
-    expect(find.byType(OpenUrlMenuItemButton), findsNWidgets(2));
-    expect(find.text('Visit homepage'), findsOneWidget);
-    expect(find.text('View repository'), findsOneWidget);
-  });
+      expect(find.byType(OpenUrlMenuItemButton), findsNWidgets(2));
+      expect(find.text('Visit homepage'), findsOneWidget);
+      expect(find.text('View repository'), findsOneWidget);
+    },
+  );
 
   testWidgets('hides the link items when no links are present', (tester) async {
     await tester.pumpWidget(buildMenu(state: AppState(mods: {mod})));

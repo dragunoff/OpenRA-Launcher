@@ -44,15 +44,17 @@ class ProcessModFoldersService implements ModFoldersService {
     return supportDirService
         .getAllSupportDirs()
         .mapLeft((failure) => PlatformFailure(failure.message))
-        .flatMap((supportDirs) => TaskEither.tryCatch(() async {
+        .flatMap(
+          (supportDirs) => TaskEither.tryCatch(
+            () async {
               final targetPaths = supportDirs
-                  .map((supportDir) =>
-                      _nearestExistingAncestor(fileSystem.directory(path.join(
-                        supportDir.path,
-                        folder,
-                        mod.id,
-                        mod.version,
-                      ))))
+                  .map(
+                    (supportDir) => _nearestExistingAncestor(
+                      fileSystem.directory(
+                        path.join(supportDir.path, folder, mod.id, mod.version),
+                      ),
+                    ),
+                  )
                   .map((directory) => directory.path)
                   .toSet();
 
@@ -63,19 +65,23 @@ class ProcessModFoldersService implements ModFoldersService {
               }
 
               return unit;
-            }, (error, stackTrace) {
+            },
+            (error, stackTrace) {
               reportError(
                 FlutterErrorDetails(
                   exception: error,
                   stack: stackTrace,
                   library: 'installed_mods',
-                  context:
-                      ErrorDescription('opening the $folder of ${mod.title}'),
+                  context: ErrorDescription(
+                    'opening the $folder of ${mod.title}',
+                  ),
                 ),
               );
 
               return PlatformFailure(error.toString());
-            }));
+            },
+          ),
+        );
   }
 
   /// Walk up to the closest existing ancestor so that something sensible
@@ -93,8 +99,6 @@ class ProcessModFoldersService implements ModFoldersService {
     if (platform.isWindows) return 'explorer';
     if (platform.isMacOS) return 'open';
 
-    throw UnsupportedError(
-      'Unsupported platform: ${platform.operatingSystem}',
-    );
+    throw UnsupportedError('Unsupported platform: ${platform.operatingSystem}');
   }
 }

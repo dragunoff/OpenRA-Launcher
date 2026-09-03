@@ -14,13 +14,13 @@ import 'package:redux/redux.dart';
 
 void main() {
   Mod mod(String version, {String id = 'ra'}) => Mod(
-        key: '$id-$version',
-        id: id,
-        version: version,
-        title: 'Test Mod',
-        launchPath: '/launch',
-        launchArgs: const [''],
-      );
+    key: '$id-$version',
+    id: id,
+    version: version,
+    title: 'Test Mod',
+    launchPath: '/launch',
+    launchArgs: const [''],
+  );
 
   tearDown(() {
     getIt.reset();

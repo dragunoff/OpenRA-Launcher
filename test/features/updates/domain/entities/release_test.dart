@@ -49,14 +49,14 @@ void main() {
 
     group('hasReleaseNotes', () {
       Release withNotes({String name = '', String? body}) => Release(
-            modId: 'test',
-            id: 1,
-            version: 'version',
-            name: name,
-            htmlUrl: 'https://example.com',
-            isPlaytest: false,
-            body: body,
-          );
+        modId: 'test',
+        id: 1,
+        version: 'version',
+        name: name,
+        htmlUrl: 'https://example.com',
+        isPlaytest: false,
+        body: body,
+      );
 
       test('returns true when both name and body are present', () {
         expect(withNotes(name: 'Release', body: 'Notes').hasReleaseNotes, true);
@@ -80,14 +80,14 @@ void main() {
 
     group('hasBody', () {
       Release withBody(String? body) => Release(
-            modId: 'test',
-            id: 1,
-            version: 'version',
-            name: '',
-            htmlUrl: 'https://example.com',
-            isPlaytest: false,
-            body: body,
-          );
+        modId: 'test',
+        id: 1,
+        version: 'version',
+        name: '',
+        htmlUrl: 'https://example.com',
+        isPlaytest: false,
+        body: body,
+      );
 
       test('returns true when the body is non-empty', () {
         expect(withBody('# Notes\n- Initial').hasBody, true);

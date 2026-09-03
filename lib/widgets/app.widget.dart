@@ -21,41 +21,41 @@ class OpenRALauncher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
-        store: store,
-        child: AdaptiveTheme(
-          light: ThemeData.light(),
-          dark: ThemeData.dark(),
-          initial: savedThemeMode ?? AdaptiveThemeMode.system,
-          builder: (theme, darkTheme) => MaterialApp(
-              title: title,
-              theme: theme,
-              darkTheme: darkTheme,
-              localizationsDelegates: [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en'),
-              ],
-              initialRoute: '/',
-              routes: {
-                '/': (context) => StoreConnector<AppState, _ViewModel>(
-                      converter: _ViewModel.fromStore,
-                      builder: ((context, vm) {
-                        return HomeScreen(
-                          title: title,
-                          onInit: () {
-                            vm.loadMods();
-                            vm.loadAppUpdate();
-                            vm.loadUpdates();
-                          },
-                        );
-                      }),
-                    ),
+      store: store,
+      child: AdaptiveTheme(
+        light: ThemeData.light(),
+        dark: ThemeData.dark(),
+        initial: savedThemeMode ?? AdaptiveThemeMode.system,
+        builder: (theme, darkTheme) => MaterialApp(
+          title: title,
+          theme: theme,
+          darkTheme: darkTheme,
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en')],
+          initialRoute: '/',
+          routes: {
+            '/': (context) => StoreConnector<AppState, _ViewModel>(
+              converter: _ViewModel.fromStore,
+              builder: ((context, vm) {
+                return HomeScreen(
+                  title: title,
+                  onInit: () {
+                    vm.loadMods();
+                    vm.loadAppUpdate();
+                    vm.loadUpdates();
+                  },
+                );
               }),
-        ));
+            ),
+          },
+        ),
+      ),
+    );
   }
 }
 

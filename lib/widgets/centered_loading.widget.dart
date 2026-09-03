@@ -8,7 +8,7 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child:
-            Column(children: [const CircularProgressIndicator(), Text(text)]));
+      child: Column(children: [const CircularProgressIndicator(), Text(text)]),
+    );
   }
 }

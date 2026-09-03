@@ -5,10 +5,7 @@ import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class AppUpdateDialog extends StatelessWidget {
-  const AppUpdateDialog({
-    super.key,
-    required this.appRelease,
-  });
+  const AppUpdateDialog({super.key, required this.appRelease});
 
   final AppRelease appRelease;
 
@@ -19,20 +16,23 @@ class AppUpdateDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(l10n.appUpdateTitle('OpenRA Launcher')),
       content: SingleChildScrollView(
-          child: Text(l10n.appUpdateBody(appRelease.version))),
+        child: Text(l10n.appUpdateBody(appRelease.version)),
+      ),
       actions: [
         TextButton(
-            onPressed: (() async {
-              await getIt<OpenExternalUrl>()(appRelease.htmlUrl).run();
+          onPressed: (() async {
+            await getIt<OpenExternalUrl>()(appRelease.htmlUrl).run();
 
-              if (context.mounted) {
-                Navigator.pop(context);
-              }
-            }),
-            child: Text(l10n.goToDownload)),
+            if (context.mounted) {
+              Navigator.pop(context);
+            }
+          }),
+          child: Text(l10n.goToDownload),
+        ),
         TextButton(
-            onPressed: (() => Navigator.pop(context)),
-            child: Text(l10n.notNow)),
+          onPressed: (() => Navigator.pop(context)),
+          child: Text(l10n.notNow),
+        ),
       ],
     );
   }

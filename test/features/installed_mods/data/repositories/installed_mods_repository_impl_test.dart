@@ -27,42 +27,45 @@ void main() {
 
   group('InstalledModsRepositoryImpl', () {
     group('getInstalledMods', () {
-      final Set<ModModel> tInstalledModsModels = {
-        TestUtils.generateMod(),
-        TestUtils.generateMod().copyWith(id: 'test-2')
-      }
-          .map((mod) => ModModel(
-              key: mod.key,
-              id: mod.id,
-              version: mod.version,
-              title: mod.title,
-              launchPath: mod.launchPath,
-              launchArgs: mod.launchArgs))
-          .toSet();
+      final Set<ModModel> tInstalledModsModels =
+          {
+                TestUtils.generateMod(),
+                TestUtils.generateMod().copyWith(id: 'test-2'),
+              }
+              .map(
+                (mod) => ModModel(
+                  key: mod.key,
+                  id: mod.id,
+                  version: mod.version,
+                  title: mod.title,
+                  launchPath: mod.launchPath,
+                  launchArgs: mod.launchArgs,
+                ),
+              )
+              .toSet();
       final Set<Mod> tInstalledMods = tInstalledModsModels;
 
       test('should get installed mods from the data source', () async {
         // given
-        when(mockDataSource.getInstalledMods())
-            .thenAnswer((_) => TaskEither.right(tInstalledModsModels));
+        when(
+          mockDataSource.getInstalledMods(),
+        ).thenAnswer((_) => TaskEither.right(tInstalledModsModels));
 
         // when
         final result = await repository.getInstalledMods().run();
 
         // then
         verify(mockDataSource.getInstalledMods());
-        result.fold(
-          (failure) => fail('Expected Either.Right'),
-          (result) {
-            expect(result, equals(tInstalledMods));
-          },
-        );
+        result.fold((failure) => fail('Expected Either.Right'), (result) {
+          expect(result, equals(tInstalledMods));
+        });
       });
 
       test('should return a failure when the scan is unsuccessful', () async {
         // given
-        when(mockDataSource.getInstalledMods())
-            .thenAnswer((_) => TaskEither.left(const FileSystemFailure()));
+        when(
+          mockDataSource.getInstalledMods(),
+        ).thenAnswer((_) => TaskEither.left(const FileSystemFailure()));
 
         // when
         final result = await repository.getInstalledMods().run();

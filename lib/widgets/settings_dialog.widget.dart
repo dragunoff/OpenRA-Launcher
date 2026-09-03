@@ -33,10 +33,11 @@ class _ViewModel {
       showHiddenMods: store.state.showHiddenMods,
       autoCheckAppUpdates: store.state.autoCheckAppUpdates,
       toggleDevMods: () => store.dispatch(
-          store.state.showDevMods ? ShowDevModsOff() : ShowDevModsOn()),
-      toggleHiddenMods: () => store.dispatch(store.state.showHiddenMods
-          ? ShowHiddenModsOff()
-          : ShowHiddenModsOn()),
+        store.state.showDevMods ? ShowDevModsOff() : ShowDevModsOn(),
+      ),
+      toggleHiddenMods: () => store.dispatch(
+        store.state.showHiddenMods ? ShowHiddenModsOff() : ShowHiddenModsOn(),
+      ),
       autoCheckForAppUpdatesOn: () =>
           store.dispatch(AutoCheckForAppUpdatesOn()),
       autoCheckForAppUpdatesOff: () =>

@@ -136,8 +136,10 @@ class InstalledModsFixtureGenerator {
           id: 'd2k',
           version: 'release-20210321',
           title: 'Dune 2000',
-          launchPath:
-              path.join(launchTargetsDir.path, 'd2k-release-20210321.sh'),
+          launchPath: path.join(
+            launchTargetsDir.path,
+            'd2k-release-20210321.sh',
+          ),
           launchArgs: 'Game.Mod=d2k',
           isValid: false,
         ),
@@ -177,7 +179,10 @@ class InstalledModsFixtureGenerator {
           id: 'ra',
           version: 'release-20210321',
           title: 'Red Alert',
-          launchPath: path.join(launchTargetsDir.path, 'ra-empty-launchargs.sh'),
+          launchPath: path.join(
+            launchTargetsDir.path,
+            'ra-empty-launchargs.sh',
+          ),
           launchArgs: '',
           isValid: false,
         ),
@@ -233,8 +238,10 @@ class InstalledModsFixtureGenerator {
           id: 'ra',
           version: 'release-20210321',
           title: 'Red Alert',
-          launchPath:
-              path.join(launchTargetsDir.path, 'ra-missing-launchfile.sh'),
+          launchPath: path.join(
+            launchTargetsDir.path,
+            'ra-missing-launchfile.sh',
+          ),
           launchArgs: 'Game.Mod=ra',
           isValid: false,
         ),

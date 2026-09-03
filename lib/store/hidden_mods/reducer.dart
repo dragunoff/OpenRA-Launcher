@@ -10,7 +10,9 @@ final Reducer<Set<String>> hiddenModsReducer = combineReducers([
 ]);
 
 Set<String> _cleanMissingHidden(
-    Set<String> hiddenMods, ModsLoadedAction action) {
+  Set<String> hiddenMods,
+  ModsLoadedAction action,
+) {
   final existingModKeys = action.mods.map((mod) => mod.key).toSet();
   return Set.unmodifiable(Set.from(hiddenMods)..retainAll(existingModKeys));
 }
@@ -19,12 +21,10 @@ Set<String> _clearHidden(Set<String> hiddenMods, ModsEmptyAction action) {
   return const {};
 }
 
-Set<String> _unhideMod(
-    Set<String> hiddenMods, UnhideModAction action) {
+Set<String> _unhideMod(Set<String> hiddenMods, UnhideModAction action) {
   return Set.unmodifiable(Set.from(hiddenMods)..remove(action.mod.key));
 }
 
-Set<String> _hideMod(
-    Set<String> hiddenMods, HideModAction action) {
+Set<String> _hideMod(Set<String> hiddenMods, HideModAction action) {
   return Set.unmodifiable(Set.from(hiddenMods)..add(action.mod.key));
 }

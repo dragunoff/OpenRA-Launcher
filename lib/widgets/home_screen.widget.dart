@@ -87,8 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(widget.title),
         actions: [
           Container(
-              padding: EdgeInsets.symmetric(horizontal: AppConstants.spacing),
-              child:               Row(spacing: AppConstants.spacing, children: [
+            padding: EdgeInsets.symmetric(horizontal: AppConstants.spacing),
+            child: Row(
+              spacing: AppConstants.spacing,
+              children: [
                 IconButton(
                   icon: const Icon(Icons.settings),
                   onPressed: () => showDialog(
@@ -97,7 +99,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 AppBarPopupMenu(),
-              ]))
+              ],
+            ),
+          ),
         ],
       ),
       body: LayoutBuilder(
@@ -119,38 +123,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     ? NavigationRailLabelType.none
                     : NavigationRailLabelType.all,
                 useIndicator: true,
-                destinations: destinations.map(
-                  (destination) {
-                    Widget iconWidget = Icon(destination.icon);
-                    Widget selectedIconWidget = Icon(destination.selectedIcon);
+                destinations: destinations.map((destination) {
+                  Widget iconWidget = Icon(destination.icon);
+                  Widget selectedIconWidget = Icon(destination.selectedIcon);
 
-                    if (destination.id == 'updates' && updatesCount > 0) {
-                      final label = Text(
-                        updatesCount.toString(),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                          fontSize: 10,
-                        ),
-                      );
-
-                      iconWidget = Badge(
-                        label: label,
-                        child: Icon(destination.icon),
-                      );
-
-                      selectedIconWidget = Badge(
-                        label: label,
-                        child: Icon(destination.selectedIcon),
-                      );
-                    }
-
-                    return NavigationRailDestination(
-                      icon: iconWidget,
-                      selectedIcon: selectedIconWidget,
-                      label: Text(destination.label),
+                  if (destination.id == 'updates' && updatesCount > 0) {
+                    final label = Text(
+                      updatesCount.toString(),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: 10,
+                      ),
                     );
-                  },
-                ).toList(),
+
+                    iconWidget = Badge(
+                      label: label,
+                      child: Icon(destination.icon),
+                    );
+
+                    selectedIconWidget = Badge(
+                      label: label,
+                      child: Icon(destination.selectedIcon),
+                    );
+                  }
+
+                  return NavigationRailDestination(
+                    icon: iconWidget,
+                    selectedIcon: selectedIconWidget,
+                    label: Text(destination.label),
+                  );
+                }).toList(),
               ),
               Expanded(
                 child: Material(

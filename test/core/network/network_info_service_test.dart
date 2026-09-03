@@ -10,8 +10,9 @@ import 'network_info_service_test.mocks.dart';
 void main() {
   MockInternetConnectionChecker mockInternetConnectionChecker =
       MockInternetConnectionChecker();
-  NetworkInfoServiceImpl networkInfoService =
-      NetworkInfoServiceImpl(mockInternetConnectionChecker);
+  NetworkInfoServiceImpl networkInfoService = NetworkInfoServiceImpl(
+    mockInternetConnectionChecker,
+  );
 
   setUp(() {
     mockInternetConnectionChecker = MockInternetConnectionChecker();
@@ -25,8 +26,9 @@ void main() {
         () async {
           // given
           final tHasConnectionFuture = Future.value(true);
-          when(mockInternetConnectionChecker.hasConnection)
-              .thenAnswer((_) => tHasConnectionFuture);
+          when(
+            mockInternetConnectionChecker.hasConnection,
+          ).thenAnswer((_) => tHasConnectionFuture);
 
           // when
           final result = networkInfoService.isConnected;

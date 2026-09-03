@@ -18,8 +18,9 @@ Set<Release> selectPlaytestUpdates(AppState state) {
 }
 
 Release? selectLatestReleaseForMod(AppState state, String modId) {
-  final releases =
-      selectReleaseUpdates(state).where((release) => release.modId == modId);
+  final releases = selectReleaseUpdates(
+    state,
+  ).where((release) => release.modId == modId);
 
   if (releases.isEmpty) {
     return null;
@@ -31,8 +32,9 @@ Release? selectLatestReleaseForMod(AppState state, String modId) {
 }
 
 Release? selectLatestPlaytestForMod(AppState state, String modId) {
-  final playtests =
-      selectPlaytestUpdates(state).where((release) => release.modId == modId);
+  final playtests = selectPlaytestUpdates(
+    state,
+  ).where((release) => release.modId == modId);
 
   if (playtests.isEmpty) {
     return null;
@@ -79,8 +81,9 @@ Set<Release> selectAvailablePlaytestUpdates(AppState state) {
 }
 
 int selectUpdatesCount(AppState state) {
-  final availableUpdates = selectAvailableReleaseUpdates(state)
-      .union(selectAvailablePlaytestUpdates(state));
+  final availableUpdates = selectAvailableReleaseUpdates(
+    state,
+  ).union(selectAvailablePlaytestUpdates(state));
 
   if (state.showHiddenMods) return availableUpdates.length;
 
@@ -99,11 +102,13 @@ int selectUpdatesCount(AppState state) {
 Set<ModDatabaseInfo> selectDiscoverableMods(AppState state) {
   final installedModIds = state.mods.map((mod) => mod.id).toSet();
 
-  final discoverable = state.modDatabase.mods.values
-      .where((info) => !installedModIds.contains(info.modId))
-      .toList()
-    ..sort(
-        (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+  final discoverable =
+      state.modDatabase.mods.values
+          .where((info) => !installedModIds.contains(info.modId))
+          .toList()
+        ..sort(
+          (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()),
+        );
 
   return discoverable.toSet();
 }
@@ -129,16 +134,23 @@ bool _isVersionInstalledByAnyCopy(
   String modId,
   String version,
 ) {
-  return state.mods.any((installed) =>
-      installed.id == modId && installed.version == version);
+  return state.mods.any(
+    (installed) => installed.id == modId && installed.version == version,
+  );
 }
 
 Set<Release> _filterInstalled(AppState state, Set<Release> releases) {
   final installedModIds = state.mods.map((mod) => mod.id).toSet();
 
   return releases
-      .where((release) =>
-          installedModIds.contains(release.modId) &&
-          !_isVersionInstalledByAnyCopy(state, release.modId, release.version))
+      .where(
+        (release) =>
+            installedModIds.contains(release.modId) &&
+            !_isVersionInstalledByAnyCopy(
+              state,
+              release.modId,
+              release.version,
+            ),
+      )
       .toSet();
 }

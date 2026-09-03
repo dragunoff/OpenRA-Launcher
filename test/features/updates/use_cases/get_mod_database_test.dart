@@ -16,7 +16,8 @@ void main() {
     TaskEither.left(const ServerFailure()),
   );
 
-  MockModDatabaseRepository mockDatabaseRepository = MockModDatabaseRepository();
+  MockModDatabaseRepository mockDatabaseRepository =
+      MockModDatabaseRepository();
   GetModDatabase usecase = GetModDatabase(mockDatabaseRepository);
 
   final tDatabase = const ModDatabase(mods: {});
@@ -29,8 +30,9 @@ void main() {
   group('GetModDatabase', () {
     test('should get the mod database from the repository', () async {
       // given
-      when(mockDatabaseRepository.getModDatabase())
-          .thenAnswer((_) => TaskEither.right(tDatabase));
+      when(
+        mockDatabaseRepository.getModDatabase(),
+      ).thenAnswer((_) => TaskEither.right(tDatabase));
 
       // when
       final response = await usecase(NoParams()).run();

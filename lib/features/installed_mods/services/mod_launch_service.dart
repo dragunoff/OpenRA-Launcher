@@ -40,21 +40,24 @@ class ProcessModLaunchService implements ModLaunchService {
 
   @override
   TaskEither<PlatformFailure, Unit> launch(Mod mod) {
-    return TaskEither.tryCatch(() async {
-      await starter.start(mod.launchPath, mod.launchArgs);
+    return TaskEither.tryCatch(
+      () async {
+        await starter.start(mod.launchPath, mod.launchArgs);
 
-      return unit;
-    }, (error, stackTrace) {
-      reportError(
-        FlutterErrorDetails(
-          exception: error,
-          stack: stackTrace,
-          library: 'installed_mods',
-          context: ErrorDescription('launching mod ${mod.title}'),
-        ),
-      );
+        return unit;
+      },
+      (error, stackTrace) {
+        reportError(
+          FlutterErrorDetails(
+            exception: error,
+            stack: stackTrace,
+            library: 'installed_mods',
+            context: ErrorDescription('launching mod ${mod.title}'),
+          ),
+        );
 
-      return PlatformFailure(error.toString());
-    });
+        return PlatformFailure(error.toString());
+      },
+    );
   }
 }

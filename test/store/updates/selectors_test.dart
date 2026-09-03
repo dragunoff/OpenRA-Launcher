@@ -9,34 +9,34 @@ import 'package:openra_launcher/store/updates/selectors.dart';
 void main() {
   group('Update selectors', () {
     Mod mod(String version, {String id = 'test'}) => Mod(
-          key: '$id-$version',
-          id: id,
-          version: version,
-          title: 'Test Mod',
-          launchPath: '/launch',
-          launchArgs: const [''],
-        );
+      key: '$id-$version',
+      id: id,
+      version: version,
+      title: 'Test Mod',
+      launchPath: '/launch',
+      launchArgs: const [''],
+    );
 
     Release rel(
       int id,
       String version, {
       bool isPlaytest = false,
       String modId = 'test',
-    }) =>
-        Release(
-          modId: modId,
-          id: id,
-          name: '${isPlaytest ? 'Playtest' : 'Release'} $version',
-          version: version,
-          isPlaytest: isPlaytest,
-          htmlUrl: 'https://example.com/$version',
-        );
+    }) => Release(
+      modId: modId,
+      id: id,
+      name: '${isPlaytest ? 'Playtest' : 'Release'} $version',
+      version: version,
+      isPlaytest: isPlaytest,
+      htmlUrl: 'https://example.com/$version',
+    );
 
     ModDatabase db(Set<Release> releases) {
       final byModId = <String, ModDatabaseInfo>{};
 
       for (final release in releases) {
-        final existing = byModId[release.modId] ??
+        final existing =
+            byModId[release.modId] ??
             ModDatabaseInfo(modId: release.modId, title: '');
         byModId[release.modId] = release.isPlaytest
             ? ModDatabaseInfo(
@@ -105,10 +105,8 @@ void main() {
       });
     });
 
-
     group('selectCurrentModReleaseType', () {
-      test('returns release when installed version matches latest release',
-          () {
+      test('returns release when installed version matches latest release', () {
         final state = AppState(
           mods: {stableV100},
           modDatabase: db({rel(41, '1.0.0')}),
@@ -120,18 +118,20 @@ void main() {
         );
       });
 
-      test('returns playtest when installed version matches latest playtest',
-          () {
-        final state = AppState(
-          mods: {playtestV110},
-          modDatabase: db({rel(42, '1.1.0', isPlaytest: true)}),
-        );
+      test(
+        'returns playtest when installed version matches latest playtest',
+        () {
+          final state = AppState(
+            mods: {playtestV110},
+            modDatabase: db({rel(42, '1.1.0', isPlaytest: true)}),
+          );
 
-        expect(
-          selectCurrentModReleaseType(state, playtestV110),
-          ModReleaseType.playtest,
-        );
-      });
+          expect(
+            selectCurrentModReleaseType(state, playtestV110),
+            ModReleaseType.playtest,
+          );
+        },
+      );
 
       test('takes precedence of release over playtest on equal versions', () {
         final state = AppState(
@@ -196,10 +196,7 @@ void main() {
       test('exclude releases for mods that are not installed', () {
         final state = AppState(
           mods: {stableV100},
-          modDatabase: db({
-            rel(10, '1.0.0'),
-            rel(20, '1.1.0', modId: 'other'),
-          }),
+          modDatabase: db({rel(10, '1.0.0'), rel(20, '1.1.0', modId: 'other')}),
         );
 
         expect(selectAvailableReleaseUpdates(state), isEmpty);
@@ -243,8 +240,7 @@ void main() {
     });
 
     group('selectUpdatesCount', () {
-      test('counts outstanding updates only, excluding installed versions',
-          () {
+      test('counts outstanding updates only, excluding installed versions', () {
         final state = AppState(
           mods: {stableV100},
           modDatabase: db({

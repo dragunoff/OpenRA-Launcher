@@ -4,11 +4,7 @@ import 'package:openra_launcher/widgets/card_header.widget.dart';
 import 'package:openra_launcher/widgets/mod_icon.widget.dart';
 
 class ModInfoHeader extends StatelessWidget {
-  const ModInfoHeader({
-    super.key,
-    required this.mod,
-    required this.version,
-  });
+  const ModInfoHeader({super.key, required this.mod, required this.version});
 
   final Mod mod;
   final String version;

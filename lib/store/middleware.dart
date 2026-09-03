@@ -18,16 +18,17 @@ List<Middleware<AppState>> createMiddleware({
   required GetPackageInfo getPackageInfo,
 }) {
   return [
-    TypedMiddleware<AppState, LoadModsAction>(createLoadMods(getInstalledMods))
-        .call,
+    TypedMiddleware<AppState, LoadModsAction>(
+      createLoadMods(getInstalledMods),
+    ).call,
     TypedMiddleware<AppState, ReloadModsAction>(
-            createReloadMods(getInstalledMods))
-        .call,
+      createReloadMods(getInstalledMods),
+    ).call,
     TypedMiddleware<AppState, LoadModDatabaseAction>(
-            createLoadModDatabase(getModDatabase))
-        .call,
+      createLoadModDatabase(getModDatabase),
+    ).call,
     TypedMiddleware<AppState, LoadAppUpdateAction>(
-            createLoadAppUpdate(getLatestAppRelease, getPackageInfo))
-        .call,
+      createLoadAppUpdate(getLatestAppRelease, getPackageInfo),
+    ).call,
   ];
 }

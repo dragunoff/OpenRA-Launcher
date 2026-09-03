@@ -34,5 +34,6 @@ Future<void> main(List<String> args) async {
 
 void _printUsage() {
   stdout.writeln(
-      'Usage: dart run tool/generate_installed_mods_fixtures.dart <create|cleanup> [--support-dir <path>]');
+    'Usage: dart run tool/generate_installed_mods_fixtures.dart <create|cleanup> [--support-dir <path>]',
+  );
 }

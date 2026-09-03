@@ -2,12 +2,13 @@ import 'package:material_ui/material_ui.dart';
 import 'package:openra_launcher/constants/app_constants.dart';
 
 class EmptyState extends StatelessWidget {
-  const EmptyState(
-      {super.key,
-      required this.text,
-      this.buttonText = '',
-      this.buttonIcon,
-      this.buttonOnPressed});
+  const EmptyState({
+    super.key,
+    required this.text,
+    this.buttonText = '',
+    this.buttonIcon,
+    this.buttonOnPressed,
+  });
 
   final String text;
   final String buttonText;
@@ -36,9 +37,10 @@ class EmptyState extends StatelessWidget {
     }
 
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: children,
-    ));
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: children,
+      ),
+    );
   }
 }

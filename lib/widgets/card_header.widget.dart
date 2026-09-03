@@ -24,10 +24,7 @@ class CardHeader extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+              Text(title, style: Theme.of(context).textTheme.titleMedium),
               Text(
                 subtitle ?? '',
                 style: Theme.of(context).textTheme.bodySmall,

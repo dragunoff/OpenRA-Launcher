@@ -27,8 +27,9 @@ class _ModLaunchButtonState extends State<ModLaunchButton> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(AppLocalizations.of(context)!
-            .couldNotLaunchMod(widget.mod.title)),
+        content: Text(
+          AppLocalizations.of(context)!.couldNotLaunchMod(widget.mod.title),
+        ),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -43,20 +44,23 @@ class _ModLaunchButtonState extends State<ModLaunchButton> {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton.icon(
-        icon: const Icon(Icons.rocket),
-        onPressed: () async {
-          if (_isLaunching) {
-            return;
-          }
+      icon: const Icon(Icons.rocket),
+      onPressed: () async {
+        if (_isLaunching) {
+          return;
+        }
 
-          _setIsLaunching(true);
-          _launchMod().whenComplete(() =>
+        _setIsLaunching(true);
+        _launchMod().whenComplete(
+          () =>
               // NOTE: Artificial delay to give feedback that something is going on
               Timer(
                 const Duration(milliseconds: 500),
                 () => _setIsLaunching(false),
-              ));
-        },
-        label: Text(AppLocalizations.of(context)!.launch));
+              ),
+        );
+      },
+      label: Text(AppLocalizations.of(context)!.launch),
+    );
   }
 }

@@ -10,18 +10,20 @@ class MiniYamlUtils {
       'Version',
       'Title',
       'LaunchPath',
-      'LaunchArgs'
+      'LaunchArgs',
     ];
 
     for (final field in mandatoryFields) {
       if (!metadata.containsKey(field)) {
         throw MiniYamlFormatException(
-            'Invalid metadata file: "$file". Mandatory field "$field" is missing.');
+          'Invalid metadata file: "$file". Mandatory field "$field" is missing.',
+        );
       }
 
       if (metadata[field] == '') {
         throw MiniYamlFormatException(
-            'Invalid metadata file: "$file". Field "$field" is empty.');
+          'Invalid metadata file: "$file". Field "$field" is empty.',
+        );
       }
     }
 
@@ -30,7 +32,8 @@ class MiniYamlUtils {
     if (metadata.containsKey('LaunchPath') &&
         metadata['LaunchPath']!.endsWith('.dll')) {
       throw MiniYamlFormatException(
-          'Invalid metadata file: "$file". Field "LaunchPath" is invalid because it points to a DLL.');
+        'Invalid metadata file: "$file". Field "LaunchPath" is invalid because it points to a DLL.',
+      );
     }
 
     return metadata;

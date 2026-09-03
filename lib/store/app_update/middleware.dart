@@ -7,7 +7,9 @@ import 'package:openra_launcher/utils/version_utils.dart';
 import 'package:redux/redux.dart';
 
 Middleware<AppState> createLoadAppUpdate(
-    GetLatestAppRelease getLatestAppRelease, GetPackageInfo getPackageInfo) {
+  GetLatestAppRelease getLatestAppRelease,
+  GetPackageInfo getPackageInfo,
+) {
   return (Store<AppState> store, action, NextDispatcher next) {
     if (!store.state.autoCheckAppUpdates) {
       return;
@@ -22,7 +24,9 @@ Middleware<AppState> createLoadAppUpdate(
           final packageInfo = await getPackageInfo(NoParams()).run();
 
           if (VersionUtils.isNewerVersion(
-              release.version, packageInfo.version)) {
+            release.version,
+            packageInfo.version,
+          )) {
             store.dispatch(AppUpdateLoadedAction(release));
           } else {
             store.dispatch(AppUpdateEmptyAction());

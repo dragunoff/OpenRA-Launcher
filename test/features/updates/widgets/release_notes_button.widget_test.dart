@@ -21,15 +21,14 @@ void main() {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
-        body: Center(
-          child: ReleaseNotesButton(release: testRelease),
-        ),
+        body: Center(child: ReleaseNotesButton(release: testRelease)),
       ),
     );
   }
 
-  testWidgets('pressing the button shows the release notes dialog',
-      (tester) async {
+  testWidgets('pressing the button shows the release notes dialog', (
+    tester,
+  ) async {
     await tester.pumpWidget(buildButton());
 
     expect(find.text('Release notes'), findsOneWidget);

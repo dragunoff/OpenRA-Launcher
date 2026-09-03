@@ -193,6 +193,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  dart_husky:
+    dependency: "direct dev"
+    description:
+      name: dart_husky
+      sha256: "4b84b104ec8751398ef0fb4eee8aed6f888b3749ebdb935c400e10db95bb17c3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.8.1"
   dart_style:
     dependency: transitive
     description:

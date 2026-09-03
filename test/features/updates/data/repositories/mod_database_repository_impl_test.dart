@@ -41,8 +41,9 @@ void main() {
 
       test('should get the mod database from the data source', () async {
         // given
-        when(mockDataSource.getModDatabase())
-            .thenAnswer((_) => TaskEither.right(tDatabase));
+        when(
+          mockDataSource.getModDatabase(),
+        ).thenAnswer((_) => TaskEither.right(tDatabase));
 
         // when
         final result = await repository.getModDatabase().run();
@@ -54,8 +55,9 @@ void main() {
 
       test('should return a failure when an exception is thrown', () async {
         // given
-        when(mockDataSource.getModDatabase())
-            .thenAnswer((_) => TaskEither.left(const ServerFailure()));
+        when(
+          mockDataSource.getModDatabase(),
+        ).thenAnswer((_) => TaskEither.left(const ServerFailure()));
 
         // when
         final result = await repository.getModDatabase().run();

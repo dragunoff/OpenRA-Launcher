@@ -15,12 +15,9 @@ void main() {
   );
 
   group('Mod model', () {
-    test(
-      'should be a subclass of Mod entity',
-      () async {
-        expect(testObj, isA<Mod>());
-      },
-    );
+    test('should be a subclass of Mod entity', () async {
+      expect(testObj, isA<Mod>());
+    });
 
     test('should construct object from MiniYaml file', () {
       final png = TestUtils.getTestPng();
@@ -31,7 +28,9 @@ void main() {
       expect(mod.version, 'release-20210321');
       expect(mod.title, 'Red Alert');
       expect(
-          mod.launchPath, '/home/user/OpenRA/OpenRA-Red-Alert-x86_64.AppImage');
+        mod.launchPath,
+        '/home/user/OpenRA/OpenRA-Red-Alert-x86_64.AppImage',
+      );
       expect(mod.launchArgs, ['Game.Mod=ra']);
       expect(mod.icon, png);
       expect(mod.icon2x, png);

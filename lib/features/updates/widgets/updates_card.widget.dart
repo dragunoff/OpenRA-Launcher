@@ -41,8 +41,7 @@ class UpdatesCard extends StatelessWidget {
                 },
                 label: Text(AppLocalizations.of(context)!.download),
               ),
-              if (release.hasReleaseNotes)
-                ReleaseNotesButton(release: release),
+              if (release.hasReleaseNotes) ReleaseNotesButton(release: release),
             ],
           ),
         );
