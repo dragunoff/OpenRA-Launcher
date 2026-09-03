@@ -4,7 +4,6 @@ import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
-import 'package:openra_launcher/widgets/list_divider.widget.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list_empty_state.widget.dart';
@@ -35,7 +34,6 @@ class InstalledModsHome extends StatelessWidget {
         final List<Widget> children = [];
 
         if (favoriteMods.isNotEmpty) {
-          children.add(ListDivider(l10n.favorites));
           children.add(
             InstalledModsList(
               mods: favoriteMods,
@@ -46,14 +44,12 @@ class InstalledModsHome extends StatelessWidget {
         }
 
         if (installedMods.isNotEmpty) {
-          children.add(ListDivider(l10n.installed));
           children.add(
             InstalledModsList(mods: installedMods, hiddenMods: vm.hiddenMods),
           );
         }
 
         if (devMods.isNotEmpty && vm.showDevMods) {
-          children.add(ListDivider(l10n.development));
           children.add(
             InstalledModsList(mods: devMods, hiddenMods: vm.hiddenMods),
           );

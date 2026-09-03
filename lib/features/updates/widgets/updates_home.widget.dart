@@ -4,7 +4,6 @@ import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
-import 'package:openra_launcher/widgets/list_divider.widget.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_list.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_list_empty_state.widget.dart';
@@ -34,12 +33,10 @@ class UpdatesHome extends StatelessWidget {
         final List<Widget> children = [];
 
         if (vm.releases.isNotEmpty) {
-          children.add(ListDivider(l10n.releaseAvailableSection));
           children.add(UpdatesList(releases: vm.releases));
         }
 
         if (vm.playtests.isNotEmpty) {
-          children.add(ListDivider(l10n.playtestAvailableSection));
           children.add(UpdatesList(releases: vm.playtests));
         }
 
