@@ -20,6 +20,12 @@ This project uses dependency injection codegen.
 dart run build_runner build
 ```
 
+This project uses flutter localization, generate translations with:
+
+```sh
+flutter gen-l10n
+```
+
 ## Run locally
 
 ```sh
