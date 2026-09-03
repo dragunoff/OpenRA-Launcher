@@ -83,26 +83,25 @@ class _HomeScreenState extends State<HomeScreen> {
     final selectedDestination = destinations[_selectedIndex];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: AppConstants.spacing),
-            child: Row(
-              spacing: AppConstants.spacing,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.settings),
-                  onPressed: () => showDialog(
-                    context: context,
-                    builder: (context) => const SettingsDialog(),
-                  ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: AppConstants.spacing),
+          child: Row(
+            spacing: AppConstants.spacing,
+            children: [
+              Text(widget.title),
+              Spacer(),
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => const SettingsDialog(),
                 ),
-                AppBarPopupMenu(),
-              ],
-            ),
+              ),
+              AppBarPopupMenu(),
+            ],
           ),
-        ],
+        ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
