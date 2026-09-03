@@ -6,5 +6,5 @@ class ModConstants {
   static const modDatabaseRepo = 'dragunoff/OpenRA-Mod-Database';
 
   /// Name of the release asset containing the actual mod database JSON.
-  static const modDatabaseAssetName = 'database.json';
+  static const modDatabaseAssetName = 'OpenRA-Mod-Database.json';
 }
