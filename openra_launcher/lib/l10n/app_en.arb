@@ -90,6 +90,7 @@
   "updatesFetchError": "There was an error while fetching updates. Please try again later.",
   "checkNow": "Check now",
   "checkingForUpdates": "Checking for updates...",
+  "fetchingDatabase": "Fetching database...",
   "releaseAvailableSection": "Release available",
   "playtestAvailableSection": "Playtest available",
   "download": "Download",

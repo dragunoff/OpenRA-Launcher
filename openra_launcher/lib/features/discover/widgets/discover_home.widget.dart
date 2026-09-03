@@ -23,7 +23,7 @@ class DiscoverHome extends StatelessWidget {
         if (vm.modsListStatus == DataStatus.loading) {
           return LoadingState(text: l10n.scanningForInstalledMods);
         } else if (vm.modDatabaseStatus == DataStatus.loading) {
-          return LoadingState(text: l10n.checkingForUpdates);
+          return LoadingState(text: l10n.fetchingDatabase);
         }
 
         if (vm.modDatabaseStatus == DataStatus.empty ||
