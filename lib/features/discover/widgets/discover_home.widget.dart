@@ -7,6 +7,7 @@ import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
+import 'package:openra_launcher/widgets/page_layout.widget.dart';
 import 'package:redux/redux.dart';
 
 class DiscoverHome extends StatelessWidget {
@@ -30,11 +31,9 @@ class DiscoverHome extends StatelessWidget {
           return DiscoverListEmptyState(listStatus: vm.modDatabaseStatus);
         }
 
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [DiscoverList(mods: vm.discoverableMods)],
-          ),
+        return PageLayout(
+          header: PageLayoutHeader(title: l10n.discover),
+          children: [DiscoverList(mods: vm.discoverableMods)],
         );
       },
     );

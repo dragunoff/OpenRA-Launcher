@@ -5,6 +5,7 @@ import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
+import 'package:openra_launcher/widgets/page_layout.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list_empty_state.widget.dart';
 import 'package:redux/redux.dart';
@@ -55,11 +56,9 @@ class InstalledModsHome extends StatelessWidget {
           );
         }
 
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: children,
-          ),
+        return PageLayout(
+          header: PageLayoutHeader(title: l10n.mods),
+          children: children,
         );
       },
     );
