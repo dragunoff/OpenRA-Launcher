@@ -41,9 +41,9 @@ class InstalledModsCard extends StatelessWidget {
       ),
       bottom: Row(
         children: [
-          ModReleaseInfoChips(mod: mod),
-          const Spacer(),
           ModLaunchButton(mod: mod),
+          const Spacer(),
+          ModReleaseInfoChips(mod: mod),
         ],
       ),
     );

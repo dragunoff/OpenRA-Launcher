@@ -37,7 +37,6 @@ class DiscoverCard extends StatelessWidget {
       bottom: hasLink
           ? Row(
               children: [
-                const Spacer(),
                 OutlinedButton.icon(
                   icon: const Icon(Icons.open_in_new),
                   onPressed: () async {

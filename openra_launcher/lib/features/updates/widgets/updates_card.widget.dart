@@ -32,7 +32,6 @@ class UpdatesCard extends StatelessWidget {
           topRight: UpdatesCardMenuButton(release: release),
           bottom: Row(
             children: [
-              Spacer(),
               OutlinedButton.icon(
                 icon: const Icon(Icons.download),
                 onPressed: () async {
