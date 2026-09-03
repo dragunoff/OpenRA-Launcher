@@ -19,7 +19,7 @@
   },
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-  "postCreateCommand": "flutter pub get && flutter pub run build_runner build",
+  "postCreateCommand": "flutter pub get && dart run build_runner build && flutter gen-l10n",
   "remoteUser": "vscode",
   "forwardPorts": [8081, 5037]
 }
