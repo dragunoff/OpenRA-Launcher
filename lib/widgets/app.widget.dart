@@ -26,10 +26,131 @@ class OpenRALauncher extends StatelessWidget {
         light: ThemeData(
           colorSchemeSeed: Colors.red,
           brightness: Brightness.light,
+          cardTheme: CardThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            border: UnderlineInputBorder(borderSide: BorderSide()),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide()),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide()),
+            errorBorder: UnderlineInputBorder(borderSide: BorderSide()),
+          ),
+          chipTheme: ChipThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          dialogTheme: DialogThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          bottomSheetTheme: BottomSheetThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          navigationBarTheme: NavigationBarThemeData(
+            indicatorShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          navigationRailTheme: NavigationRailThemeData(
+            indicatorShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          segmentedButtonTheme: SegmentedButtonThemeData(
+            style: SegmentedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
         ),
         dark: ThemeData(
           colorSchemeSeed: Colors.red,
           brightness: Brightness.dark,
+          cardTheme: CardThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            border: UnderlineInputBorder(borderSide: BorderSide()),
+            enabledBorder: UnderlineInputBorder(borderSide: BorderSide()),
+            focusedBorder: UnderlineInputBorder(borderSide: BorderSide()),
+            errorBorder: UnderlineInputBorder(borderSide: BorderSide()),
+          ),
+          chipTheme: ChipThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          dialogTheme: DialogThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          bottomSheetTheme: BottomSheetThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          navigationBarTheme: NavigationBarThemeData(
+            indicatorShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+          navigationRailTheme: NavigationRailThemeData(
+            indicatorShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
         ),
         initial: savedThemeMode ?? AdaptiveThemeMode.system,
         builder: (theme, darkTheme) => MaterialApp(
