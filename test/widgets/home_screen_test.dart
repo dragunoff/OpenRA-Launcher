@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:openra_launcher/features/discover/widgets/discover_home.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_home.widget.dart';
+import 'package:openra_launcher/features/server_browser/widgets/server_browser_home.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_home.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -44,6 +45,12 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(DiscoverHome), findsOneWidget);
+    expect(find.byType(InstalledModsHome), findsNothing);
+
+    await tester.tap(find.text('Games'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ServerBrowserHome), findsOneWidget);
     expect(find.byType(InstalledModsHome), findsNothing);
   });
 }

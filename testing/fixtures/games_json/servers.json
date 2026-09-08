@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "name": "Red Alert #1",
+    "address": "127.0.0.1:6243",
+    "state": 1,
+    "ttl": 60,
+    "mod": "ra",
+    "version": "release-20210321",
+    "modtitle": "Red Alert",
+    "modwebsite": "https://www.openra.net",
+    "modicon32": "https://www.openra.net/images/icons/ra_32x32.png",
+    "map": "3fd30f1a3be2ed85e2dbdfd3c5f7e2a1b4c69031",
+    "players": 2,
+    "maxplayers": 8,
+    "bots": 0,
+    "spectators": 1,
+    "protected": true,
+    "authentication": false,
+    "location": "Bulgaria",
+    "disabled_spawn_points": "2, 4",
+    "clients": [
+      {
+        "name": "Test Player",
+        "fingerprint": "00111101000111100",
+        "color": "A8F0F2",
+        "faction": "Soviet",
+        "team": 0,
+        "spawnpoint": 1,
+        "isadmin": true,
+        "isspectator": false,
+        "isbot": false
+      },
+      {
+        "name": "User-Spectator",
+        "fingerprint": "",
+        "color": "FFFFFF",
+        "faction": "Random",
+        "team": 0,
+        "spawnpoint": 0,
+        "isadmin": false,
+        "isspectator": true,
+        "isbot": false
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Tiberian Dawn Match",
+    "address": "192.168.1.10:6243",
+    "state": 2,
+    "ttl": 42,
+    "mod": "cnc",
+    "version": "release-20210321",
+    "modtitle": "Tiberian Dawn",
+    "modwebsite": "https://www.openra.net",
+    "modicon32": "https://www.openra.net/images/icons/cnc_32x32.png",
+    "map": "9c9ca21b34b2f799cac4692003d0f4bcc2a46a33",
+    "players": 4,
+    "maxplayers": 6,
+    "bots": 0,
+    "spectators": 0,
+    "protected": false,
+    "authentication": true,
+    "started": 1736198400,
+    "playtime": 1200,
+    "clients": [
+      {
+        "name": "Nod Commander",
+        "fingerprint": "",
+        "color": "0000FF",
+        "faction": "Nod",
+        "team": 1,
+        "spawnpoint": 2,
+        "isadmin": false,
+        "isspectator": false,
+        "isbot": false
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Dune 2000 Lobby",
+    "address": "10.0.0.5:6243",
+    "state": 1,
+    "ttl": 15,
+    "mod": "d2k",
+    "version": "release-20210321",
+    "modtitle": "Dune 2000",
+    "modwebsite": "https://www.openra.net",
+    "modicon32": "https://www.openra.net/images/icons/d2k_32x32.png",
+    "map": "7bb818fc674d62af05dba4dda3451f3d2e941a4b",
+    "players": 0,
+    "maxplayers": 4,
+    "bots": 0,
+    "spectators": 0,
+    "protected": false,
+    "authentication": false,
+    "clients": []
+  }
+]

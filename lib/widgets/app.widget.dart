@@ -8,6 +8,7 @@ import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/app_update/actions.dart';
 import 'package:openra_launcher/store/installed_mods/actions.dart';
+import 'package:openra_launcher/store/server_list/actions.dart';
 import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:openra_launcher/theme/app_theme.dart';
 import 'package:openra_launcher/widgets/home_screen.widget.dart';
@@ -49,6 +50,7 @@ class OpenRALauncher extends StatelessWidget {
                     vm.loadInstalledMods();
                     vm.loadAppUpdate();
                     vm.loadModDatabase();
+                    vm.loadServerList();
                   },
                 );
               }),
@@ -64,11 +66,13 @@ class _ViewModel {
   final VoidCallback loadInstalledMods;
   final VoidCallback loadAppUpdate;
   final VoidCallback loadModDatabase;
+  final VoidCallback loadServerList;
 
   _ViewModel({
     required this.loadInstalledMods,
     required this.loadAppUpdate,
     required this.loadModDatabase,
+    required this.loadServerList,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -76,6 +80,7 @@ class _ViewModel {
       loadInstalledMods: () => store.dispatch(LoadModsAction()),
       loadAppUpdate: () => store.dispatch(LoadAppUpdateAction()),
       loadModDatabase: () => store.dispatch(LoadModDatabaseAction()),
+      loadServerList: () => store.dispatch(LoadServerListAction()),
     );
   }
 }

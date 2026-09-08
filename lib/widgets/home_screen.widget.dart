@@ -5,6 +5,7 @@ import 'package:openra_launcher/features/app_update/domain/entities/app_release.
 import 'package:openra_launcher/features/app_update/widgets/app_update_dialog.widget.dart';
 import 'package:openra_launcher/features/discover/widgets/discover_home.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_home.widget.dart';
+import 'package:openra_launcher/features/server_browser/widgets/server_browser_home.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_home.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -71,6 +72,13 @@ class _HomeScreenState extends State<HomeScreen> {
         icon: Icons.update,
         selectedIcon: Icons.update,
         content: const UpdatesHome(),
+      ),
+      _HomeDestination(
+        id: 'games',
+        label: l10n.games,
+        icon: Icons.sports_esports,
+        selectedIcon: Icons.sports_esports,
+        content: const ServerBrowserHome(),
       ),
       _HomeDestination(
         id: 'discover',
