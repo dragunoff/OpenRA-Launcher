@@ -23,7 +23,7 @@ class UnhideModButton extends StatelessWidget {
           waitDuration: AppConstants.tooltipWaitDuration,
           child: IconButton(
             iconSize: 16,
-            icon: const Icon(Icons.visibility_off),
+            icon: const Icon(Icons.visibility),
             onPressed: unhideCallback,
           ),
         );
