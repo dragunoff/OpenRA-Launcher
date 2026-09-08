@@ -92,8 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(widget.title),
               Spacer(),
-              const SettingsButton(),
               const ToggleHiddenModsButton(),
+              const SettingsButton(),
               const AboutThisAppButton(),
             ],
           ),

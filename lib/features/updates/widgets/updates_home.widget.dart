@@ -47,7 +47,7 @@ class UpdatesHome extends StatelessWidget {
             title: l10n.updates,
             trailing: TextButton.icon(
               onPressed: vm.loadUpdates,
-              icon: const Icon(Icons.update),
+              icon: const Icon(Icons.refresh),
               label: Text(l10n.checkForUpdates),
             ),
           ),
