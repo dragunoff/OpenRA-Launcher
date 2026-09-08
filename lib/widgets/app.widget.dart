@@ -34,30 +34,20 @@ class OpenRALauncher extends StatelessWidget {
         light: ThemeData(
           colorSchemeSeed: Colors.red,
           brightness: Brightness.light,
-          cardTheme: CardThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
+          cardTheme: CardThemeData(shape: AppConstants.roundedRectangleBorder),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
+              shape: AppConstants.roundedRectangleBorder,
             ),
           ),
           outlinedButtonTheme: OutlinedButtonThemeData(
             style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
+              shape: AppConstants.roundedRectangleBorder,
             ),
           ),
           textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
+              shape: AppConstants.roundedRectangleBorder,
             ),
           ),
           inputDecorationTheme: InputDecorationTheme(
@@ -67,66 +57,44 @@ class OpenRALauncher extends StatelessWidget {
             errorBorder: UnderlineInputBorder(borderSide: BorderSide()),
           ),
           chipTheme: ChipThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            shape: AppConstants.roundedRectangleBorder,
             labelStyle: _chipLabelStyle(Brightness.light),
           ),
           dialogTheme: DialogThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            shape: AppConstants.roundedRectangleBorder,
           ),
           bottomSheetTheme: BottomSheetThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            shape: AppConstants.roundedRectangleBorder,
           ),
           navigationBarTheme: NavigationBarThemeData(
-            indicatorShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            indicatorShape: AppConstants.roundedRectangleBorder,
           ),
           navigationRailTheme: NavigationRailThemeData(
-            indicatorShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            indicatorShape: AppConstants.roundedRectangleBorder,
           ),
           segmentedButtonTheme: SegmentedButtonThemeData(
             style: SegmentedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
+              shape: AppConstants.roundedRectangleBorder,
             ),
           ),
         ),
         dark: ThemeData(
           colorSchemeSeed: Colors.red,
           brightness: Brightness.dark,
-          cardTheme: CardThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
+          cardTheme: CardThemeData(shape: AppConstants.roundedRectangleBorder),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
+              shape: AppConstants.roundedRectangleBorder,
             ),
           ),
           outlinedButtonTheme: OutlinedButtonThemeData(
             style: OutlinedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
+              shape: AppConstants.roundedRectangleBorder,
             ),
           ),
           textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
+              shape: AppConstants.roundedRectangleBorder,
             ),
           ),
           inputDecorationTheme: InputDecorationTheme(
@@ -136,30 +104,20 @@ class OpenRALauncher extends StatelessWidget {
             errorBorder: UnderlineInputBorder(borderSide: BorderSide()),
           ),
           chipTheme: ChipThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            shape: AppConstants.roundedRectangleBorder,
             labelStyle: _chipLabelStyle(Brightness.dark),
           ),
           dialogTheme: DialogThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            shape: AppConstants.roundedRectangleBorder,
           ),
           bottomSheetTheme: BottomSheetThemeData(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            shape: AppConstants.roundedRectangleBorder,
           ),
           navigationBarTheme: NavigationBarThemeData(
-            indicatorShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            indicatorShape: AppConstants.roundedRectangleBorder,
           ),
           navigationRailTheme: NavigationRailThemeData(
-            indicatorShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
+            indicatorShape: AppConstants.roundedRectangleBorder,
           ),
         ),
         initial: savedThemeMode ?? AdaptiveThemeMode.system,
