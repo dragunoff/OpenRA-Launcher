@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/injection.dart';
@@ -8,7 +9,6 @@ import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
 import 'package:openra_launcher/features/updates/widgets/release_notes_button.widget.dart';
 import 'package:openra_launcher/features/updates/widgets/updates_card_menu_button.widget.dart';
-import 'package:openra_launcher/widgets/button_row.widget.dart';
 import 'package:openra_launcher/widgets/card_layout.widget.dart';
 import 'package:openra_launcher/widgets/mod_info_header.widget.dart';
 
@@ -34,7 +34,8 @@ class UpdatesCard extends StatelessWidget {
         return CardLayout(
           header: ModInfoHeader(mod: mod, version: release.version),
           topRight: UpdatesCardMenuButton(release: release),
-          bottom: ButtonRow(
+          bottom: Row(
+            spacing: AppConstants.spacing,
             children: [
               OutlinedButton.icon(
                 icon: const Icon(Icons.download),
