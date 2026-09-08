@@ -28,6 +28,7 @@
   "checkForUpdates": "Check for updates",
   "showDevMods": "Show dev mods",
   "showHiddenMods": "Show hidden mods",
+  "toggleHiddenMods": "Toggle hidden mods",
   "aboutThisApp": "About this app",
   "appLegalese": "glhf by dragunoff",
   "checkForAppUpdatesOnStartup": "Check for app updates on startup",
