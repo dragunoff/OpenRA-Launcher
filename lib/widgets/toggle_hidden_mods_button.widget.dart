@@ -14,8 +14,8 @@ class _ViewModel {
   final VoidCallback toggleHiddenMods;
 }
 
-class ShowHiddenModsButton extends StatelessWidget {
-  const ShowHiddenModsButton({super.key});
+class ToggleHiddenModsButton extends StatelessWidget {
+  const ToggleHiddenModsButton({super.key});
 
   @override
   Widget build(BuildContext context) {
