@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:openra_launcher/widgets/page_layout.widget.dart';
@@ -42,7 +43,14 @@ class UpdatesHome extends StatelessWidget {
         }
 
         return PageLayout(
-          header: PageLayoutHeader(title: l10n.updates),
+          header: PageLayoutHeader(
+            title: l10n.updates,
+            trailing: TextButton.icon(
+              onPressed: vm.loadUpdates,
+              icon: const Icon(Icons.update),
+              label: Text(l10n.checkForUpdates),
+            ),
+          ),
           children: children,
         );
       },
@@ -55,12 +63,14 @@ class _ViewModel {
   final Set<Release> playtests;
   final DataStatus modsListStatus;
   final DataStatus modDatabaseStatus;
+  final VoidCallback loadUpdates;
 
   _ViewModel({
     required this.releases,
     required this.playtests,
     required this.modsListStatus,
     required this.modDatabaseStatus,
+    required this.loadUpdates,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -81,6 +91,7 @@ class _ViewModel {
       playtests: filterHidden(selectAvailablePlaytestUpdates(store.state)),
       modsListStatus: store.state.modsListStatus,
       modDatabaseStatus: store.state.modDatabaseStatus,
+      loadUpdates: () => store.dispatch(LoadModDatabaseAction()),
     );
   }
 }

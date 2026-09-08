@@ -5,6 +5,7 @@ import 'package:openra_launcher/features/discover/widgets/discover_list_empty_st
 import 'package:openra_launcher/features/updates/domain/entities/mod_database_info.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:openra_launcher/widgets/page_layout.widget.dart';
@@ -32,7 +33,14 @@ class DiscoverHome extends StatelessWidget {
         }
 
         return PageLayout(
-          header: PageLayoutHeader(title: l10n.discover),
+          header: PageLayoutHeader(
+            title: l10n.discover,
+            trailing: TextButton.icon(
+              onPressed: vm.loadDatabase,
+              icon: const Icon(Icons.refresh),
+              label: Text(l10n.refreshDatabase),
+            ),
+          ),
           children: [DiscoverList(mods: vm.discoverableMods)],
         );
       },
@@ -44,11 +52,13 @@ class _ViewModel {
   final Set<ModDatabaseInfo> discoverableMods;
   final DataStatus modsListStatus;
   final DataStatus modDatabaseStatus;
+  final VoidCallback loadDatabase;
 
   _ViewModel({
     required this.discoverableMods,
     required this.modsListStatus,
     required this.modDatabaseStatus,
+    required this.loadDatabase,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -56,6 +66,7 @@ class _ViewModel {
       discoverableMods: selectDiscoverableMods(store.state),
       modsListStatus: store.state.modsListStatus,
       modDatabaseStatus: store.state.modDatabaseStatus,
+      loadDatabase: () => store.dispatch(LoadModDatabaseAction()),
     );
   }
 }

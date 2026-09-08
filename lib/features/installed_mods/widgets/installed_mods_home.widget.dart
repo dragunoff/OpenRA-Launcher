@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/installed_mods/actions.dart';
 import 'package:openra_launcher/store/installed_mods/selectors.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:openra_launcher/widgets/page_layout.widget.dart';
@@ -57,7 +58,14 @@ class InstalledModsHome extends StatelessWidget {
         }
 
         return PageLayout(
-          header: PageLayoutHeader(title: l10n.mods),
+          header: PageLayoutHeader(
+            title: l10n.mods,
+            trailing: TextButton.icon(
+              onPressed: vm.reloadMods,
+              icon: const Icon(Icons.refresh),
+              label: Text(l10n.refreshMods),
+            ),
+          ),
           children: children,
         );
       },
@@ -72,6 +80,7 @@ class _ViewModel {
   final Set<String> hiddenMods;
   final bool showDevMods;
   final DataStatus modsListStatus;
+  final VoidCallback reloadMods;
 
   _ViewModel({
     required this.installedMods,
@@ -80,6 +89,7 @@ class _ViewModel {
     required this.hiddenMods,
     required this.showDevMods,
     required this.modsListStatus,
+    required this.reloadMods,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -99,6 +109,7 @@ class _ViewModel {
       hiddenMods: store.state.hiddenMods,
       showDevMods: store.state.showDevMods,
       modsListStatus: store.state.modsListStatus,
+      reloadMods: () => store.dispatch(ReloadModsAction()),
     );
   }
 }

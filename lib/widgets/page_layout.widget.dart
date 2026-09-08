@@ -19,15 +19,23 @@ class PageLayout extends StatelessWidget {
 }
 
 class PageLayoutHeader extends StatelessWidget {
-  const PageLayoutHeader({super.key, required this.title});
+  const PageLayoutHeader({super.key, required this.title, this.trailing});
 
   final String title;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(AppConstants.spacing2x),
-      child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+          ),
+          ?trailing,
+        ],
+      ),
     );
   }
 }

@@ -25,6 +25,7 @@
   "discoverFetchError": "There was an error while fetching mods. Please try again later.",
   "switchColorTheme": "Switch color theme",
   "refreshMods": "Refresh mods",
+  "refreshDatabase": "Refresh database",
   "checkForUpdates": "Check for updates",
   "showDevMods": "Show dev mods",
   "showHiddenMods": "Show hidden mods",

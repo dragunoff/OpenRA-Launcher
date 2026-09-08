@@ -10,7 +10,6 @@ import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/about_this_app_button.widget.dart';
-import 'package:openra_launcher/widgets/app_bar_popup_menu.widget.dart';
 import 'package:openra_launcher/widgets/settings_button.widget.dart';
 import 'package:openra_launcher/widgets/toggle_hidden_mods_button.widget.dart';
 
@@ -96,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
               const SettingsButton(),
               const ToggleHiddenModsButton(),
               const AboutThisAppButton(),
-              AppBarPopupMenu(),
             ],
           ),
         ),
