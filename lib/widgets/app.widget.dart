@@ -12,6 +12,14 @@ import 'package:openra_launcher/store/updates/actions.dart';
 import 'package:openra_launcher/widgets/home_screen.widget.dart';
 import 'package:redux/redux.dart';
 
+TextStyle _chipLabelStyle(Brightness brightness) {
+  final scheme = ColorScheme.fromSeed(
+    seedColor: Colors.red,
+    brightness: brightness,
+  );
+  return AppConstants.chipTextStyle.copyWith(color: scheme.onSurfaceVariant);
+}
+
 class OpenRALauncher extends StatelessWidget {
   const OpenRALauncher({super.key, required this.store, this.savedThemeMode});
   final Store<AppState> store;
@@ -62,6 +70,7 @@ class OpenRALauncher extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4),
             ),
+            labelStyle: _chipLabelStyle(Brightness.light),
           ),
           dialogTheme: DialogThemeData(
             shape: RoundedRectangleBorder(
@@ -130,6 +139,7 @@ class OpenRALauncher extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4),
             ),
+            labelStyle: _chipLabelStyle(Brightness.dark),
           ),
           dialogTheme: DialogThemeData(
             shape: RoundedRectangleBorder(

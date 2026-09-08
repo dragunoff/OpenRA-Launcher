@@ -1,6 +1,5 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/updates/domain/entities/release.dart';
 import 'package:openra_launcher/injection.dart';
@@ -48,7 +47,6 @@ class UpdatesCard extends StatelessWidget {
               const Spacer(),
               Chip(
                 label: Text(release.isPlaytest ? l10n.playtest : l10n.release),
-                labelStyle: AppConstants.chipTextStyle,
               ),
             ],
           ),

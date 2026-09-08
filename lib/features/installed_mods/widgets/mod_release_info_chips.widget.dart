@@ -14,10 +14,7 @@ class ModReleaseInfoChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (ModUtils.isDevMod(mod)) {
-      return Chip(
-        label: Text(AppLocalizations.of(context)!.devModVersion),
-        labelStyle: AppConstants.chipTextStyle,
-      );
+      return Chip(label: Text(AppLocalizations.of(context)!.devModVersion));
     }
 
     return StoreConnector<AppState, _ViewModel>(
@@ -37,28 +34,15 @@ class ModReleaseInfoChips extends StatelessWidget {
         }
 
         if (!vm.isSupported) {
-          return Chip(
-            label: Text(l10n.updatesNotSupported),
-            labelStyle: AppConstants.chipTextStyle,
-          );
+          return Chip(label: Text(l10n.updatesNotSupported));
         }
 
         switch (vm.currentReleaseType) {
           case ModReleaseType.release:
-            chips.add(
-              Chip(
-                label: Text(l10n.currentRelease),
-                labelStyle: AppConstants.chipTextStyle,
-              ),
-            );
+            chips.add(Chip(label: Text(l10n.currentRelease)));
             break;
           case ModReleaseType.playtest:
-            chips.add(
-              Chip(
-                label: Text(l10n.currentPlaytest),
-                labelStyle: AppConstants.chipTextStyle,
-              ),
-            );
+            chips.add(Chip(label: Text(l10n.currentPlaytest)));
             break;
           case ModReleaseType.none:
             break;
