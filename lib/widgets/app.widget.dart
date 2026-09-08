@@ -23,8 +23,14 @@ class OpenRALauncher extends StatelessWidget {
     return StoreProvider<AppState>(
       store: store,
       child: AdaptiveTheme(
-        light: ThemeData.light(),
-        dark: ThemeData.dark(),
+        light: ThemeData(
+          colorSchemeSeed: Colors.red,
+          brightness: Brightness.light,
+        ),
+        dark: ThemeData(
+          colorSchemeSeed: Colors.red,
+          brightness: Brightness.dark,
+        ),
         initial: savedThemeMode ?? AdaptiveThemeMode.system,
         builder: (theme, darkTheme) => MaterialApp(
           title: title,
