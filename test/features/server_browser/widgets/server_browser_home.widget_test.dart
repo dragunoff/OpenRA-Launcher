@@ -360,7 +360,7 @@ void main() {
     expect(find.byIcon(Icons.star), findsNothing);
   });
 
-  testWidgets('shows a dev badge for dev-mod groups', (tester) async {
+  testWidgets('shows DEV VERSION label for dev-mod groups', (tester) async {
     final devGame = GameServer(
       id: 3,
       name: 'Dev Lobby',
@@ -384,7 +384,7 @@ void main() {
       AppState(serverListStatus: DataStatus.loaded, servers: [devGame]),
     );
 
-    expect(find.text('dev'), findsOneWidget);
+    expect(find.text('DEV VERSION'), findsOneWidget);
     expect(find.text('[{DEV_VERSION}]'), findsNothing);
     expect(find.byIcon(Icons.star), findsNothing);
   });

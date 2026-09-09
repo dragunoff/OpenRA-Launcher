@@ -6,6 +6,7 @@ import 'package:openra_launcher/features/installed_mods/widgets/mod_actions_menu
 import 'package:openra_launcher/features/installed_mods/widgets/mod_launch_button.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/mod_release_info_chips.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/unhide_mod_button.widget.dart';
+import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/widgets/card_layout.widget.dart';
 import 'package:openra_launcher/widgets/mod_info_header.widget.dart';
 
@@ -26,7 +27,9 @@ class InstalledModsCard extends StatelessWidget {
     return CardLayout(
       header: ModInfoHeader(
         mod: mod,
-        version: ModUtils.isDevMod(mod) ? '' : mod.version,
+        version: ModUtils.isDevMod(mod)
+            ? AppLocalizations.of(context)!.devModVersion
+            : mod.version,
       ),
       topRight: Row(
         mainAxisSize: MainAxisSize.min,

@@ -44,10 +44,11 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('omits version string for a dev mod', (tester) async {
+  testWidgets('shows DEV VERSION label for a dev mod', (tester) async {
     await pumpCard(tester, mod(ModConstants.devModVersion));
 
     expect(find.text(ModConstants.devModVersion), findsNothing);
+    expect(find.text('DEV VERSION'), findsOneWidget);
   });
 
   testWidgets('shows version string for a normal mod', (tester) async {

@@ -49,7 +49,7 @@ class ServerList extends StatelessWidget {
                   ? _ModIcon(url: group.iconUrl!)
                   : const ImagePlaceholder(),
               title: group.title,
-              subtitle: group.isDev ? '' : group.version,
+              subtitle: group.isDev ? l10n.devModVersion : group.version,
             ),
             topRight: Row(
               mainAxisSize: MainAxisSize.min,
@@ -61,7 +61,6 @@ class ServerList extends StatelessWidget {
                 const Icon(Icons.people_outline, size: 16),
                 const SizedBox(width: 4),
                 Text('${group.playerCount}'),
-                if (group.isDev) ...[const SizedBox(width: 8), _DevBadge()],
               ],
             ),
             bottom: DataTable(
@@ -112,29 +111,6 @@ class ServerList extends StatelessWidget {
               : const SizedBox.shrink(),
         ),
       ],
-    );
-  }
-}
-
-class _DevBadge extends StatelessWidget {
-  const _DevBadge();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Text(
-        AppLocalizations.of(context)!.dev,
-        style: theme.textTheme.labelSmall?.copyWith(
-          color: theme.colorScheme.onSecondaryContainer,
-        ),
-      ),
     );
   }
 }

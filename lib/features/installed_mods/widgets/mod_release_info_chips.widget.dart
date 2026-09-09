@@ -14,7 +14,7 @@ class ModReleaseInfoChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (ModUtils.isDevMod(mod)) {
-      return Chip(label: Text(AppLocalizations.of(context)!.devModVersion));
+      return const SizedBox.shrink();
     }
 
     return StoreConnector<AppState, _ViewModel>(

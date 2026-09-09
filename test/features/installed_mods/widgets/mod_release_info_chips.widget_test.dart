@@ -78,15 +78,15 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('shows a single dev version chip for a dev mod', (tester) async {
+  testWidgets('shows no chips for a dev mod', (tester) async {
     await pumpChips(
       tester,
       stateWith(mods: {mod('{DEV_VERSION}')}),
       mod('{DEV_VERSION}'),
     );
 
-    expect(find.byType(Chip), findsOneWidget);
-    expect(find.text('DEV VERSION'), findsOneWidget);
+    expect(find.byType(Chip), findsNothing);
+    expect(find.text('DEV VERSION'), findsNothing);
   });
 
   testWidgets('shows nothing while the updates fetch is in its initial state', (
