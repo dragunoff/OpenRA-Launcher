@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server_group.dart';
 import 'package:openra_launcher/features/server_browser/widgets/join_button.widget.dart';
@@ -37,22 +38,23 @@ class ServerList extends StatelessWidget {
               children: [
                 _ModGroupHeader(group: group),
                 DataTable(
+                  columnSpacing: AppConstants.spacing3x,
                   columns: [
                     DataColumn(
                       label: Text(l10n.game),
-                      columnWidth: const FlexColumnWidth(),
+                      columnWidth: const FlexColumnWidth(4),
                     ),
                     DataColumn(
                       label: Text(l10n.status),
-                      columnWidth: const FlexColumnWidth(),
+                      columnWidth: const IntrinsicColumnWidth(),
                     ),
                     DataColumn(
                       label: Text(l10n.players),
-                      columnWidth: const FlexColumnWidth(),
+                      columnWidth: const IntrinsicColumnWidth(),
                     ),
                     DataColumn(
                       label: Text(l10n.location),
-                      columnWidth: const FlexColumnWidth(),
+                      columnWidth: const FlexColumnWidth(2),
                     ),
                     DataColumn(
                       label: const SizedBox.shrink(),
