@@ -74,6 +74,50 @@ void main() {
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 
+  testWidgets('groups the games by mod and version', (tester) async {
+    final redAlert = gameServer();
+
+    final dune = GameServer(
+      id: 2,
+      name: 'Dune 2000 Lobby',
+      address: '127.0.0.1:6244',
+      state: 1,
+      ttl: 60,
+      mod: 'd2k',
+      version: 'release-20250330',
+      map: 'map-hash-2',
+      players: 0,
+      maxPlayers: 6,
+      bots: 0,
+      spectators: 0,
+      protected: false,
+      authentication: false,
+      location: 'Germany',
+    );
+
+    await pumpServerBrowser(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [dune, redAlert]),
+    );
+
+    expect(find.byType(DataTable), findsNWidgets(2));
+    expect(find.text('Red Alert'), findsOneWidget);
+    expect(find.text('Dune 2000'), findsOneWidget);
+    expect(find.text('[release-20210321]'), findsOneWidget);
+    expect(find.text('[release-20250330]'), findsOneWidget);
+    expect(find.text('Dune 2000 Lobby'), findsOneWidget);
+  });
+
+  testWidgets('shows the player count in the group header', (tester) async {
+    await pumpServerBrowser(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
+    );
+
+    // The fixture server has 2 players and 1 spectator.
+    expect(find.text('3'), findsOneWidget);
+  });
+
   testWidgets('shows an empty state when there are no games', (tester) async {
     await pumpServerBrowser(
       tester,

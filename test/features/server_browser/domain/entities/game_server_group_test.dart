@@ -1,0 +1,141 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
+import 'package:openra_launcher/features/server_browser/domain/entities/game_server_group.dart';
+
+void main() {
+  GameServer server({
+    int id = 1,
+    String mod = 'ra',
+    String? modTitle,
+    String version = 'release-20210321',
+    int state = 1,
+    int players = 0,
+    int spectators = 0,
+    String? started,
+    String? modIcon32,
+    String? modWebsite,
+  }) {
+    return GameServer(
+      id: id,
+      name: 'Game $id',
+      address: '127.0.0.1:$id',
+      state: state,
+      ttl: 60,
+      mod: mod,
+      version: version,
+      modTitle: modTitle,
+      modWebsite: modWebsite,
+      modIcon32: modIcon32,
+      map: 'map-hash',
+      players: players,
+      maxPlayers: 8,
+      bots: 0,
+      spectators: spectators,
+      protected: false,
+      authentication: false,
+      location: 'Bulgaria',
+      started: started,
+    );
+  }
+
+  group('groupServersByModAndVersion', () {
+    test('groups servers by mod title and version', () {
+      final groups = groupServersByModAndVersion([
+        server(id: 1, mod: 'ra', modTitle: 'Red Alert'),
+        server(id: 2, mod: 'd2k', modTitle: 'Dune 2000'),
+        server(id: 3, mod: 'ra', modTitle: 'Red Alert', version: 'playtest'),
+        server(id: 4, mod: 'ra', modTitle: 'Red Alert'),
+      ]);
+
+      expect(groups, hasLength(3));
+      final redAlert = groups.singleWhere(
+        (g) => g.title == 'Red Alert' && g.version == 'release-20210321',
+      );
+      expect(redAlert.title, 'Red Alert');
+      expect(redAlert.servers, hasLength(2));
+    });
+
+    test('falls back to a known title for official mods', () {
+      final groups = groupServersByModAndVersion([
+        server(mod: 'ra'),
+        server(mod: 'cnc'),
+        server(mod: 'd2k', version: 'x'),
+      ]);
+
+      expect(
+        groups.map((g) => g.title),
+        unorderedEquals(['Red Alert', 'Tiberian Dawn', 'Dune 2000']),
+      );
+    });
+
+    test('labels unknown mods without a title', () {
+      final groups = groupServersByModAndVersion([server(mod: 'custom-mod')]);
+
+      expect(groups.single.title, 'Unknown Mod "custom-mod"');
+    });
+
+    test('truncates long mod titles', () {
+      final title = 'x' * (maxModTitleLength + 10);
+      final groups = groupServersByModAndVersion([server(modTitle: title)]);
+
+      expect(groups.single.title, hasLength(maxModTitleLength));
+    });
+
+    test('carries the mod icon and website from the server', () {
+      final groups = groupServersByModAndVersion([
+        server(
+          mod: 'ra',
+          modTitle: 'Red Alert',
+          modIcon32: 'icon.png',
+          modWebsite: 'https://openra.net',
+        ),
+      ]);
+
+      expect(groups.single.iconUrl, 'icon.png');
+      expect(groups.single.website, 'https://openra.net');
+    });
+
+    test('sums players and spectators as the player count', () {
+      final groups = groupServersByModAndVersion([
+        server(id: 1, players: 2, spectators: 1),
+        server(id: 2, players: 3, spectators: 0),
+      ]);
+
+      expect(groups.single.playerCount, 6);
+    });
+
+    test('orders groups by player count, most played first', () {
+      final groups = groupServersByModAndVersion([
+        server(id: 1, mod: 'ra', players: 1),
+        server(id: 2, mod: 'd2k', players: 8),
+        server(id: 3, mod: 'cnc', players: 4),
+      ]);
+
+      expect(groups.map((g) => g.playerCount), orderedEquals([8, 4, 1]));
+    });
+
+    test('sorts servers within a group as the in-game browser does', () {
+      final groups = groupServersByModAndVersion([
+        server(id: 1, state: 1, players: 0, spectators: 2),
+        server(id: 2, state: 2, players: 4, started: '2026-01-06 12:00:00'),
+        server(id: 3, state: 1, players: 5),
+        server(id: 4, state: 0, players: 0),
+      ]);
+
+      expect(
+        groups.single.servers.map((s) => s.id),
+        orderedEquals([3, 1, 2, 4]),
+      );
+    });
+
+    test('orders in-progress games by start time, newest first', () {
+      final groups = groupServersByModAndVersion([
+        server(id: 1, state: 2, started: '2026-01-06 09:00:00'),
+        server(id: 2, state: 2, started: '2026-01-06 12:00:00'),
+        server(id: 3, state: 2, started: '2026-01-06 10:00:00'),
+      ]);
+
+      expect(groups.single.servers.map((s) => s.id), orderedEquals([2, 3, 1]));
+    });
+  });
+}
