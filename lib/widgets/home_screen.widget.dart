@@ -60,9 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final destinations = <_HomeDestination>[
       _HomeDestination(
         id: 'mods',
-        label: l10n.mods,
-        icon: Icons.list,
-        selectedIcon: Icons.list,
+        label: l10n.installed,
+        icon: Icons.widgets,
+        selectedIcon: Icons.widgets,
         content: const InstalledModsHome(),
       ),
       _HomeDestination(
@@ -82,8 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
       _HomeDestination(
         id: 'discover',
         label: l10n.discover,
-        icon: Icons.travel_explore,
-        selectedIcon: Icons.travel_explore,
+        icon: Icons.explore,
+        selectedIcon: Icons.explore,
         content: const DiscoverHome(),
       ),
     ];

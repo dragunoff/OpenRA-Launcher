@@ -61,7 +61,7 @@ class InstalledModsHome extends StatelessWidget {
 
         return PageLayout(
           header: PageLayoutHeader(
-            title: l10n.mods,
+            title: l10n.installed,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               spacing: AppConstants.spacing,
