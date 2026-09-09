@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:openra_launcher/constants/mod_constants.dart';
+import 'package:openra_launcher/core/error/error_reporter.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/network/http_client_service.dart';
 import 'package:openra_launcher/features/updates/data/models/mod_database_model.dart';
@@ -20,8 +22,12 @@ class ModDatabaseDataSourceImpl implements ModDatabaseDataSource {
   );
 
   final HttpClientService httpClientService;
+  final ErrorReporter reportError;
 
-  ModDatabaseDataSourceImpl({required this.httpClientService});
+  ModDatabaseDataSourceImpl({
+    required this.httpClientService,
+    this.reportError = defaultErrorReporter,
+  });
 
   @override
   TaskEither<ServerFailure, ModDatabase> getModDatabase() {
@@ -39,6 +45,15 @@ class ModDatabaseDataSourceImpl implements ModDatabaseDataSource {
         return ModDatabaseModel.fromJson(database);
       },
       (error, stackTrace) {
+        reportError(
+          FlutterErrorDetails(
+            exception: error,
+            stack: stackTrace,
+            library: 'updates',
+            context: ErrorDescription('fetching mod database'),
+          ),
+        );
+
         return ServerFailure(error.toString());
       },
     );

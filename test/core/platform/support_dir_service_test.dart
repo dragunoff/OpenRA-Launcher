@@ -1,4 +1,5 @@
 import 'package:file/memory.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -17,19 +18,23 @@ import 'support_dir_service_test.mocks.dart';
 void main() {
   Platform mockPlatform = MockPlatform();
   MemoryFileSystem mockFileSystem = MemoryFileSystem();
+  final reportedErrors = <FlutterErrorDetails>[];
   SupportDirServiceImpl supportDirService = SupportDirServiceImpl(
     platform: mockPlatform,
     fileSystem: mockFileSystem,
+    reportError: reportedErrors.add,
   );
 
   setUp(() {
     PathProviderPlatform.instance = FakePathProviderPlatform();
 
+    reportedErrors.clear();
     mockPlatform = MockPlatform();
     mockFileSystem = MemoryFileSystem();
     supportDirService = SupportDirServiceImpl(
       platform: mockPlatform,
       fileSystem: mockFileSystem,
+      reportError: reportedErrors.add,
     );
   });
 
@@ -49,6 +54,7 @@ void main() {
             (failure) => expect(failure, isA<FileSystemFailure>()),
             (dirs) => fail('Expected Either.Left'),
           );
+          expect(reportedErrors.length, 1);
         });
       });
 

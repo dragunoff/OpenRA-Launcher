@@ -1,4 +1,5 @@
 import 'package:openra_launcher/core/platform/get_package_info.dart';
+import 'package:openra_launcher/core/version_service.dart';
 import 'package:openra_launcher/features/app_update/use_cases/get_latest_app_release.dart';
 import 'package:openra_launcher/features/installed_mods/domain/use_cases/get_installed_mods.dart';
 import 'package:openra_launcher/features/server_browser/domain/use_cases/get_server_list.dart';
@@ -20,6 +21,7 @@ List<Middleware<AppState>> createMiddleware({
   required GetLatestAppRelease getLatestAppRelease,
   required GetPackageInfo getPackageInfo,
   required GetServerList getServerList,
+  required VersionService versionService,
 }) {
   return [
     TypedMiddleware<AppState, LoadModsAction>(
@@ -32,7 +34,7 @@ List<Middleware<AppState>> createMiddleware({
       createLoadModDatabase(getModDatabase),
     ).call,
     TypedMiddleware<AppState, LoadAppUpdateAction>(
-      createLoadAppUpdate(getLatestAppRelease, getPackageInfo),
+      createLoadAppUpdate(getLatestAppRelease, getPackageInfo, versionService),
     ).call,
     TypedMiddleware<AppState, LoadServerListAction>(
       createLoadServerList(getServerList),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -14,8 +15,10 @@ import 'mod_database_data_source_test.mocks.dart';
 
 void main() {
   final mockClient = MockHttpClientService();
+  final reportedErrors = <FlutterErrorDetails>[];
   ModDatabaseDataSourceImpl dataSource = ModDatabaseDataSourceImpl(
     httpClientService: mockClient,
+    reportError: reportedErrors.add,
   );
 
   final tReleaseResponse = TestUtils.getJsonStringFromFile(
@@ -32,7 +35,11 @@ void main() {
   );
 
   setUp(() {
-    dataSource = ModDatabaseDataSourceImpl(httpClientService: mockClient);
+    reportedErrors.clear();
+    dataSource = ModDatabaseDataSourceImpl(
+      httpClientService: mockClient,
+      reportError: reportedErrors.add,
+    );
 
     reset(mockClient);
     when(
@@ -77,6 +84,7 @@ void main() {
           (failure) => expect(failure, isA<ServerFailure>()),
           (result) => fail('Expected Either.Left'),
         );
+        expect(reportedErrors.length, 1);
       });
 
       test(
@@ -96,6 +104,7 @@ void main() {
             (failure) => expect(failure, isA<ServerFailure>()),
             (result) => fail('Expected Either.Left'),
           );
+          expect(reportedErrors.length, 1);
         },
       );
 

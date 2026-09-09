@@ -1,6 +1,8 @@
 import 'package:file/file.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
+import 'package:openra_launcher/core/error/error_reporter.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -15,8 +17,13 @@ abstract class SupportDirService {
 class SupportDirServiceImpl implements SupportDirService {
   final Platform platform;
   final FileSystem fileSystem;
+  final ErrorReporter reportError;
 
-  SupportDirServiceImpl({required this.platform, required this.fileSystem});
+  SupportDirServiceImpl({
+    required this.platform,
+    required this.fileSystem,
+    this.reportError = defaultErrorReporter,
+  });
 
   @override
   TaskEither<FileSystemFailure, Set<Directory>> getAllSupportDirs() {
@@ -63,6 +70,15 @@ class SupportDirServiceImpl implements SupportDirService {
             .toSet();
       },
       (error, stackTrace) {
+        reportError(
+          FlutterErrorDetails(
+            exception: error,
+            stack: stackTrace,
+            library: 'core',
+            context: ErrorDescription('getting support directories'),
+          ),
+        );
+
         return FileSystemFailure(error.toString());
       },
     );
