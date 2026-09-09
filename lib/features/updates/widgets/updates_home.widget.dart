@@ -32,14 +32,8 @@ class UpdatesHome extends StatelessWidget {
           return UpdatesListEmptyState(listStatus: vm.modDatabaseStatus);
         }
 
-        final List<Widget> children = [];
-
-        if (vm.releases.isNotEmpty) {
-          children.add(UpdatesList(releases: vm.releases));
-        }
-
-        if (vm.playtests.isNotEmpty) {
-          children.add(UpdatesList(releases: vm.playtests));
+        if (vm.updates.isEmpty) {
+          return const UpdatesListEmptyState(listStatus: DataStatus.empty);
         }
 
         return PageLayout(
@@ -51,7 +45,7 @@ class UpdatesHome extends StatelessWidget {
               label: Text(l10n.checkForUpdates),
             ),
           ),
-          children: children,
+          children: [UpdatesList(updates: vm.updates)],
         );
       },
     );
@@ -59,15 +53,13 @@ class UpdatesHome extends StatelessWidget {
 }
 
 class _ViewModel {
-  final Set<Release> releases;
-  final Set<Release> playtests;
+  final Set<Release> updates;
   final DataStatus modsListStatus;
   final DataStatus modDatabaseStatus;
   final VoidCallback loadUpdates;
 
   _ViewModel({
-    required this.releases,
-    required this.playtests,
+    required this.updates,
     required this.modsListStatus,
     required this.modDatabaseStatus,
     required this.loadUpdates,
@@ -79,15 +71,12 @@ class _ViewModel {
         .map((mod) => mod.id)
         .toSet();
 
-    Set<Release> filterHidden(Set<Release> releases) {
-      return releases
-          .where((release) => !hiddenModIds.contains(release.modId))
-          .toSet();
-    }
+    final updates = selectAvailableUpdates(
+      store.state,
+    ).where((release) => !hiddenModIds.contains(release.modId)).toSet();
 
     return _ViewModel(
-      releases: filterHidden(selectAvailableReleaseUpdates(store.state)),
-      playtests: filterHidden(selectAvailablePlaytestUpdates(store.state)),
+      updates: updates,
       modsListStatus: store.state.modsListStatus,
       modDatabaseStatus: store.state.modDatabaseStatus,
       loadUpdates: () => store.dispatch(LoadModDatabaseAction()),

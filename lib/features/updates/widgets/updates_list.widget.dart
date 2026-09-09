@@ -4,16 +4,16 @@ import 'package:openra_launcher/features/updates/widgets/updates_card.widget.dar
 import 'package:openra_launcher/widgets/card_list_layout.widget.dart';
 
 class UpdatesList extends StatelessWidget {
-  const UpdatesList({super.key, required this.releases});
+  const UpdatesList({super.key, required this.updates});
 
-  final Set<Release> releases;
+  final Set<Release> updates;
 
   @override
   Widget build(BuildContext context) {
     return CardListLayout(
-      itemCount: releases.length,
+      itemCount: updates.length,
       itemBuilder: (context, index) =>
-          UpdatesCard(release: releases.elementAt(index)),
+          UpdatesCard(release: updates.elementAt(index)),
     );
   }
 }

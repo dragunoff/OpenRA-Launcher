@@ -164,46 +164,6 @@ void main() {
       });
     });
 
-    group('selectAvailableReleaseUpdates / selectAvailablePlaytestUpdates', () {
-      test('exclude versions installed by any copy of the mod', () {
-        final state = AppState(
-          mods: {stableV100, playtestV110},
-          modDatabase: db({
-            rel(10, '1.0.0'),
-            rel(20, '1.1.0', isPlaytest: true),
-          }),
-        );
-
-        expect(selectAvailableReleaseUpdates(state), isEmpty);
-        expect(selectAvailablePlaytestUpdates(state), isEmpty);
-      });
-
-      test('keep versions that are not installed', () {
-        final state = AppState(
-          mods: {stableV100},
-          modDatabase: db({
-            rel(10, '1.0.0'),
-            rel(20, '1.1.0', isPlaytest: true),
-          }),
-        );
-
-        expect(selectAvailableReleaseUpdates(state), isEmpty);
-        final availablePlaytests = selectAvailablePlaytestUpdates(state);
-        expect(availablePlaytests, hasLength(1));
-        expect(availablePlaytests.first.version, '1.1.0');
-      });
-
-      test('exclude releases for mods that are not installed', () {
-        final state = AppState(
-          mods: {stableV100},
-          modDatabase: db({rel(10, '1.0.0'), rel(20, '1.1.0', modId: 'other')}),
-        );
-
-        expect(selectAvailableReleaseUpdates(state), isEmpty);
-        expect(selectAvailablePlaytestUpdates(state), isEmpty);
-      });
-    });
-
     group('selectIsModSupported', () {
       test('returns true when a release exists for the mod', () {
         final state = AppState(
@@ -236,6 +196,67 @@ void main() {
         final state = AppState(mods: {stableV100}, modDatabase: db({}));
 
         expect(selectIsModSupported(state, 'test'), isFalse);
+      });
+    });
+
+    group('selectAvailableUpdates', () {
+      test('unions outstanding releases and playtests', () {
+        final state = AppState(
+          mods: {stableV100},
+          modDatabase: db({
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
+            rel(30, '2.0.0'),
+          }),
+        );
+
+        expect(
+          selectAvailableUpdates(state).map((r) => r.version),
+          containsAll(['1.1.0', '2.0.0']),
+        );
+      });
+
+      test('keeps releases before playtests in database order', () {
+        final state = AppState(
+          mods: {stableV100},
+          modDatabase: db({
+            rel(10, '1.0.0'),
+            rel(30, '1.1.0', isPlaytest: true),
+            rel(20, '0.9.0'),
+          }),
+        );
+
+        final versions = selectAvailableUpdates(
+          state,
+        ).map((r) => r.version).toList();
+
+        expect(versions, ['0.9.0', '1.1.0']);
+      });
+
+      test('excludes installed versions and non-installed mods', () {
+        final state = AppState(
+          mods: {stableV100},
+          modDatabase: db({
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
+            rel(30, '3.0.0', modId: 'other'),
+          }),
+        );
+
+        expect(selectAvailableUpdates(state), hasLength(1));
+        expect(selectAvailableUpdates(state).first.version, '1.1.0');
+      });
+
+      test('returns empty when all updates are installed', () {
+        final state = AppState(
+          mods: {stableV100, playtestV110},
+          modDatabase: db({
+            rel(10, '1.0.0'),
+            rel(20, '1.1.0', isPlaytest: true),
+          }),
+        );
+
+        expect(selectAvailableUpdates(state), isEmpty);
       });
     });
 

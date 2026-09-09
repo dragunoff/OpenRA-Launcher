@@ -70,29 +70,21 @@ bool selectIsModSupported(AppState state, String modId) {
   return _allReleases(state).any((release) => release.modId == modId);
 }
 
-/// Releases that are not installed by any copy of their mod.
-Set<Release> selectAvailableReleaseUpdates(AppState state) {
-  return _filterInstalled(state, selectReleaseUpdates(state));
-}
-
-/// Playtests that are not installed by any copy of their mod.
-Set<Release> selectAvailablePlaytestUpdates(AppState state) {
-  return _filterInstalled(state, selectPlaytestUpdates(state));
+/// All outstanding updates (stable releases and playtests) for installed
+/// mods, in mod database order (releases followed by playtests per mod).
+Set<Release> selectAvailableUpdates(AppState state) {
+  return _filterInstalled(state, _allReleases(state));
 }
 
 int selectUpdatesCount(AppState state) {
-  final availableUpdates = selectAvailableReleaseUpdates(
-    state,
-  ).union(selectAvailablePlaytestUpdates(state));
-
   final hiddenModIds = state.mods
       .where((mod) => state.hiddenMods.contains(mod.key))
       .map((mod) => mod.id)
       .toSet();
 
-  return availableUpdates
-      .where((release) => !hiddenModIds.contains(release.modId))
-      .length;
+  return selectAvailableUpdates(
+    state,
+  ).where((release) => !hiddenModIds.contains(release.modId)).length;
 }
 
 /// Returns the mods present in the mod database that are not installed on the
