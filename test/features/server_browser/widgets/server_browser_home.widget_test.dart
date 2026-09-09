@@ -2,9 +2,11 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:openra_launcher/constants/mod_constants.dart';
 import 'package:openra_launcher/core/error/error_reporter.dart';
 import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
+import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
 import 'package:openra_launcher/features/server_browser/widgets/server_browser_home.widget.dart';
 import 'package:openra_launcher/features/server_browser/widgets/server_status_badge.widget.dart';
@@ -55,6 +57,55 @@ void main() {
   late _FakeOpenExternalUrl openExternalUrl;
   TaskEither<PlatformFailure, bool> joinResult = TaskEither.right(true);
 
+  Set<Mod> defaultInstalledMods() => {
+    const Mod(
+      key: 'ra-release-20210321',
+      id: 'ra',
+      version: 'release-20210321',
+      title: 'Red Alert',
+      launchPath: '',
+      launchArgs: [''],
+    ),
+    const Mod(
+      key: 'd2k-release-20250330',
+      id: 'd2k',
+      version: 'release-20250330',
+      title: 'Dune 2000',
+      launchPath: '',
+      launchArgs: [''],
+    ),
+    const Mod(
+      key: 'ra-${ModConstants.devModVersion}',
+      id: 'ra',
+      version: ModConstants.devModVersion,
+      title: 'Red Alert',
+      launchPath: '',
+      launchArgs: [''],
+    ),
+  };
+
+  AppState withDefaultMods(AppState state) {
+    if (state.mods.isNotEmpty) {
+      return state;
+    }
+
+    return AppState(
+      mods: defaultInstalledMods(),
+      modDatabase: state.modDatabase,
+      servers: state.servers,
+      favoriteMods: state.favoriteMods,
+      hiddenMods: state.hiddenMods,
+      modsListStatus: state.modsListStatus,
+      modDatabaseStatus: state.modDatabaseStatus,
+      serverListStatus: state.serverListStatus,
+      autoCheckAppUpdates: state.autoCheckAppUpdates,
+      showDevMods: state.showDevMods,
+      showHiddenMods: state.showHiddenMods,
+      serverStatusFilter: state.serverStatusFilter,
+      appRelease: state.appRelease,
+    );
+  }
+
   setUp(() {
     getIt.reset();
   });
@@ -67,9 +118,11 @@ void main() {
     openExternalUrl = _FakeOpenExternalUrl(joinResult);
     getIt.registerSingleton<OpenExternalUrl>(openExternalUrl);
 
+    final initialState = withDefaultMods(state);
+
     await tester.pumpWidget(
       StoreProvider<AppState>(
-        store: Store<AppState>((state, _) => state, initialState: state),
+        store: Store<AppState>((state, _) => state, initialState: initialState),
         child: MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -87,9 +140,11 @@ void main() {
     openExternalUrl = _FakeOpenExternalUrl(joinResult);
     getIt.registerSingleton<OpenExternalUrl>(openExternalUrl);
 
+    final initialState = withDefaultMods(state);
+
     await tester.pumpWidget(
       StoreProvider<AppState>(
-        store: Store<AppState>(appReducer, initialState: state),
+        store: Store<AppState>(appReducer, initialState: initialState),
         child: MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -353,6 +408,38 @@ void main() {
       ),
       findsOneWidget,
     );
+  });
+
+  testWidgets('hides servers for mods that are not installed', (tester) async {
+    final tiberianSun = GameServer(
+      id: 4,
+      name: 'Tiberian Sun Lobby',
+      address: '127.0.0.1:6248',
+      state: 1,
+      ttl: 60,
+      mod: 'ts',
+      version: 'release-20230801',
+      map: 'map-hash-3',
+      players: 3,
+      maxPlayers: 8,
+      bots: 0,
+      spectators: 0,
+      protected: false,
+      authentication: false,
+      location: 'UK',
+    );
+
+    await pumpServerBrowser(
+      tester,
+      AppState(
+        serverListStatus: DataStatus.loaded,
+        servers: [gameServer(), tiberianSun],
+      ),
+    );
+
+    expect(find.text('Red Alert #1'), findsOneWidget);
+    expect(find.text('Tiberian Sun Lobby'), findsNothing);
+    expect(find.text('Tiberian Sun'), findsNothing);
   });
 
   testWidgets('hides empty servers by default', (tester) async {

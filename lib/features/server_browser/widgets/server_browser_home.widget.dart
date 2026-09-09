@@ -32,9 +32,14 @@ class ServerBrowserHome extends StatelessWidget {
           return ServerListEmptyState(listStatus: vm.serverListStatus);
         }
 
-        final visibleServers = vm.servers
-            .where((s) => vm.visibleStatuses.contains(s.status))
-            .toList();
+        final visibleServers = vm.servers.where((server) {
+          if (!vm.visibleStatuses.contains(server.status)) {
+            return false;
+          }
+          return vm.installedModKeys.contains(
+            '${server.mod}-${server.version}',
+          );
+        }).toList();
 
         return PageLayout(
           header: PageLayoutHeader(
@@ -72,6 +77,7 @@ class _ViewModel {
   final Set<String> favoriteModKeys;
   final DataStatus serverListStatus;
   final Set<GameServerStatus> visibleStatuses;
+  final Set<String> installedModKeys;
   final VoidCallback reloadServerList;
   final void Function(GameServerStatus status) toggleStatusFilter;
 
@@ -80,6 +86,7 @@ class _ViewModel {
     required this.favoriteModKeys,
     required this.serverListStatus,
     required this.visibleStatuses,
+    required this.installedModKeys,
     required this.reloadServerList,
     required this.toggleStatusFilter,
   });
@@ -90,6 +97,7 @@ class _ViewModel {
       favoriteModKeys: store.state.favoriteMods,
       serverListStatus: store.state.serverListStatus,
       visibleStatuses: store.state.serverStatusFilter,
+      installedModKeys: store.state.mods.map((mod) => mod.key).toSet(),
       reloadServerList: () => store.dispatch(ReloadServerListAction()),
       toggleStatusFilter: (status) =>
           store.dispatch(ToggleServerStatusFilterAction(status)),
