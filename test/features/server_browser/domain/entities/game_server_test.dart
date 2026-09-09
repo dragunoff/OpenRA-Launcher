@@ -41,4 +41,31 @@ void main() {
       expect(gameServerWith(state: 3).status, GameServerStatus.empty);
     });
   });
+
+  group('GameServer.isJoinable', () {
+    test('accepts a waiting game with free slots', () {
+      expect(gameServerWith(state: 1, players: 3).isJoinable, isTrue);
+    });
+
+    test('rejects a waiting game that is full', () {
+      expect(gameServerWith(state: 1, players: 8).isJoinable, isFalse);
+    });
+
+    test('rejects a game in progress', () {
+      expect(gameServerWith(state: 2, players: 3).isJoinable, isFalse);
+    });
+
+    test('accepts an empty game', () {
+      expect(gameServerWith(state: 1, players: 0).isJoinable, isTrue);
+    });
+  });
+
+  group('GameServer.joinUri', () {
+    test('builds the openra launch URI from mod, version and address', () {
+      expect(
+        gameServerWith(state: 1).joinUri,
+        'openra-ra-release-20210321://127.0.0.1:6243',
+      );
+    });
+  });
 }

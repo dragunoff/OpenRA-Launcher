@@ -1,8 +1,13 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:openra_launcher/core/error/error_reporter.dart';
+import 'package:openra_launcher/core/error/failures.dart';
+import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
 import 'package:openra_launcher/features/server_browser/widgets/server_browser_home.widget.dart';
+import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
@@ -27,7 +32,21 @@ void main() {
     location: 'Bulgaria',
   );
 
+  late _FakeOpenExternalUrl openExternalUrl;
+  TaskEither<PlatformFailure, bool> joinResult = TaskEither.right(true);
+
+  setUp(() {
+    getIt.reset();
+  });
+
+  tearDown(() {
+    getIt.reset();
+  });
+
   Future<void> pumpServerBrowser(WidgetTester tester, AppState state) async {
+    openExternalUrl = _FakeOpenExternalUrl(joinResult);
+    getIt.registerSingleton<OpenExternalUrl>(openExternalUrl);
+
     await tester.pumpWidget(
       StoreProvider<AppState>(
         store: Store<AppState>((state, _) => state, initialState: state),
@@ -118,6 +137,76 @@ void main() {
     expect(find.text('3'), findsOneWidget);
   });
 
+  testWidgets('shows a Join button for a joinable game', (tester) async {
+    await pumpServerBrowser(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
+    );
+
+    expect(find.text('Join'), findsOneWidget);
+  });
+
+  testWidgets('hides the Join button when the game cannot be joined', (
+    tester,
+  ) async {
+    final playing = GameServer(
+      id: 2,
+      name: 'Red Alert in Progress',
+      address: '127.0.0.1:6245',
+      state: 2,
+      ttl: 60,
+      mod: 'ra',
+      version: 'release-20210321',
+      map: 'map-hash',
+      players: 4,
+      maxPlayers: 8,
+      bots: 0,
+      spectators: 0,
+      protected: false,
+      authentication: false,
+      location: 'Germany',
+    );
+
+    await pumpServerBrowser(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [playing]),
+    );
+
+    expect(find.text('Join'), findsNothing);
+  });
+
+  testWidgets('opens the join URI when pressing Join', (tester) async {
+    await pumpServerBrowser(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
+    );
+
+    await tester.tap(find.text('Join'));
+    await tester.pumpAndSettle();
+
+    expect(openExternalUrl.urls, [
+      'openra-ra-release-20210321://127.0.0.1:6243',
+    ]);
+    expect(find.byType(SnackBar), findsNothing);
+  });
+
+  testWidgets('shows an error snackbar when joining fails', (tester) async {
+    joinResult = TaskEither.left(const PlatformFailure('boom'));
+
+    await pumpServerBrowser(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
+    );
+
+    await tester.tap(find.text('Join'));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('Could not open openra-ra-release-20210321://127.0.0.1:6243'),
+      findsOneWidget,
+    );
+  });
+
   testWidgets('shows an empty state when there are no games', (tester) async {
     await pumpServerBrowser(
       tester,
@@ -140,4 +229,20 @@ void main() {
       findsOneWidget,
     );
   });
+}
+
+class _FakeOpenExternalUrl implements OpenExternalUrl {
+  _FakeOpenExternalUrl(this._result);
+
+  final TaskEither<PlatformFailure, bool> _result;
+  final List<String> urls = [];
+
+  @override
+  final ErrorReporter reportError = defaultErrorReporter;
+
+  @override
+  TaskEither<PlatformFailure, bool> call(String url) {
+    urls.add(url);
+    return _result;
+  }
 }

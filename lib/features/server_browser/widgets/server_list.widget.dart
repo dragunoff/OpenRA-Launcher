@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server_group.dart';
+import 'package:openra_launcher/features/server_browser/widgets/join_button.widget.dart';
 import 'package:openra_launcher/features/server_browser/widgets/server_status_badge.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 
@@ -156,16 +157,16 @@ class _ServerNameCell extends StatelessWidget {
       icons.add(const Icon(Icons.badge_outlined, size: 16));
     }
 
-    if (icons.isNotEmpty) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(child: Text(server.name, overflow: TextOverflow.ellipsis)),
-          if (icons.isNotEmpty) ...[const SizedBox(width: 4), ...icons],
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(child: Text(server.name, overflow: TextOverflow.ellipsis)),
+        if (icons.isNotEmpty) ...[const SizedBox(width: 4), ...icons],
+        if (server.isJoinable) ...[
+          const SizedBox(width: 8),
+          JoinButton(server: server),
         ],
-      );
-    }
-
-    return Text(server.name, overflow: TextOverflow.ellipsis);
+      ],
+    );
   }
 }

@@ -61,6 +61,14 @@ class GameServer {
 
     return GameServerStatus.empty;
   }
+
+  /// Whether the game can be joined, mirroring the web server browser.
+  bool get isJoinable =>
+      (status == GameServerStatus.waiting && players < maxPlayers) ||
+      status == GameServerStatus.empty;
+
+  /// URI used to launch the game and connect to the server.
+  String get joinUri => 'openra-$mod-$version://$address';
 }
 
 @immutable

@@ -31,6 +31,7 @@
   "status": "Status",
   "players": "Players",
   "location": "Location",
+  "join": "Join",
   "gameStatusWaiting": "Waiting",
   "gameStatusPlaying": "Playing",
   "gameStatusEmpty": "Empty",
