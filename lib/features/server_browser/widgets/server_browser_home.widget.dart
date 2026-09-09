@@ -33,12 +33,14 @@ class ServerBrowserHome extends StatelessWidget {
         }
 
         final visibleServers = vm.servers.where((server) {
+          final key = '${server.mod}-${server.version}';
           if (!vm.visibleStatuses.contains(server.status)) {
             return false;
           }
-          return vm.installedModKeys.contains(
-            '${server.mod}-${server.version}',
-          );
+          if (!vm.showHiddenMods && vm.hiddenModKeys.contains(key)) {
+            return false;
+          }
+          return vm.installedModKeys.contains(key);
         }).toList();
 
         return PageLayout(
@@ -64,6 +66,7 @@ class ServerBrowserHome extends StatelessWidget {
             ServerList(
               servers: visibleServers,
               favoriteModKeys: vm.favoriteModKeys,
+              hiddenModKeys: vm.hiddenModKeys,
             ),
           ],
         );
@@ -78,6 +81,8 @@ class _ViewModel {
   final DataStatus serverListStatus;
   final Set<GameServerStatus> visibleStatuses;
   final Set<String> installedModKeys;
+  final Set<String> hiddenModKeys;
+  final bool showHiddenMods;
   final VoidCallback reloadServerList;
   final void Function(GameServerStatus status) toggleStatusFilter;
 
@@ -87,6 +92,8 @@ class _ViewModel {
     required this.serverListStatus,
     required this.visibleStatuses,
     required this.installedModKeys,
+    required this.hiddenModKeys,
+    required this.showHiddenMods,
     required this.reloadServerList,
     required this.toggleStatusFilter,
   });
@@ -98,6 +105,8 @@ class _ViewModel {
       serverListStatus: store.state.serverListStatus,
       visibleStatuses: store.state.serverStatusFilter,
       installedModKeys: store.state.mods.map((mod) => mod.key).toSet(),
+      hiddenModKeys: store.state.hiddenMods,
+      showHiddenMods: store.state.showHiddenMods,
       reloadServerList: () => store.dispatch(ReloadServerListAction()),
       toggleStatusFilter: (status) =>
           store.dispatch(ToggleServerStatusFilterAction(status)),

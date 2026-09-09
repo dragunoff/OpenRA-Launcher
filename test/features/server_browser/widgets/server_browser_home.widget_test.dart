@@ -13,6 +13,7 @@ import 'package:openra_launcher/features/server_browser/widgets/server_status_ba
 import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/hidden_mods/actions.dart';
 import 'package:openra_launcher/store/reducer.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:redux/redux.dart';
@@ -440,6 +441,98 @@ void main() {
     expect(find.text('Red Alert #1'), findsOneWidget);
     expect(find.text('Tiberian Sun Lobby'), findsNothing);
     expect(find.text('Tiberian Sun'), findsNothing);
+  });
+
+  testWidgets('hides servers for hidden mods', (tester) async {
+    final dune = GameServer(
+      id: 2,
+      name: 'Dune 2000 Lobby',
+      address: '127.0.0.1:6244',
+      state: 1,
+      ttl: 60,
+      mod: 'd2k',
+      version: 'release-20250330',
+      map: 'map-hash-2',
+      players: 2,
+      maxPlayers: 6,
+      bots: 0,
+      spectators: 0,
+      protected: false,
+      authentication: false,
+      location: 'Germany',
+    );
+
+    await pumpServerBrowser(
+      tester,
+      AppState(
+        serverListStatus: DataStatus.loaded,
+        servers: [gameServer(), dune],
+        hiddenMods: {'ra-release-20210321'},
+      ),
+    );
+
+    expect(find.text('Red Alert #1'), findsNothing);
+    expect(find.text('Dune 2000 Lobby'), findsOneWidget);
+  });
+
+  testWidgets(
+    'shows servers for hidden mods with an indicator when showHiddenMods is on',
+    (tester) async {
+      await pumpServerBrowser(
+        tester,
+        AppState(
+          serverListStatus: DataStatus.loaded,
+          servers: [gameServer()],
+          hiddenMods: {'ra-release-20210321'},
+          showHiddenMods: true,
+        ),
+      );
+
+      expect(find.text('Red Alert #1'), findsOneWidget);
+      expect(find.byIcon(Icons.visibility_off), findsOneWidget);
+    },
+  );
+
+  testWidgets('does not show a hidden indicator for visible mods', (
+    tester,
+  ) async {
+    await pumpServerBrowser(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
+    );
+
+    expect(find.byIcon(Icons.visibility_off), findsNothing);
+  });
+
+  testWidgets('hides servers immediately after hiding a mod', (tester) async {
+    final store = Store<AppState>(
+      appReducer,
+      initialState: withDefaultMods(
+        AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
+      ),
+    );
+    openExternalUrl = _FakeOpenExternalUrl(joinResult);
+    getIt.registerSingleton<OpenExternalUrl>(openExternalUrl);
+
+    await tester.pumpWidget(
+      StoreProvider<AppState>(
+        store: store,
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const Scaffold(body: ServerBrowserHome()),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Red Alert #1'), findsOneWidget);
+
+    store.dispatch(HideModAction(defaultInstalledMods().first));
+
+    await tester.pumpAndSettle();
+
+    expect(find.text('Red Alert #1'), findsNothing);
   });
 
   testWidgets('hides empty servers by default', (tester) async {
