@@ -16,9 +16,9 @@ class CardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: AppConstants.spacing,
       children: [
         leading,
-        const SizedBox(width: AppConstants.spacing2x),
         Expanded(
           child: Column(
             mainAxisSize: MainAxisSize.min,

@@ -64,9 +64,9 @@ class InstalledModsHome extends StatelessWidget {
             title: l10n.mods,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
+              spacing: AppConstants.spacing,
               children: [
                 const ToggleHiddenModsButton(),
-                const SizedBox(width: AppConstants.spacing2x),
                 TextButton.icon(
                   onPressed: vm.reloadMods,
                   icon: const Icon(Icons.refresh),

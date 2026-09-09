@@ -49,12 +49,12 @@ class ServerBrowserHome extends StatelessWidget {
             title: l10n.games,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
+              spacing: AppConstants.spacing,
               children: [
                 ServerStatusFilter(
                   visibleStatuses: vm.visibleStatuses,
                   onChanged: vm.toggleStatusFilter,
                 ),
-                const SizedBox(width: AppConstants.spacing2x),
                 TextButton.icon(
                   onPressed: vm.reloadServerList,
                   icon: const Icon(Icons.refresh),
