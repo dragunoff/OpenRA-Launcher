@@ -85,8 +85,6 @@ int selectUpdatesCount(AppState state) {
     state,
   ).union(selectAvailablePlaytestUpdates(state));
 
-  if (state.showHiddenMods) return availableUpdates.length;
-
   final hiddenModIds = state.mods
       .where((mod) => state.hiddenMods.contains(mod.key))
       .map((mod) => mod.id)

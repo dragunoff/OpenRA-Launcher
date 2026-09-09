@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:openra_launcher/constants/app_constants.dart';
 import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
@@ -9,6 +10,7 @@ import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:openra_launcher/widgets/page_layout.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list.widget.dart';
 import 'package:openra_launcher/features/installed_mods/widgets/installed_mods_list_empty_state.widget.dart';
+import 'package:openra_launcher/widgets/toggle_hidden_mods_button.widget.dart';
 import 'package:redux/redux.dart';
 
 class InstalledModsHome extends StatelessWidget {
@@ -60,10 +62,17 @@ class InstalledModsHome extends StatelessWidget {
         return PageLayout(
           header: PageLayoutHeader(
             title: l10n.mods,
-            trailing: TextButton.icon(
-              onPressed: vm.reloadMods,
-              icon: const Icon(Icons.refresh),
-              label: Text(l10n.refreshMods),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const ToggleHiddenModsButton(),
+                const SizedBox(width: AppConstants.spacing2x),
+                TextButton.icon(
+                  onPressed: vm.reloadMods,
+                  icon: const Icon(Icons.refresh),
+                  label: Text(l10n.refreshMods),
+                ),
+              ],
             ),
           ),
           children: children,

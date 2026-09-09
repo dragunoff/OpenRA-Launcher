@@ -18,7 +18,6 @@ class GameServerGroup {
     required this.servers,
     required this.mod,
     this.isFavorite = false,
-    this.isHidden = false,
   });
 
   final String title;
@@ -38,9 +37,6 @@ class GameServerGroup {
   /// Whether the installed mod for this group is a favorite.
   final bool isFavorite;
 
-  /// Whether the installed mod for this group is hidden.
-  final bool isHidden;
-
   /// Whether the group advertises an in-development mod build.
   bool get isDev => version == ModConstants.devModVersion;
 
@@ -59,7 +55,6 @@ class GameServerGroup {
 List<GameServerGroup> groupServersByModAndVersion(
   List<GameServer> servers, {
   Set<String> favoriteModKeys = const {},
-  Set<String> hiddenModKeys = const {},
 }) {
   final groups = <String, List<GameServer>>{};
 
@@ -84,7 +79,6 @@ List<GameServerGroup> groupServersByModAndVersion(
       ),
       mod: server.mod,
       isFavorite: favoriteModKeys.contains('${server.mod}-${server.version}'),
-      isHidden: hiddenModKeys.contains('${server.mod}-${server.version}'),
       servers: groupServers,
     );
   }).toList()..sort(_compareGroups);

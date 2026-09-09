@@ -194,21 +194,6 @@ void main() {
       expect(other.isFavorite, isFalse);
     });
 
-    test('marks a group as hidden when its key is in hiddenModKeys', () {
-      final groups = groupServersByModAndVersion(
-        [
-          server(id: 1, mod: 'ra', version: 'release-20210321'),
-          server(id: 2, mod: 'ra', version: 'playtest-20210314'),
-        ],
-        hiddenModKeys: {'ra-release-20210321'},
-      );
-
-      final hidden = groups.singleWhere((g) => g.version == 'release-20210321');
-      final other = groups.singleWhere((g) => g.version == 'playtest-20210314');
-      expect(hidden.isHidden, isTrue);
-      expect(other.isHidden, isFalse);
-    });
-
     test('sorts servers within a group as the in-game browser does', () {
       final groups = groupServersByModAndVersion([
         server(id: 1, state: 1, players: 0, spectators: 2),

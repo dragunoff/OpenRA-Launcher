@@ -12,7 +12,6 @@ import 'package:openra_launcher/store/app_state.dart';
 import 'package:openra_launcher/store/updates/selectors.dart';
 import 'package:openra_launcher/widgets/about_this_app_button.widget.dart';
 import 'package:openra_launcher/widgets/settings_button.widget.dart';
-import 'package:openra_launcher/widgets/toggle_hidden_mods_button.widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.title, required this.onInit});
@@ -100,7 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(widget.title),
               Spacer(),
-              const ToggleHiddenModsButton(),
               const SettingsButton(),
               const AboutThisAppButton(),
             ],

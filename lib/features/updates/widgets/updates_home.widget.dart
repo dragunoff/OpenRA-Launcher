@@ -80,7 +80,6 @@ class _ViewModel {
         .toSet();
 
     Set<Release> filterHidden(Set<Release> releases) {
-      if (store.state.showHiddenMods) return releases;
       return releases
           .where((release) => !hiddenModIds.contains(release.modId))
           .toSet();

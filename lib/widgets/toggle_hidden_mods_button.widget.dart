@@ -6,10 +6,12 @@ import 'package:openra_launcher/store/show_hidden_mods/actions.dart';
 
 class _ViewModel {
   const _ViewModel({
+    required this.hasHiddenMods,
     required this.showHiddenMods,
     required this.toggleHiddenMods,
   });
 
+  final bool hasHiddenMods;
   final bool showHiddenMods;
   final VoidCallback toggleHiddenMods;
 }
@@ -22,6 +24,7 @@ class ToggleHiddenModsButton extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       converter: (store) {
         return _ViewModel(
+          hasHiddenMods: store.state.hiddenMods.isNotEmpty,
           showHiddenMods: store.state.showHiddenMods,
           toggleHiddenMods: () => store.dispatch(
             store.state.showHiddenMods
@@ -31,13 +34,19 @@ class ToggleHiddenModsButton extends StatelessWidget {
         );
       },
       builder: (context, vm) {
+        if (!vm.hasHiddenMods) {
+          return const SizedBox.shrink();
+        }
+
         final l10n = AppLocalizations.of(context)!;
 
-        return IconButton(
+        return TextButton.icon(
           icon: Icon(
-            vm.showHiddenMods ? Icons.visibility : Icons.visibility_off,
+            vm.showHiddenMods ? Icons.visibility_off : Icons.visibility,
           ),
-          tooltip: l10n.toggleHiddenMods,
+          label: Text(
+            vm.showHiddenMods ? l10n.hideHiddenMods : l10n.showHiddenMods,
+          ),
           onPressed: vm.toggleHiddenMods,
         );
       },

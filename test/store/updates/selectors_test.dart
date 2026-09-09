@@ -279,21 +279,24 @@ void main() {
         expect(selectUpdatesCount(state), 1);
       });
 
-      test('counts all available updates when showHiddenMods is true', () {
-        final hiddenMod = mod('2.0.0', id: 'other');
+      test(
+        'excludes updates for hidden mods even when showHiddenMods is true',
+        () {
+          final hiddenMod = mod('2.0.0', id: 'other');
 
-        final state = AppState(
-          mods: {stableV100, hiddenMod},
-          hiddenMods: {hiddenMod.key},
-          showHiddenMods: true,
-          modDatabase: db({
-            rel(20, '1.1.0', isPlaytest: true),
-            rel(30, '3.0.0', modId: 'other'),
-          }),
-        );
+          final state = AppState(
+            mods: {stableV100, hiddenMod},
+            hiddenMods: {hiddenMod.key},
+            showHiddenMods: true,
+            modDatabase: db({
+              rel(20, '1.1.0', isPlaytest: true),
+              rel(30, '3.0.0', modId: 'other'),
+            }),
+          );
 
-        expect(selectUpdatesCount(state), 2);
-      });
+          expect(selectUpdatesCount(state), 1);
+        },
+      );
 
       test('returns zero when all available updates are for hidden mods', () {
         final hiddenMod = mod('2.0.0', id: 'other');

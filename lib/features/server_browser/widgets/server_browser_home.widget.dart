@@ -38,7 +38,7 @@ class ServerBrowserHome extends StatelessWidget {
           if (!vm.visibleStatuses.contains(server.status)) {
             return false;
           }
-          if (!vm.showHiddenMods && vm.hiddenModKeys.contains(key)) {
+          if (vm.hiddenModKeys.contains(key)) {
             return false;
           }
           return vm.installedModKeys.contains(key);
@@ -67,7 +67,6 @@ class ServerBrowserHome extends StatelessWidget {
             ServerList(
               servers: visibleServers,
               favoriteModKeys: vm.favoriteModKeys,
-              hiddenModKeys: vm.hiddenModKeys,
               collapsedModKeys: vm.collapsedModGroups,
               onToggleCollapsed: vm.toggleCollapsedModGroup,
             ),
@@ -86,7 +85,6 @@ class _ViewModel {
   final Set<String> installedModKeys;
   final Set<String> hiddenModKeys;
   final Set<String> collapsedModGroups;
-  final bool showHiddenMods;
   final VoidCallback reloadServerList;
   final void Function(GameServerStatus status) toggleStatusFilter;
   final void Function(String groupKey) toggleCollapsedModGroup;
@@ -99,7 +97,6 @@ class _ViewModel {
     required this.installedModKeys,
     required this.hiddenModKeys,
     required this.collapsedModGroups,
-    required this.showHiddenMods,
     required this.reloadServerList,
     required this.toggleStatusFilter,
     required this.toggleCollapsedModGroup,
@@ -114,7 +111,6 @@ class _ViewModel {
       installedModKeys: store.state.mods.map((mod) => mod.key).toSet(),
       hiddenModKeys: store.state.hiddenMods,
       collapsedModGroups: store.state.collapsedModGroups,
-      showHiddenMods: store.state.showHiddenMods,
       reloadServerList: () => store.dispatch(ReloadServerListAction()),
       toggleStatusFilter: (status) =>
           store.dispatch(ToggleServerStatusFilterAction(status)),

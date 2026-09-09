@@ -14,14 +14,12 @@ class ServerList extends StatelessWidget {
     super.key,
     required this.servers,
     this.favoriteModKeys = const {},
-    this.hiddenModKeys = const {},
     this.collapsedModKeys = const {},
     this.onToggleCollapsed,
   });
 
   final List<GameServer> servers;
   final Set<String> favoriteModKeys;
-  final Set<String> hiddenModKeys;
   final Set<String> collapsedModKeys;
   final ValueChanged<String>? onToggleCollapsed;
 
@@ -31,7 +29,6 @@ class ServerList extends StatelessWidget {
     final groups = groupServersByModAndVersion(
       servers,
       favoriteModKeys: favoriteModKeys,
-      hiddenModKeys: hiddenModKeys,
     );
 
     if (groups.isEmpty) {
@@ -57,10 +54,6 @@ class ServerList extends StatelessWidget {
             topRight: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (group.isHidden) ...[
-                  const Icon(Icons.visibility_off, size: 16),
-                  const SizedBox(width: 8),
-                ],
                 if (group.isFavorite) ...[
                   const Icon(Icons.star, size: 16),
                   const SizedBox(width: 8),

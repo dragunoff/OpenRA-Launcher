@@ -476,32 +476,30 @@ void main() {
     expect(find.text('Dune 2000 Lobby'), findsOneWidget);
   });
 
-  testWidgets(
-    'shows servers for hidden mods with an indicator when showHiddenMods is on',
-    (tester) async {
-      await pumpServerBrowser(
-        tester,
-        AppState(
-          serverListStatus: DataStatus.loaded,
-          servers: [gameServer()],
-          hiddenMods: {'ra-release-20210321'},
-          showHiddenMods: true,
-        ),
-      );
-
-      expect(find.text('Red Alert #1'), findsOneWidget);
-      expect(find.byIcon(Icons.visibility_off), findsOneWidget);
-    },
-  );
-
-  testWidgets('does not show a hidden indicator for visible mods', (
+  testWidgets('hides servers for hidden mods even when showHiddenMods is on', (
     tester,
   ) async {
+    await pumpServerBrowser(
+      tester,
+      AppState(
+        serverListStatus: DataStatus.loaded,
+        servers: [gameServer()],
+        hiddenMods: {'ra-release-20210321'},
+        showHiddenMods: true,
+      ),
+    );
+
+    expect(find.text('Red Alert #1'), findsNothing);
+    expect(find.byIcon(Icons.visibility_off), findsNothing);
+  });
+
+  testWidgets('does not hide servers for visible mods', (tester) async {
     await pumpServerBrowser(
       tester,
       AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
     );
 
+    expect(find.text('Red Alert #1'), findsOneWidget);
     expect(find.byIcon(Icons.visibility_off), findsNothing);
   });
 
