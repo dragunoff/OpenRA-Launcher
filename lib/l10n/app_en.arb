@@ -44,9 +44,9 @@
   "aboutThisApp": "About this app",
   "appLegalese": "glhf by dragunoff",
   "checkForAppUpdatesOnStartup": "Check for app updates on startup",
-  "updatesNotSupported": "UPDATES NOT SUPPORTED",
-  "currentRelease": "CURRENT RELEASE",
-  "currentPlaytest": "CURRENT PLAYTEST",
+  "updatesNotSupported": "Updates not supported",
+  "currentRelease": "Current release",
+  "currentPlaytest": "Current playtest",
   "devModVersion": "DEV VERSION",
   "noInstalledModsFound": "No installed mods found.",
   "modsScanError": "There was an error while scanning for mods.",
@@ -113,6 +113,6 @@
   "dark": "Dark",
   "system": "System",
   "close": "Close",
-  "release": "RELEASE",
-  "playtest": "PLAYTEST"
+  "release": "Release",
+  "playtest": "Playtest"
 }
