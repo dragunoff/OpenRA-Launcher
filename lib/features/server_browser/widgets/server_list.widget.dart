@@ -5,6 +5,9 @@ import 'package:openra_launcher/features/server_browser/domain/entities/game_ser
 import 'package:openra_launcher/features/server_browser/widgets/join_button.widget.dart';
 import 'package:openra_launcher/features/server_browser/widgets/server_status_badge.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
+import 'package:openra_launcher/widgets/card_header.widget.dart';
+import 'package:openra_launcher/widgets/card_layout.widget.dart';
+import 'package:openra_launcher/widgets/image_placeholder.widget.dart';
 
 class ServerList extends StatelessWidget {
   const ServerList({
@@ -32,40 +35,52 @@ class ServerList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (final group in groups)
-          Card(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          CardLayout(
+            header: CardHeader(
+              leading: group.iconUrl != null
+                  ? _ModIcon(url: group.iconUrl!)
+                  : const ImagePlaceholder(),
+              title: group.title,
+              subtitle: group.isDev ? '' : group.version,
+            ),
+            topRight: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _ModGroupHeader(group: group),
-                DataTable(
-                  columnSpacing: AppConstants.spacing3x,
-                  columns: [
-                    DataColumn(
-                      label: Text(l10n.game),
-                      columnWidth: const FlexColumnWidth(4),
-                    ),
-                    DataColumn(
-                      label: Text(l10n.status),
-                      columnWidth: const IntrinsicColumnWidth(),
-                    ),
-                    DataColumn(
-                      label: Text(l10n.players),
-                      columnWidth: const IntrinsicColumnWidth(),
-                    ),
-                    DataColumn(
-                      label: Text(l10n.location),
-                      columnWidth: const FlexColumnWidth(2),
-                    ),
-                    DataColumn(
-                      label: const SizedBox.shrink(),
-                      columnWidth: const FixedColumnWidth(112),
-                    ),
-                  ],
-                  rows: [
-                    for (final server in group.servers) _buildDataRow(server),
-                  ],
+                if (group.isFavorite) ...[
+                  const Icon(Icons.star, size: 16),
+                  const SizedBox(width: 8),
+                ],
+                const Icon(Icons.people_outline, size: 16),
+                const SizedBox(width: 4),
+                Text('${group.playerCount}'),
+                if (group.isDev) ...[const SizedBox(width: 8), _DevBadge()],
+              ],
+            ),
+            bottom: DataTable(
+              columnSpacing: AppConstants.spacing3x,
+              columns: [
+                DataColumn(
+                  label: Text(l10n.game),
+                  columnWidth: const FlexColumnWidth(4),
+                ),
+                DataColumn(
+                  label: Text(l10n.status),
+                  columnWidth: const IntrinsicColumnWidth(),
+                ),
+                DataColumn(
+                  label: Text(l10n.players),
+                  columnWidth: const IntrinsicColumnWidth(),
+                ),
+                DataColumn(
+                  label: Text(l10n.location),
+                  columnWidth: const IntrinsicColumnWidth(),
+                ),
+                DataColumn(
+                  label: const SizedBox.shrink(),
+                  columnWidth: const FixedColumnWidth(112),
                 ),
               ],
+              rows: [for (final server in group.servers) _buildDataRow(server)],
             ),
           ),
       ],
@@ -89,63 +104,6 @@ class ServerList extends StatelessWidget {
               : const SizedBox.shrink(),
         ),
       ],
-    );
-  }
-}
-
-class _ModGroupHeader extends StatelessWidget {
-  const _ModGroupHeader({required this.group});
-
-  final GameServerGroup group;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-      child: Row(
-        children: [
-          if (group.iconUrl != null) ...[
-            _ModIcon(url: group.iconUrl!),
-            const SizedBox(width: 8),
-          ],
-          if (group.isFavorite) ...[
-            const Icon(Icons.star, size: 16),
-            const SizedBox(width: 4),
-          ],
-          Expanded(
-            child: Row(
-              children: [
-                Flexible(
-                  child: Text(
-                    group.title,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleMedium,
-                  ),
-                ),
-                if (group.isDev) ...[const SizedBox(width: 4), _DevBadge()],
-              ],
-            ),
-          ),
-          if (!group.isDev)
-            Text(
-              '[${group.version}]',
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
-            ),
-          const SizedBox(width: 12),
-          Icon(
-            Icons.people_outline,
-            size: 16,
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-          const SizedBox(width: 4),
-          Text('${group.playerCount}'),
-        ],
-      ),
     );
   }
 }

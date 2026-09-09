@@ -122,8 +122,8 @@ void main() {
     expect(find.byType(DataTable), findsNWidgets(2));
     expect(find.text('Red Alert'), findsOneWidget);
     expect(find.text('Dune 2000'), findsOneWidget);
-    expect(find.text('[release-20210321]'), findsOneWidget);
-    expect(find.text('[release-20250330]'), findsOneWidget);
+    expect(find.text('release-20210321'), findsOneWidget);
+    expect(find.text('release-20250330'), findsOneWidget);
     expect(find.text('Dune 2000 Lobby'), findsOneWidget);
   });
 
