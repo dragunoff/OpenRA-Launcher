@@ -207,6 +207,85 @@ void main() {
     );
   });
 
+  testWidgets('places favorite groups first and marks them with a star', (
+    tester,
+  ) async {
+    final redAlert = gameServer();
+
+    final dune = GameServer(
+      id: 2,
+      name: 'Dune 2000 Lobby',
+      address: '127.0.0.1:6244',
+      state: 1,
+      ttl: 60,
+      mod: 'd2k',
+      version: 'release-20250330',
+      map: 'map-hash-2',
+      players: 8,
+      maxPlayers: 6,
+      bots: 0,
+      spectators: 0,
+      protected: false,
+      authentication: false,
+      location: 'Germany',
+    );
+
+    await pumpServerBrowser(
+      tester,
+      AppState(
+        serverListStatus: DataStatus.loaded,
+        servers: [dune, redAlert],
+        favoriteMods: {'ra-release-20210321'},
+      ),
+    );
+
+    final redAlertTop = tester.getTopLeft(find.text('Red Alert')).dy;
+    final duneTop = tester.getTopLeft(find.text('Dune 2000')).dy;
+
+    expect(redAlertTop, lessThan(duneTop));
+    expect(find.byIcon(Icons.star), findsOneWidget);
+  });
+
+  testWidgets('does not show a star when no group is a favorite', (
+    tester,
+  ) async {
+    await pumpServerBrowser(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
+    );
+
+    expect(find.byIcon(Icons.star), findsNothing);
+  });
+
+  testWidgets('shows a dev badge for dev-mod groups', (tester) async {
+    final devGame = GameServer(
+      id: 3,
+      name: 'Dev Lobby',
+      address: '127.0.0.1:6246',
+      state: 1,
+      ttl: 60,
+      mod: 'ra',
+      version: '{DEV_VERSION}',
+      map: 'map-hash',
+      players: 2,
+      maxPlayers: 8,
+      bots: 0,
+      spectators: 0,
+      protected: false,
+      authentication: false,
+      location: 'Bulgaria',
+    );
+
+    await pumpServerBrowser(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [devGame]),
+    );
+
+    expect(find.text('dev'), findsOneWidget);
+    expect(find.text('[{DEV_VERSION}]'), findsNothing);
+    expect(find.byIcon(Icons.star), findsNothing);
+  });
+
   testWidgets('shows an empty state when there are no games', (tester) async {
     await pumpServerBrowser(
       tester,

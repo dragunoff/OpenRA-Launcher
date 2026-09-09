@@ -104,14 +104,94 @@ void main() {
       expect(groups.single.playerCount, 6);
     });
 
-    test('orders groups by player count, most played first', () {
+    test('orders groups by player count with favorites first', () {
+      final groups = groupServersByModAndVersion(
+        [
+          server(id: 1, mod: 'ra', players: 8),
+          server(id: 2, mod: 'd2k', players: 1),
+          server(id: 3, mod: 'cnc', players: 4),
+        ],
+        favoriteModKeys: {'cnc-release-20210321'},
+      );
+
+      expect(groups.map((g) => g.mod), orderedEquals(['cnc', 'ra', 'd2k']));
+      expect(groups.map((g) => g.playerCount), orderedEquals([4, 8, 1]));
+      expect(groups[0].isFavorite, isTrue);
+    });
+
+    test('favorites come first even with fewer players', () {
+      final groups = groupServersByModAndVersion(
+        [
+          server(id: 1, mod: 'ra', players: 8),
+          server(id: 2, mod: 'd2k', players: 1),
+        ],
+        favoriteModKeys: {'d2k-release-20210321'},
+      );
+
+      expect(groups.map((g) => g.mod), orderedEquals(['d2k', 'ra']));
+    });
+
+    test('orders groups in a section by player count, most played first', () {
       final groups = groupServersByModAndVersion([
         server(id: 1, mod: 'ra', players: 1),
-        server(id: 2, mod: 'd2k', players: 8),
-        server(id: 3, mod: 'cnc', players: 4),
+        server(id: 2, mod: 'cnc', players: 8),
+        server(id: 3, mod: 'd2k', players: 4),
       ]);
 
       expect(groups.map((g) => g.playerCount), orderedEquals([8, 4, 1]));
+    });
+
+    test('sorts dev groups after the rest, even when busier', () {
+      final groups = groupServersByModAndVersion([
+        server(id: 1, mod: 'ra', players: 4, version: 'release-20210321'),
+        server(id: 2, mod: 'cnc', players: 9, version: '{DEV_VERSION}'),
+        server(id: 3, mod: 'd2k', players: 1, version: 'release-20250330'),
+      ]);
+
+      expect(groups.map((g) => g.mod), orderedEquals(['ra', 'd2k', 'cnc']));
+      expect(groups.last.isDev, isTrue);
+    });
+
+    test('keeps favorited dev groups in the favorites section', () {
+      final groups = groupServersByModAndVersion(
+        [
+          server(id: 1, mod: 'ra', players: 8, version: 'release-20210321'),
+          server(id: 2, mod: 'cnc', players: 2, version: '{DEV_VERSION}'),
+          server(id: 3, mod: 'd2k', players: 4, version: 'release-20250330'),
+        ],
+        favoriteModKeys: {'cnc-{DEV_VERSION}'},
+      );
+
+      expect(groups.first.mod, 'cnc');
+      expect(groups.first.isFavorite, isTrue);
+      expect(groups.first.isDev, isTrue);
+    });
+
+    test('isFavorite matches the mod and version of a favorite key', () {
+      final groups = groupServersByModAndVersion(
+        [server(id: 1, mod: 'ra', version: 'release-20210321')],
+        favoriteModKeys: {'ra-release-20210321'},
+      );
+
+      expect(groups.single.isFavorite, isTrue);
+      expect(groups.single.favoriteKey, 'ra-release-20210321');
+    });
+
+    test('does not mark a group as favorite when the key does not match', () {
+      final groups = groupServersByModAndVersion(
+        [
+          server(id: 1, mod: 'ra', version: 'release-20210321'),
+          server(id: 2, mod: 'ra', version: 'playtest-20210314'),
+        ],
+        favoriteModKeys: {'ra-release-20210321'},
+      );
+
+      final favorite = groups.singleWhere(
+        (g) => g.version == 'release-20210321',
+      );
+      final other = groups.singleWhere((g) => g.version == 'playtest-20210314');
+      expect(favorite.isFavorite, isTrue);
+      expect(other.isFavorite, isFalse);
     });
 
     test('sorts servers within a group as the in-game browser does', () {

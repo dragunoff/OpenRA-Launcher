@@ -38,7 +38,12 @@ class ServerBrowserHome extends StatelessWidget {
               label: Text(l10n.refresh),
             ),
           ),
-          children: [ServerList(servers: vm.servers)],
+          children: [
+            ServerList(
+              servers: vm.servers,
+              favoriteModKeys: vm.favoriteModKeys,
+            ),
+          ],
         );
       },
     );
@@ -47,11 +52,13 @@ class ServerBrowserHome extends StatelessWidget {
 
 class _ViewModel {
   final List<GameServer> servers;
+  final Set<String> favoriteModKeys;
   final DataStatus serverListStatus;
   final VoidCallback reloadServerList;
 
   _ViewModel({
     required this.servers,
+    required this.favoriteModKeys,
     required this.serverListStatus,
     required this.reloadServerList,
   });
@@ -59,6 +66,7 @@ class _ViewModel {
   static _ViewModel fromStore(Store<AppState> store) {
     return _ViewModel(
       servers: store.state.servers,
+      favoriteModKeys: store.state.favoriteMods,
       serverListStatus: store.state.serverListStatus,
       reloadServerList: () => store.dispatch(ReloadServerListAction()),
     );

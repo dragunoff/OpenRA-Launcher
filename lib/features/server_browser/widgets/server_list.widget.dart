@@ -6,14 +6,22 @@ import 'package:openra_launcher/features/server_browser/widgets/server_status_ba
 import 'package:openra_launcher/l10n/app_localizations.dart';
 
 class ServerList extends StatelessWidget {
-  const ServerList({super.key, required this.servers});
+  const ServerList({
+    super.key,
+    required this.servers,
+    this.favoriteModKeys = const {},
+  });
 
   final List<GameServer> servers;
+  final Set<String> favoriteModKeys;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final groups = groupServersByModAndVersion(servers);
+    final groups = groupServersByModAndVersion(
+      servers,
+      favoriteModKeys: favoriteModKeys,
+    );
 
     if (groups.isEmpty) {
       return const SizedBox.shrink();
@@ -91,20 +99,32 @@ class _ModGroupHeader extends StatelessWidget {
             _ModIcon(url: group.iconUrl!),
             const SizedBox(width: 8),
           ],
+          if (group.isFavorite) ...[
+            const Icon(Icons.star, size: 16),
+            const SizedBox(width: 4),
+          ],
           Expanded(
-            child: Text(
-              group.title,
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    group.title,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium,
+                  ),
+                ),
+                if (group.isDev) ...[const SizedBox(width: 4), _DevBadge()],
+              ],
+            ),
+          ),
+          if (!group.isDev)
+            Text(
+              '[${group.version}]',
               overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.titleMedium,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
-          ),
-          Text(
-            '[${group.version}]',
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
-          ),
           const SizedBox(width: 12),
           Icon(
             Icons.people_outline,
@@ -114,6 +134,29 @@ class _ModGroupHeader extends StatelessWidget {
           const SizedBox(width: 4),
           Text('${group.playerCount}'),
         ],
+      ),
+    );
+  }
+}
+
+class _DevBadge extends StatelessWidget {
+  const _DevBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: Text(
+        AppLocalizations.of(context)!.dev,
+        style: theme.textTheme.labelSmall?.copyWith(
+          color: theme.colorScheme.onSecondaryContainer,
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:openra_launcher/constants/mod_constants.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
 
 /// How many characters of a mod title fit in the group header.
@@ -15,6 +16,8 @@ class GameServerGroup {
     required this.website,
     required this.playerCount,
     required this.servers,
+    required this.mod,
+    this.isFavorite = false,
   });
 
   final String title;
@@ -26,16 +29,33 @@ class GameServerGroup {
   final int playerCount;
 
   final List<GameServer> servers;
+
+  /// Stable mod identifier shared by every server in the group, used to match
+  /// the group against installed mods (whose keys are `id-version`).
+  final String mod;
+
+  /// Whether the installed mod for this group is a favorite.
+  final bool isFavorite;
+
+  /// Whether the group advertises an in-development mod build.
+  bool get isDev => version == ModConstants.devModVersion;
+
+  String get favoriteKey => '$mod-$version';
 }
 
 /// Groups the given servers by mod and release.
 ///
-/// Groups are ordered by their total player count (most played first) and the
-/// servers within each group are sorted the way the in-game browser does:
-/// games waiting for players first, then games with spectators, then games in
-/// progress, and finally empty servers. Games in progress are ordered by when
-/// they started, everything else by the number of players.
-List<GameServerGroup> groupServersByModAndVersion(List<GameServer> servers) {
+/// Groups are split into three sections like the installed mods list —
+/// favorites, everything else, and dev builds — and ordered by total player
+/// count (most played first) within each section, matching the web and in-game
+/// server browsers. Servers within each group are sorted the way the in-game
+/// browser does: games waiting for players first, then games with spectators,
+/// then games in progress, and finally empty servers. Games in progress are
+/// ordered by when they started, everything else by the number of players.
+List<GameServerGroup> groupServersByModAndVersion(
+  List<GameServer> servers, {
+  Set<String> favoriteModKeys = const {},
+}) {
   final groups = <String, List<GameServer>>{};
 
   for (final server in servers) {
@@ -44,7 +64,7 @@ List<GameServerGroup> groupServersByModAndVersion(List<GameServer> servers) {
     groups.putIfAbsent(key, () => []).add(server);
   }
 
-  return groups.entries.map((entry) {
+  final result = groups.entries.map((entry) {
     final groupServers = [...entry.value]..sort(_compareServers);
     final server = groupServers.first;
 
@@ -57,9 +77,39 @@ List<GameServerGroup> groupServersByModAndVersion(List<GameServer> servers) {
         0,
         (total, s) => total + s.players + s.spectators,
       ),
+      mod: server.mod,
+      isFavorite: favoriteModKeys.contains('${server.mod}-${server.version}'),
       servers: groupServers,
     );
-  }).toList()..sort((a, b) => b.playerCount.compareTo(a.playerCount));
+  }).toList()..sort(_compareGroups);
+
+  return result;
+}
+
+/// Orders the groups like the installed mods list: favorites, then the rest,
+/// then dev builds, each section ordered by total player count, most played
+/// first.
+int _compareGroups(GameServerGroup a, GameServerGroup b) {
+  final sectionOrder = _groupSection(a).compareTo(_groupSection(b));
+  if (sectionOrder != 0) {
+    return sectionOrder;
+  }
+
+  return b.playerCount.compareTo(a.playerCount);
+}
+
+/// `0` favorites, `1` everything else, `2` dev builds. Favorited dev builds
+/// belong to the favorites section, mirroring the installed mods list.
+int _groupSection(GameServerGroup group) {
+  if (group.isFavorite) {
+    return 0;
+  }
+
+  if (group.isDev) {
+    return 2;
+  }
+
+  return 1;
 }
 
 /// Resolves the display title for a server's mod, falling back to a known
