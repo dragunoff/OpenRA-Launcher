@@ -73,10 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
         content: const UpdatesHome(),
       ),
       _HomeDestination(
-        id: 'games',
-        label: l10n.games,
-        icon: Icons.sports_esports,
-        selectedIcon: Icons.sports_esports,
+        id: 'servers',
+        label: l10n.servers,
+        icon: Icons.hub,
+        selectedIcon: Icons.hub,
         content: const ServerBrowserHome(),
       ),
       _HomeDestination(

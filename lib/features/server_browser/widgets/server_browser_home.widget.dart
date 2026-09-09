@@ -25,7 +25,7 @@ class ServerBrowserHome extends StatelessWidget {
         final l10n = AppLocalizations.of(context)!;
 
         if (vm.serverListStatus == DataStatus.loading) {
-          return LoadingState(text: l10n.fetchingGames);
+          return LoadingState(text: l10n.fetchingServers);
         }
 
         if (vm.serverListStatus == DataStatus.empty ||
@@ -46,7 +46,7 @@ class ServerBrowserHome extends StatelessWidget {
 
         return PageLayout(
           header: PageLayoutHeader(
-            title: l10n.games,
+            title: l10n.servers,
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               spacing: AppConstants.spacing,

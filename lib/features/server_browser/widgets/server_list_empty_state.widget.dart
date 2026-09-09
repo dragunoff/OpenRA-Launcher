@@ -16,7 +16,7 @@ class ServerListEmptyState extends StatelessWidget {
     final hasError = listStatus == DataStatus.error;
 
     return EmptyState(
-      text: hasError ? l10n.gamesFetchError : l10n.noGamesFound,
+      text: hasError ? l10n.serversFetchError : l10n.noServersFound,
       buttonText: l10n.checkNow,
       buttonIcon: Icons.refresh,
       buttonOnPressed: () {

@@ -68,7 +68,7 @@ class ServerList extends StatelessWidget {
               columnSpacing: AppConstants.spacing3x,
               columns: [
                 DataColumn(
-                  label: Text(l10n.game),
+                  label: Text(l10n.server),
                   columnWidth: const FlexColumnWidth(4),
                 ),
                 DataColumn(

@@ -176,7 +176,7 @@ void main() {
     expect(find.byType(LoadingState), findsOneWidget);
   });
 
-  testWidgets('shows a table with the games when loaded', (tester) async {
+  testWidgets('shows a table with the servers when loaded', (tester) async {
     await pumpServerBrowser(
       tester,
       AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
@@ -196,7 +196,7 @@ void main() {
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 
-  testWidgets('groups the games by mod and version', (tester) async {
+  testWidgets('groups the servers by mod and version', (tester) async {
     final redAlert = gameServer();
 
     final dune = GameServer(
@@ -389,13 +389,13 @@ void main() {
     expect(find.byIcon(Icons.star), findsNothing);
   });
 
-  testWidgets('shows an empty state when there are no games', (tester) async {
+  testWidgets('shows an empty state when there are no servers', (tester) async {
     await pumpServerBrowser(
       tester,
       AppState(serverListStatus: DataStatus.empty),
     );
 
-    expect(find.text('No games found.'), findsOneWidget);
+    expect(find.text('No servers found.'), findsOneWidget);
   });
 
   testWidgets('shows an error state when fetching fails', (tester) async {
@@ -406,7 +406,7 @@ void main() {
 
     expect(
       find.text(
-        'There was an error while fetching games. Please try again later.',
+        'There was an error while fetching servers. Please try again later.',
       ),
       findsOneWidget,
     );

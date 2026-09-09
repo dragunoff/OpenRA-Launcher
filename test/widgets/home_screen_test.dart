@@ -47,7 +47,7 @@ void main() {
     expect(find.byType(DiscoverHome), findsOneWidget);
     expect(find.byType(InstalledModsHome), findsNothing);
 
-    await tester.tap(find.text('Games'));
+    await tester.tap(find.text('Servers'));
     await tester.pumpAndSettle();
 
     expect(find.byType(ServerBrowserHome), findsOneWidget);
