@@ -3,6 +3,11 @@ import 'package:openra_launcher/features/installed_mods/domain/entities/mod.dart
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
 import 'package:openra_launcher/features/updates/domain/entities/mod_database.dart';
 
+const _defaultServerStatusFilter = {
+  GameServerStatus.waiting,
+  GameServerStatus.playing,
+};
+
 enum DataStatus { initial, empty, loading, loaded, error }
 
 class AppState {
@@ -17,6 +22,7 @@ class AppState {
   final bool autoCheckAppUpdates;
   final bool showDevMods;
   final bool showHiddenMods;
+  final Set<GameServerStatus> serverStatusFilter;
   final AppRelease? appRelease;
 
   AppState({
@@ -31,6 +37,7 @@ class AppState {
     this.autoCheckAppUpdates = true,
     this.showDevMods = false,
     this.showHiddenMods = false,
+    this.serverStatusFilter = _defaultServerStatusFilter,
     this.appRelease,
   });
 
@@ -45,6 +52,11 @@ class AppState {
       autoCheckAppUpdates: json['autoCheckAppUpdates'] ?? true,
       showDevMods: json['showDevMods'] ?? false,
       showHiddenMods: json['showHiddenMods'] ?? false,
+      serverStatusFilter: Set<GameServerStatus>.from(
+        ((json['serverStatusFilter'] as List?) ??
+                _defaultServerStatusFilter.map((s) => s.name).toList())
+            .map((status) => GameServerStatus.values.byName(status as String)),
+      ),
     );
   }
 
@@ -55,6 +67,9 @@ class AppState {
       'showHiddenMods': showHiddenMods,
       'favoriteMods': favoriteMods.toList(),
       'hiddenMods': hiddenMods.toList(),
+      'serverStatusFilter': serverStatusFilter
+          .map((status) => status.name)
+          .toList(),
     };
   }
 }

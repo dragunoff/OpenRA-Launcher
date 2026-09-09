@@ -12,6 +12,7 @@ import 'package:openra_launcher/store/updates/reducer.dart';
 import 'package:openra_launcher/store/mod_database_status/reducer.dart';
 import 'package:openra_launcher/store/server_list/reducer.dart';
 import 'package:openra_launcher/store/server_list_status/reducer.dart';
+import 'package:openra_launcher/store/server_status_filter/reducer.dart';
 
 AppState appReducer(AppState state, action) {
   return AppState(
@@ -32,6 +33,10 @@ AppState appReducer(AppState state, action) {
     ),
     showDevMods: showDevModsReducer(state.showDevMods, action),
     showHiddenMods: showHiddenModsReducer(state.showHiddenMods, action),
+    serverStatusFilter: serverStatusFilterReducer(
+      state.serverStatusFilter,
+      action,
+    ),
     appRelease: appUpdateReducer(state.appRelease, action),
   );
 }

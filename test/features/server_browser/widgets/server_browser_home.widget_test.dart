@@ -7,9 +7,11 @@ import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/core/platform/open_external_url.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
 import 'package:openra_launcher/features/server_browser/widgets/server_browser_home.widget.dart';
+import 'package:openra_launcher/features/server_browser/widgets/server_status_badge.widget.dart';
 import 'package:openra_launcher/injection.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/reducer.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
 import 'package:redux/redux.dart';
 
@@ -32,6 +34,24 @@ void main() {
     location: 'Bulgaria',
   );
 
+  GameServer emptyServer() => const GameServer(
+    id: 3,
+    name: 'Empty Server',
+    address: '127.0.0.1:6247',
+    state: 1,
+    ttl: 60,
+    mod: 'ra',
+    version: 'release-20210321',
+    map: 'map-hash',
+    players: 0,
+    maxPlayers: 8,
+    bots: 0,
+    spectators: 0,
+    protected: false,
+    authentication: false,
+    location: 'France',
+  );
+
   late _FakeOpenExternalUrl openExternalUrl;
   TaskEither<PlatformFailure, bool> joinResult = TaskEither.right(true);
 
@@ -50,6 +70,26 @@ void main() {
     await tester.pumpWidget(
       StoreProvider<AppState>(
         store: Store<AppState>((state, _) => state, initialState: state),
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const Scaffold(body: ServerBrowserHome()),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> pumpServerBrowserWithReducer(
+    WidgetTester tester,
+    AppState state,
+  ) async {
+    openExternalUrl = _FakeOpenExternalUrl(joinResult);
+    getIt.registerSingleton<OpenExternalUrl>(openExternalUrl);
+
+    await tester.pumpWidget(
+      StoreProvider<AppState>(
+        store: Store<AppState>(appReducer, initialState: state),
         child: MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
@@ -89,7 +129,13 @@ void main() {
     expect(find.text('Red Alert #1'), findsOneWidget);
     expect(find.text('2/8 +1'), findsOneWidget);
     expect(find.text('Bulgaria'), findsOneWidget);
-    expect(find.text('Waiting'), findsOneWidget);
+    expect(
+      find.descendant(
+        of: find.byType(ServerStatusBadge),
+        matching: find.text('Waiting'),
+      ),
+      findsOneWidget,
+    );
     expect(find.byIcon(Icons.refresh), findsOneWidget);
   });
 
@@ -105,7 +151,7 @@ void main() {
       mod: 'd2k',
       version: 'release-20250330',
       map: 'map-hash-2',
-      players: 0,
+      players: 2,
       maxPlayers: 6,
       bots: 0,
       spectators: 0,
@@ -307,6 +353,56 @@ void main() {
       ),
       findsOneWidget,
     );
+  });
+
+  testWidgets('hides empty servers by default', (tester) async {
+    await pumpServerBrowser(
+      tester,
+      AppState(
+        serverListStatus: DataStatus.loaded,
+        servers: [gameServer(), emptyServer()],
+      ),
+    );
+
+    expect(find.text('Red Alert #1'), findsOneWidget);
+    expect(find.text('Empty Server'), findsNothing);
+    expect(find.byType(FilterChip), findsNWidgets(3));
+  });
+
+  testWidgets('shows empty servers when the Empty filter is enabled', (
+    tester,
+  ) async {
+    await pumpServerBrowserWithReducer(
+      tester,
+      AppState(
+        serverListStatus: DataStatus.loaded,
+        servers: [gameServer(), emptyServer()],
+      ),
+    );
+
+    await tester.tap(find.widgetWithText(FilterChip, 'Empty'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Empty Server'), findsOneWidget);
+    expect(find.text('Red Alert #1'), findsOneWidget);
+  });
+
+  testWidgets('hides waiting servers when the Waiting filter is disabled', (
+    tester,
+  ) async {
+    await pumpServerBrowserWithReducer(
+      tester,
+      AppState(
+        serverListStatus: DataStatus.loaded,
+        servers: [gameServer(), emptyServer()],
+      ),
+    );
+
+    await tester.tap(find.widgetWithText(FilterChip, 'Waiting'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Red Alert #1'), findsNothing);
+    expect(find.text('Empty Server'), findsNothing);
   });
 }
 
