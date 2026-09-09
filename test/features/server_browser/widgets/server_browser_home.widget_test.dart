@@ -96,6 +96,7 @@ void main() {
       servers: state.servers,
       favoriteMods: state.favoriteMods,
       hiddenMods: state.hiddenMods,
+      collapsedModGroups: state.collapsedModGroups,
       modsListStatus: state.modsListStatus,
       modDatabaseStatus: state.modDatabaseStatus,
       serverListStatus: state.serverListStatus,
@@ -583,6 +584,72 @@ void main() {
 
     expect(find.text('Red Alert #1'), findsNothing);
     expect(find.text('Empty Server'), findsNothing);
+  });
+
+  testWidgets('collapses a group when its header is tapped', (tester) async {
+    await pumpServerBrowserWithReducer(
+      tester,
+      AppState(serverListStatus: DataStatus.loaded, servers: [gameServer()]),
+    );
+
+    AnimatedCrossFade crossFade() =>
+        tester.widget<AnimatedCrossFade>(find.byType(AnimatedCrossFade));
+
+    expect(crossFade().crossFadeState, CrossFadeState.showFirst);
+    expect(find.byIcon(Icons.expand_less), findsOneWidget);
+
+    await tester.tap(find.text('Red Alert'));
+    await tester.pumpAndSettle();
+
+    expect(crossFade().crossFadeState, CrossFadeState.showSecond);
+    expect(find.text('Red Alert'), findsOneWidget);
+    expect(find.byIcon(Icons.expand_more), findsOneWidget);
+  });
+
+  testWidgets('expands a collapsed group when its header is tapped', (
+    tester,
+  ) async {
+    await pumpServerBrowserWithReducer(
+      tester,
+      AppState(
+        serverListStatus: DataStatus.loaded,
+        servers: [gameServer()],
+        collapsedModGroups: {'ra-release-20210321'},
+      ),
+    );
+
+    AnimatedCrossFade crossFade() =>
+        tester.widget<AnimatedCrossFade>(find.byType(AnimatedCrossFade));
+
+    expect(crossFade().crossFadeState, CrossFadeState.showSecond);
+    expect(find.byIcon(Icons.expand_more), findsOneWidget);
+
+    await tester.tap(find.text('Red Alert'));
+    await tester.pumpAndSettle();
+
+    expect(crossFade().crossFadeState, CrossFadeState.showFirst);
+    expect(find.byIcon(Icons.expand_less), findsOneWidget);
+  });
+
+  testWidgets('renders a collapsed group from state on first build', (
+    tester,
+  ) async {
+    await pumpServerBrowser(
+      tester,
+      AppState(
+        serverListStatus: DataStatus.loaded,
+        servers: [gameServer()],
+        collapsedModGroups: {'ra-release-20210321'},
+      ),
+    );
+
+    final crossFade = tester.widget<AnimatedCrossFade>(
+      find.byType(AnimatedCrossFade),
+    );
+
+    expect(find.text('Red Alert'), findsOneWidget);
+    expect(crossFade.crossFadeState, CrossFadeState.showSecond);
+    expect(find.byIcon(Icons.expand_more), findsOneWidget);
   });
 }
 

@@ -15,11 +15,15 @@ class ServerList extends StatelessWidget {
     required this.servers,
     this.favoriteModKeys = const {},
     this.hiddenModKeys = const {},
+    this.collapsedModKeys = const {},
+    this.onToggleCollapsed,
   });
 
   final List<GameServer> servers;
   final Set<String> favoriteModKeys;
   final Set<String> hiddenModKeys;
+  final Set<String> collapsedModKeys;
+  final ValueChanged<String>? onToggleCollapsed;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,10 @@ class ServerList extends StatelessWidget {
       children: [
         for (final group in groups)
           CardLayout(
+            isExpanded: !collapsedModKeys.contains(group.favoriteKey),
+            onToggleCollapsed: onToggleCollapsed == null
+                ? null
+                : () => onToggleCollapsed!(group.favoriteKey),
             header: CardHeader(
               leading: group.iconUrl != null
                   ? _ModIcon(url: group.iconUrl!)

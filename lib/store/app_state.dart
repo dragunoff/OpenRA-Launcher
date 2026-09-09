@@ -16,6 +16,7 @@ class AppState {
   final List<GameServer> servers;
   final Set<String> favoriteMods;
   final Set<String> hiddenMods;
+  final Set<String> collapsedModGroups;
   final DataStatus modsListStatus;
   final DataStatus modDatabaseStatus;
   final DataStatus serverListStatus;
@@ -31,6 +32,7 @@ class AppState {
     this.servers = const [],
     this.favoriteMods = const {},
     this.hiddenMods = const {},
+    this.collapsedModGroups = const {},
     this.modsListStatus = DataStatus.initial,
     this.modDatabaseStatus = DataStatus.initial,
     this.serverListStatus = DataStatus.initial,
@@ -49,6 +51,7 @@ class AppState {
     return AppState(
       favoriteMods: Set.from(json['favoriteMods'] ?? {}),
       hiddenMods: Set.from(json['hiddenMods'] ?? {}),
+      collapsedModGroups: Set.from(json['collapsedModGroups'] ?? {}),
       autoCheckAppUpdates: json['autoCheckAppUpdates'] ?? true,
       showDevMods: json['showDevMods'] ?? false,
       showHiddenMods: json['showHiddenMods'] ?? false,
@@ -67,6 +70,7 @@ class AppState {
       'showHiddenMods': showHiddenMods,
       'favoriteMods': favoriteMods.toList(),
       'hiddenMods': hiddenMods.toList(),
+      'collapsedModGroups': collapsedModGroups.toList(),
       'serverStatusFilter': serverStatusFilter
           .map((status) => status.name)
           .toList(),

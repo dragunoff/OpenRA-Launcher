@@ -7,6 +7,7 @@ import 'package:openra_launcher/features/server_browser/widgets/server_list_empt
 import 'package:openra_launcher/features/server_browser/widgets/server_status_filter.widget.dart';
 import 'package:openra_launcher/l10n/app_localizations.dart';
 import 'package:openra_launcher/store/app_state.dart';
+import 'package:openra_launcher/store/collapsed_mod_groups/actions.dart';
 import 'package:openra_launcher/store/server_list/actions.dart';
 import 'package:openra_launcher/store/server_status_filter/actions.dart';
 import 'package:openra_launcher/widgets/loading_state.widget.dart';
@@ -67,6 +68,8 @@ class ServerBrowserHome extends StatelessWidget {
               servers: visibleServers,
               favoriteModKeys: vm.favoriteModKeys,
               hiddenModKeys: vm.hiddenModKeys,
+              collapsedModKeys: vm.collapsedModGroups,
+              onToggleCollapsed: vm.toggleCollapsedModGroup,
             ),
           ],
         );
@@ -82,9 +85,11 @@ class _ViewModel {
   final Set<GameServerStatus> visibleStatuses;
   final Set<String> installedModKeys;
   final Set<String> hiddenModKeys;
+  final Set<String> collapsedModGroups;
   final bool showHiddenMods;
   final VoidCallback reloadServerList;
   final void Function(GameServerStatus status) toggleStatusFilter;
+  final void Function(String groupKey) toggleCollapsedModGroup;
 
   _ViewModel({
     required this.servers,
@@ -93,9 +98,11 @@ class _ViewModel {
     required this.visibleStatuses,
     required this.installedModKeys,
     required this.hiddenModKeys,
+    required this.collapsedModGroups,
     required this.showHiddenMods,
     required this.reloadServerList,
     required this.toggleStatusFilter,
+    required this.toggleCollapsedModGroup,
   });
 
   static _ViewModel fromStore(Store<AppState> store) {
@@ -106,10 +113,13 @@ class _ViewModel {
       visibleStatuses: store.state.serverStatusFilter,
       installedModKeys: store.state.mods.map((mod) => mod.key).toSet(),
       hiddenModKeys: store.state.hiddenMods,
+      collapsedModGroups: store.state.collapsedModGroups,
       showHiddenMods: store.state.showHiddenMods,
       reloadServerList: () => store.dispatch(ReloadServerListAction()),
       toggleStatusFilter: (status) =>
           store.dispatch(ToggleServerStatusFilterAction(status)),
+      toggleCollapsedModGroup: (groupKey) =>
+          store.dispatch(ToggleCollapsedModGroupAction(groupKey)),
     );
   }
 }
