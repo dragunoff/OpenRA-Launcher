@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/features/server_browser/data/models/game_server_model.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
 
@@ -22,7 +24,7 @@ void main() {
     'protected': true,
     'authentication': false,
     'location': 'Bulgaria',
-    'started': 1736198400,
+    'started': '2026-01-06 12:00:00',
     'playtime': 1200,
     'disabled_spawn_points': '2, 4',
     'clients': [
@@ -66,7 +68,7 @@ void main() {
       expect(server.protected, isTrue);
       expect(server.authentication, isFalse);
       expect(server.location, 'Bulgaria');
-      expect(server.started, 1736198400);
+      expect(server.started, '2026-01-06 12:00:00');
       expect(server.playtime, 1200);
       expect(server.status, GameServerStatus.waiting);
     });
@@ -107,6 +109,23 @@ void main() {
       expect(server.authentication, isFalse);
       expect(server.players, 0);
       expect(server.maxPlayers, 0);
+    });
+  });
+
+  group('GameServerModel.parse', () {
+    test('yields Right for a valid server', () async {
+      final either = await GameServerModel.parse(tJson).run();
+
+      expect(either, isA<Right<GameServerParseFailure, GameServerModel>>());
+      expect(either.getRight().toNullable()!.name, 'Red Alert #1');
+    });
+
+    test('yields Left with the parse error for an invalid server', () async {
+      final either = await GameServerModel.parse({'id': 'not-an-int'}).run();
+
+      final failure = either.getLeft().toNullable();
+      expect(failure, isA<GameServerParseFailure>());
+      expect(failure!.exception, isA<TypeError>());
     });
   });
 }

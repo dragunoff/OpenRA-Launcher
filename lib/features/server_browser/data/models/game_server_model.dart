@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:fpdart/fpdart.dart';
+import 'package:openra_launcher/core/error/failures.dart';
 import 'package:openra_launcher/features/server_browser/domain/entities/game_server.dart';
 
 @immutable
@@ -49,7 +51,7 @@ class GameServerModel extends GameServer {
       protected: json['protected'] as bool? ?? false,
       authentication: json['authentication'] as bool? ?? false,
       location: json['location'] as String?,
-      started: json['started'] as int?,
+      started: json['started'] as String?,
       playtime: json['playtime'] as int?,
       clients: clientsRaw is List
           ? clientsRaw
@@ -57,6 +59,17 @@ class GameServerModel extends GameServer {
                 .map(GameServerClientModel.fromJson)
                 .toList()
           : const [],
+    );
+  }
+
+  /// Parses a server, reporting a parse error as a [GameServerParseFailure]
+  /// instead of throwing when the advertised game is invalid.
+  static TaskEither<GameServerParseFailure, GameServerModel> parse(
+    Map<String, dynamic> json,
+  ) {
+    return TaskEither.tryCatch(
+      () async => GameServerModel.fromJson(json),
+      (error, stackTrace) => GameServerParseFailure(error, stackTrace),
     );
   }
 }

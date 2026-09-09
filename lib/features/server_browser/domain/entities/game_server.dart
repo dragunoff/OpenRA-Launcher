@@ -22,7 +22,7 @@ class GameServer {
   final bool protected;
   final bool authentication;
   final String? location;
-  final int? started;
+  final String? started;
   final int? playtime;
   final List<GameServerClient> clients;
 
