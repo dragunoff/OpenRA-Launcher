@@ -54,6 +54,10 @@ class ServerList extends StatelessWidget {
                       label: Text(l10n.location),
                       columnWidth: const FlexColumnWidth(),
                     ),
+                    DataColumn(
+                      label: const SizedBox.shrink(),
+                      columnWidth: const FixedColumnWidth(112),
+                    ),
                   ],
                   rows: [
                     for (final server in group.servers) _buildDataRow(server),
@@ -77,6 +81,11 @@ class ServerList extends StatelessWidget {
         DataCell(ServerStatusBadge(status: server.status)),
         DataCell(Text(players)),
         DataCell(Text(server.location ?? '—')),
+        DataCell(
+          server.isJoinable
+              ? JoinButton(server: server)
+              : const SizedBox.shrink(),
+        ),
       ],
     );
   }
@@ -205,10 +214,6 @@ class _ServerNameCell extends StatelessWidget {
       children: [
         Flexible(child: Text(server.name, overflow: TextOverflow.ellipsis)),
         if (icons.isNotEmpty) ...[const SizedBox(width: 4), ...icons],
-        if (server.isJoinable) ...[
-          const SizedBox(width: 8),
-          JoinButton(server: server),
-        ],
       ],
     );
   }
